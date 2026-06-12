@@ -1,0 +1,81 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id             Int             @id @default(autoincrement())
+  name           String
+  email          String          @unique
+  password       String
+  role           String          @default("user") // "user" or "admin"
+  createdAt      DateTime        @default(now())
+  
+  progress       WatchProgress[]
+  bookmarks      Bookmarks[]
+  comments       Comments[]
+}
+
+model Video {
+  id             Int             @id @default(autoincrement())
+  title          String
+  description    String
+  category       String
+  videoUrl       String
+  thumbnailUrl   String
+  duration       Int             // in seconds
+  difficulty     String          @default("Beginner") // "Beginner", "Intermediate", "Advanced"
+  estimatedTime  String          @default("10 mins")
+  tags           String          @default("") // Comma-separated tags
+  createdAt      DateTime        @default(now())
+  
+  progress       WatchProgress[]
+  bookmarks      Bookmarks[]
+  comments       Comments[]
+}
+
+model WatchProgress {
+  id                   Int      @id @default(autoincrement())
+  userId               Int
+  videoId              Int
+  currentTime          Float    @default(0.0) // seconds watch time
+  completionPercentage Float    @default(0.0)
+  completed            Boolean  @default(false)
+  updatedAt            DateTime @updatedAt
+  
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  video                Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, videoId])
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
+model Bookmarks {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  videoId   Int
+  timestamp Float    // in seconds
+  createdAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  video     Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+}
+
+model Comments {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  videoId   Int
+  message   String
+  createdAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  video     Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+}
