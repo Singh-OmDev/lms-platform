@@ -32,18 +32,6 @@ Open your browser to `http://localhost:5173` to explore the application!
 
 ---
 
-## 🔑 Test Credentials & User Accounts
-
-Use the pre-seeded credentials to log in immediately and test the interface roles:
-
-| Role | Email | Password | Pre-seeded Milestones |
-| :--- | :--- | :--- | :--- |
-| **Instructor (Admin)** | `admin@lms.com` | `password123` | 5 Day watch streak, 450 XP, Unlocked Badges |
-| **Student (User)** | `user@lms.com` | `password123` (or register a new user) | 2 Day watch streak, 150 XP |
-
-*Note: You can register a new account on the register page and select between Student (User) or Instructor (Admin) modes using the toggle buttons.*
-
----
 
 ## 🛠 Tech Stack Details
 
