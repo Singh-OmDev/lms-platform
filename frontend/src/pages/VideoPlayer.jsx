@@ -338,48 +338,65 @@ export default function VideoPlayer() {
 
       {/* Right Column: Lessons Sidebar */}
       <div className="space-y-6">
-        <div className="p-4 rounded-sm border border-[#cbd5e0] bg-white space-y-4 shadow-sm">
-          <div className="flex justify-between items-center pb-2 border-b border-[#cbd5e0]">
-            <h3 className="font-serif font-bold text-xs text-[#002c6c] uppercase tracking-wider">Curriculum Directory</h3>
-            <span className="text-xs font-bold text-neutral-550 bg-[#f8fafc] border border-[#cbd5e0] px-2 py-0.5 rounded-sm">
-              {relatedVideos.length + 1} Modules
-            </span>
+        <div className="p-5 rounded-sm border border-[#cbd5e0] bg-white space-y-5 shadow-sm">
+          {/* Header */}
+          <div className="pb-3 border-b border-[#cbd5e0] space-y-2">
+            <h3 className="font-serif font-bold text-xs text-[#002c6c] uppercase tracking-wider">Course Curriculum</h3>
+            
+            {/* Overall Course Progress */}
+            <div className="space-y-1 pt-1">
+              <div className="flex justify-between text-[10px] font-mono text-neutral-550 font-bold">
+                <span>Course Completion</span>
+                <span>{Math.round((([video, ...relatedVideos].filter(l => l.progress?.completed).length) / ([video, ...relatedVideos].length)) * 100 || 0)}%</span>
+              </div>
+              <div className="w-full bg-[#e2e8f0] h-2 rounded-sm overflow-hidden border border-[#cbd5e0]">
+                <div 
+                  className="bg-[#002c6c] h-full transition-all" 
+                  style={{ width: `${Math.round((([video, ...relatedVideos].filter(l => l.progress?.completed).length) / ([video, ...relatedVideos].length)) * 100 || 0)}%` }}
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-2">
-            {/* Active Video */}
-            <div className="p-3 rounded-sm border-l-4 border-l-[#002c6c] border border-[#cbd5e0] bg-[#f0f4f8] flex items-center justify-between gap-3 relative">
-              <div className="min-w-0 flex-grow">
-                <h4 className="text-xs font-bold text-[#002c6c] truncate">{video.title}</h4>
-                <div className="flex items-center gap-1.5 mt-1 text-[10px] text-neutral-500 uppercase font-mono font-semibold">
-                  <span>{video.difficulty}</span>
-                  <span>•</span>
-                  <span>{formatTime(video.duration)}</span>
-                </div>
-              </div>
-              <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-sm select-none">
-                ACTIVE
-              </span>
-            </div>
-
-            {/* Related videos list */}
-            {relatedVideos.map((item) => (
-              <Link 
-                key={item.id}
-                to={`/video/${item.id}`}
-                className="p-3 rounded-sm border border-[#cbd5e0] bg-white hover:bg-neutral-50 hover:border-[#b1b7c1] flex items-center justify-between gap-3 transition-colors block"
-              >
-                <div className="min-w-0 flex-grow">
-                  <h4 className="text-xs font-semibold text-neutral-600 truncate hover:text-[#002c6c] transition-colors">{item.title}</h4>
-                  <div className="flex items-center gap-1.5 mt-1 text-[10px] text-neutral-500 uppercase font-mono font-semibold">
-                    <span>{item.difficulty}</span>
-                    <span>•</span>
-                    <span>{formatTime(item.duration)}</span>
-                  </div>
-                </div>
-                <Play className="w-3.5 h-3.5 text-neutral-500 hover:text-[#002c6c] transition-colors" />
-              </Link>
-            ))}
+          {/* Lesson Checklist */}
+          <div className="space-y-2.5">
+            {[video, ...relatedVideos]
+              .sort((a, b) => a.id - b.id)
+              .map((item) => {
+                const isActive = item.id === video.id;
+                const isCompleted = item.progress?.completed;
+                
+                return (
+                  <Link 
+                    key={item.id}
+                    to={`/video/${item.id}`}
+                    className={`p-3 rounded-sm border flex items-center justify-between gap-3 transition-colors block text-xs ${
+                      isActive 
+                        ? 'border-l-4 border-l-[#002c6c] border-[#cbd5e0] bg-[#f0f4f8] font-bold text-[#002c6c]' 
+                        : 'border-[#cbd5e0] bg-white hover:bg-neutral-50 text-neutral-600'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      {/* Status Icon */}
+                      <span className="flex-shrink-0 select-none">
+                        {isActive ? (
+                          <span className="text-[#002c6c] font-bold">▶</span>
+                        ) : isCompleted ? (
+                          <span className="text-emerald-600 font-bold">✓</span>
+                        ) : (
+                          <span className="text-neutral-400 font-bold">□</span>
+                        )}
+                      </span>
+                      
+                      <span className="truncate">{item.title}</span>
+                    </div>
+                    
+                    <span className="text-[10px] font-mono text-neutral-500 flex-shrink-0">
+                      {formatTime(item.duration)}
+                    </span>
+                  </Link>
+                );
+              })}
           </div>
         </div>
       </div>

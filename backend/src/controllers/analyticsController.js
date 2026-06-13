@@ -21,17 +21,36 @@ export const getUserStats = async (req, res) => {
       ? Math.round((videosCompleted / totalVideos) * 100) 
       : 0;
 
+    // Get all videos with categories to calculate category-specific stats
+    const allVideos = await prisma.video.findMany({
+      select: { id: true, category: true }
+    });
+
+    const categoryTotals = {};
+    allVideos.forEach(v => {
+      categoryTotals[v.category] = (categoryTotals[v.category] || 0) + 1;
+    });
+
+    const categoryCompletions = {};
+    userProgress.forEach(p => {
+      if (p.completed) {
+        const video = allVideos.find(v => v.id === p.videoId);
+        if (video) {
+          categoryCompletions[video.category] = (categoryCompletions[video.category] || 0) + 1;
+        }
+      }
+    });
+
+    const categoryStats = {};
+    Object.keys(categoryTotals).forEach(cat => {
+      categoryStats[cat] = {
+        total: categoryTotals[cat],
+        completed: categoryCompletions[cat] || 0
+      };
+    });
+
     // Category distribution counts for charts
-    const videos = await prisma.video.findMany({
-      select: { category: true }
-    });
-
-    const categoryDistribution = {};
-    videos.forEach(v => {
-      categoryDistribution[v.category] = (categoryDistribution[v.category] || 0) + 1;
-    });
-
-    const chartCategoryData = Object.entries(categoryDistribution).map(([name, value]) => ({
+    const chartCategoryData = Object.entries(categoryTotals).map(([name, value]) => ({
       name,
       value
     }));
@@ -75,7 +94,8 @@ export const getUserStats = async (req, res) => {
         totalVideos,
         videosCompleted,
         videosInProgress,
-        completionRate: overallCompletionRate
+        completionRate: overallCompletionRate,
+        categoryStats
       },
       charts: {
         weeklyProgress,

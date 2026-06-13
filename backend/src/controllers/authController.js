@@ -35,8 +35,15 @@ export const register = async (req, res) => {
       expiresIn: '7d'
     });
 
+    res.cookie('lms_token', token, {
+      httpOnly: true,
+      secure: false, // Set to false for HTTP localhost dev
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      path: '/'
+    });
+
     return res.status(201).json({
-      token,
       user: {
         id: user.id,
         name: user.name,
@@ -75,8 +82,15 @@ export const login = async (req, res) => {
       expiresIn: '7d'
     });
 
+    res.cookie('lms_token', token, {
+      httpOnly: true,
+      secure: false, // Set to false for HTTP localhost dev
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      path: '/'
+    });
+
     return res.status(200).json({
-      token,
       user: {
         id: user.id,
         name: user.name,
@@ -110,5 +124,17 @@ export const getProfile = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Server error fetching profile' });
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie('lms_token', {
+      path: '/'
+    });
+    return res.status(200).json({ message: 'Logged out successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Server error during logout' });
   }
 };

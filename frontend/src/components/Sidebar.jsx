@@ -8,16 +8,23 @@ import {
   Shield,
   ChevronDown
 } from 'lucide-react';
+import { useClerk } from '@clerk/clerk-react';
 import { useStore } from '../store/useStore';
 
 export default function Sidebar({ children }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout, theme, toggleTheme, addToast } = useStore();
+  const { signOut } = useClerk();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    } catch (err) {
+      console.error('Clerk sign out error:', err);
+    }
     logout();
     navigate('/login');
   };
@@ -32,16 +39,19 @@ export default function Sidebar({ children }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const navItems = [
-    { name: 'Dashboard', path: '/dashboard' },
-    { name: 'Courses', path: '/library' },
-    { name: 'Settings', path: '/profile' },
-  ];
-
+  const navItems = [];
+  
   if (user?.role === 'admin') {
     navItems.push(
       { name: 'Admin Analytics', path: '/admin/dashboard' },
       { name: 'Manage Videos', path: '/admin/videos' }
+    );
+  } else {
+    navItems.push(
+      { name: 'Home', path: '/dashboard' },
+      { name: 'Courses', path: '/library' },
+      { name: 'Certificates', path: '/certificates' },
+      { name: 'Profile', path: '/profile' }
     );
   }
 

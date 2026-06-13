@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { useStore } from './store/useStore';
+import { useAuth, useUser } from '@clerk/clerk-react';
+import { useStore, api, setClerkGetToken } from './store/useStore';
 
 // Layout & global components
 import Sidebar from './components/Sidebar';
@@ -15,6 +16,7 @@ import VideoPlayer from './pages/VideoPlayer';
 import AdminDashboard from './pages/AdminDashboard';
 import VideoManagement from './pages/VideoManagement';
 import ProfilePage from './pages/ProfilePage';
+import CertificatesPage from './pages/CertificatesPage';
 
 // Protected Route Guard
 function ProtectedRoute({ children }) {
@@ -34,6 +36,52 @@ function AdminRoute({ children }) {
 function PublicRoute({ children }) {
   const { isAuthenticated } = useStore();
   return !isAuthenticated ? children : <Navigate to="/dashboard" replace />;
+}
+
+// Clerk State Synchronization Manager
+function ClerkSyncManager({ children }) {
+  const { isLoaded, isSignedIn, getToken } = useAuth();
+  const { user: clerkUser } = useUser();
+  const { setUser } = useStore();
+  const [syncing, setSyncing] = useState(true);
+
+  useEffect(() => {
+    setClerkGetToken(getToken);
+  }, [getToken]);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    if (!isSignedIn) {
+      setUser(null);
+      setSyncing(false);
+      return;
+    }
+
+    const syncUser = async () => {
+      try {
+        const res = await api.get('/auth/profile');
+        setUser(res.data);
+      } catch (err) {
+        console.error('Failed to sync user with database:', err);
+        setUser(null);
+      } finally {
+        setSyncing(false);
+      }
+    };
+
+    syncUser();
+  }, [isLoaded, isSignedIn, clerkUser, setUser]);
+
+  if (!isLoaded || syncing) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-sky-600 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  return children;
 }
 
 // Inner wrapper to conditionally display Sidebar based on active route
@@ -62,6 +110,7 @@ function RouteWrapper() {
         <Route path="/dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
         <Route path="/library" element={<ProtectedRoute><VideoLibrary /></ProtectedRoute>} />
         <Route path="/video/:id" element={<ProtectedRoute><VideoPlayer /></ProtectedRoute>} />
+        <Route path="/certificates" element={<ProtectedRoute><CertificatesPage /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
 
         {/* Protected Admin Routes */}
@@ -85,7 +134,9 @@ export default function App() {
   return (
     <Router>
       <div className="min-h-screen bg-slate-950 dark:bg-slate-950 transition-colors duration-300">
-        <RouteWrapper />
+        <ClerkSyncManager>
+          <RouteWrapper />
+        </ClerkSyncManager>
         
         {/* Global Floating Components */}
         <NotificationToast />

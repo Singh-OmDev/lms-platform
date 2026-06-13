@@ -1,20 +1,25 @@
-import jwt from 'jsonwebtoken';
+import { getAuth, clerkClient } from '@clerk/express';
+import bcrypt from 'bcryptjs';
 import prisma from '../config/db.js';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_key_lms_hub';
 
 export const authenticate = async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ error: 'Authorization header missing or invalid' });
+    const { userId } = getAuth(req);
+    if (!userId) {
+      return res.status(401).json({ error: 'Authentication token missing or invalid' });
     }
 
-    const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, JWT_SECRET);
+    // 1. Fetch user details from Clerk backend
+    const clerkUser = await clerkClient.users.getUser(userId);
+    const email = clerkUser.emailAddresses[0]?.emailAddress;
+    
+    if (!email) {
+      return res.status(400).json({ error: 'Clerk user has no valid email address' });
+    }
 
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
+    // 2. Query our SQLite database by email
+    let user = await prisma.user.findUnique({
+      where: { email },
       select: {
         id: true,
         name: true,
@@ -23,14 +28,42 @@ export const authenticate = async (req, res, next) => {
       }
     });
 
+    // 3. If the user doesn't exist in our DB, dynamically create a record
     if (!user) {
-      return res.status(401).json({ error: 'User not found' });
+      const name = clerkUser.firstName 
+        ? `${clerkUser.firstName} ${clerkUser.lastName || ''}`.trim() 
+        : email.split('@')[0];
+        
+      const dummyPassword = await bcrypt.hash(Math.random().toString(36), 10);
+      
+      const adminEmails = process.env.ADMIN_EMAILS
+        ? process.env.ADMIN_EMAILS.split(',').map(e => e.trim().toLowerCase())
+        : ['admin@lms.com'];
+      
+      const role = adminEmails.includes(email.toLowerCase()) ? 'admin' : 'user';
+
+      const newUser = await prisma.user.create({
+        data: {
+          name,
+          email,
+          password: dummyPassword,
+          role
+        }
+      });
+
+      user = {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        role: newUser.role
+      };
     }
 
     req.user = user;
     next();
   } catch (error) {
-    return res.status(401).json({ error: 'Invalid token' });
+    console.error('Clerk authentication error:', error);
+    return res.status(401).json({ error: 'Invalid or expired authentication token' });
   }
 };
 

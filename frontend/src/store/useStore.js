@@ -11,51 +11,43 @@ export const api = axios.create({
   },
 });
 
-// Sync auth headers initially
-const savedToken = localStorage.getItem('lms_token');
-if (savedToken) {
-  api.defaults.headers.common['Authorization'] = `Bearer ${savedToken}`;
-}
+let clerkGetToken = null;
+export const setClerkGetToken = (fn) => {
+  clerkGetToken = fn;
+};
 
-// Add 401 Interceptor to clear stale sessions
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      localStorage.removeItem('lms_token');
-      localStorage.removeItem('lms_user');
-      delete api.defaults.headers.common['Authorization'];
-      if (
-        window.location.pathname !== '/login' && 
-        window.location.pathname !== '/register' && 
-        window.location.pathname !== '/'
-      ) {
-        window.location.href = '/login';
+api.interceptors.request.use(async (config) => {
+  if (clerkGetToken) {
+    try {
+      const token = await clerkGetToken();
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
       }
+    } catch (err) {
+      console.error('Error fetching Clerk token:', err);
     }
-    return Promise.reject(error);
   }
-);
+  return config;
+});
 
 export const useStore = create((set, get) => ({
   // Auth State
-  token: savedToken || null,
   user: JSON.parse(localStorage.getItem('lms_user')) || null,
-  isAuthenticated: !!savedToken,
+  isAuthenticated: !!localStorage.getItem('lms_user'),
   
-  login: (token, user) => {
-    localStorage.setItem('lms_token', token);
-    localStorage.setItem('lms_user', JSON.stringify(user));
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    set({ token, user, isAuthenticated: true });
-    get().addToast(`Welcome back, ${user.name}!`, 'success');
+  setUser: (user) => {
+    if (user) {
+      localStorage.setItem('lms_user', JSON.stringify(user));
+      set({ user, isAuthenticated: true });
+    } else {
+      localStorage.removeItem('lms_user');
+      set({ user: null, isAuthenticated: false });
+    }
   },
   
   logout: () => {
-    localStorage.removeItem('lms_token');
     localStorage.removeItem('lms_user');
-    delete api.defaults.headers.common['Authorization'];
-    set({ token: null, user: null, isAuthenticated: false });
+    set({ user: null, isAuthenticated: false });
     get().addToast('Logged out successfully', 'info');
   },
 
@@ -112,5 +104,26 @@ export const useStore = create((set, get) => ({
     }));
   },
 
-
 }));
+
+// Add 401 Interceptor to clear stale sessions
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('lms_user');
+      useStore.setState({ user: null, isAuthenticated: false });
+      if (window.Clerk) {
+        window.Clerk.signOut();
+      }
+      if (
+        window.location.pathname !== '/login' && 
+        window.location.pathname !== '/register' && 
+        window.location.pathname !== '/'
+      ) {
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
