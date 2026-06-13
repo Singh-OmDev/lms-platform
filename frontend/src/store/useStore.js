@@ -1,7 +1,11 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+let rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+if (rawApiUrl && !rawApiUrl.endsWith('/api') && !rawApiUrl.endsWith('/api/')) {
+  rawApiUrl = rawApiUrl.endsWith('/') ? `${rawApiUrl}api` : `${rawApiUrl}/api`;
+}
+const API_BASE = rawApiUrl;
 
 // Create configured axios instance
 export const api = axios.create({
