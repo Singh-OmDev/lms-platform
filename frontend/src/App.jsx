@@ -17,6 +17,9 @@ import AdminDashboard from './pages/AdminDashboard';
 import VideoManagement from './pages/VideoManagement';
 import ProfilePage from './pages/ProfilePage';
 import CertificatesPage from './pages/CertificatesPage';
+import BlogsPage from './pages/BlogsPage';
+import ArticleReader from './pages/ArticleReader';
+import BlogManagement from './pages/BlogManagement';
 
 // Protected Route Guard
 function ProtectedRoute({ children }) {
@@ -148,10 +151,13 @@ function RouteWrapper() {
         <Route path="/video/:id" element={<ProtectedRoute><VideoPlayer /></ProtectedRoute>} />
         <Route path="/certificates" element={<ProtectedRoute><CertificatesPage /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+        <Route path="/blogs" element={<ProtectedRoute><BlogsPage /></ProtectedRoute>} />
+        <Route path="/blogs/:id" element={<ProtectedRoute><ArticleReader /></ProtectedRoute>} />
 
         {/* Protected Admin Routes */}
         <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
         <Route path="/admin/videos" element={<AdminRoute><VideoManagement /></AdminRoute>} />
+        <Route path="/admin/blogs" element={<AdminRoute><BlogManagement /></AdminRoute>} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

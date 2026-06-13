@@ -50,7 +50,7 @@ export default function ProfilePage() {
       
       {/* Title */}
       <div className="border-b-2 border-[#d2d6dc] pb-4">
-        <h1 className="text-xl font-serif font-bold text-[#002c6c] tracking-tight">Student Profile</h1>
+        <h1 className="text-xl font-serif font-bold text-[#0A2540] tracking-tight">Student Profile</h1>
         <p className="text-neutral-500 text-xs mt-1">
           View your profile dossier and account security info.
         </p>
@@ -62,31 +62,31 @@ export default function ProfilePage() {
         {/* Left: General Profile Info */}
         <div className="lg:col-span-2 space-y-6">
           <div className="p-6 bg-white border border-[#cbd5e0] rounded-sm shadow-sm space-y-5">
-            <h3 className="font-serif font-bold text-xs text-[#002c6c] uppercase tracking-wider pb-2 border-b border-[#cbd5e0] flex items-center gap-1.5">
-              <User className="w-4 h-4 text-[#002c6c]" /> General Profile Dossier
+            <h3 className="font-serif font-bold text-xs text-[#0A2540] uppercase tracking-wider pb-2 border-b border-[#cbd5e0] flex items-center gap-1.5">
+              <User className="w-4 h-4 text-[#0A2540]" /> General Profile Dossier
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs leading-normal">
               <div className="space-y-1">
                 <span className="text-[10px] font-bold text-neutral-550 uppercase tracking-wider block">Full Name</span>
-                <p className="font-bold text-[#002c6c] text-sm">{user?.name}</p>
+                <p className="font-bold text-[#0A2540] text-sm">{user?.name}</p>
               </div>
 
               <div className="space-y-1">
                 <span className="text-[10px] font-bold text-neutral-550 uppercase tracking-wider block">Email Address</span>
-                <p className="font-bold text-[#002c6c] text-sm">{user?.email}</p>
+                <p className="font-bold text-[#0A2540] text-sm">{user?.email}</p>
               </div>
 
               <div className="space-y-1">
                 <span className="text-[10px] font-bold text-neutral-550 uppercase tracking-wider block">Department / Role</span>
-                <span className="inline-block mt-1 text-[9px] font-mono uppercase bg-[#f0f4f8] text-[#002c6c] px-2 py-0.5 rounded-sm border border-[#cbd5e0]">
+                <span className="inline-block mt-1 text-[9px] font-mono uppercase bg-[#f0f4f8] text-[#0A2540] px-2 py-0.5 rounded-sm border border-[#cbd5e0]">
                   {user?.role === 'admin' ? 'Instructor (Staff)' : 'Student (Learner)'}
                 </span>
               </div>
 
               <div className="space-y-1">
                 <span className="text-[10px] font-bold text-neutral-550 uppercase tracking-wider block">Completed Curriculum</span>
-                <p className="font-bold text-[#002c6c] text-sm">{stats?.videosCompleted || 0} Modules Completed</p>
+                <p className="font-bold text-[#0A2540] text-sm">{stats?.videosCompleted || 0} Modules Completed</p>
               </div>
             </div>
           </div>
@@ -102,13 +102,13 @@ export default function ProfilePage() {
 
         {/* Right: Sign Out Panel */}
         <div className="p-5 bg-white border border-[#cbd5e0] rounded-sm shadow-sm h-fit space-y-4 text-center">
-          <h3 className="font-serif font-bold text-xs text-[#002c6c] uppercase tracking-wider pb-2 border-b border-[#cbd5e0]">Session Dossier</h3>
+          <h3 className="font-serif font-bold text-xs text-[#0A2540] uppercase tracking-wider pb-2 border-b border-[#cbd5e0]">Session Dossier</h3>
           
           <div className="py-4">
-            <div className="w-16 h-16 rounded-full bg-[#f2a900] border-2 border-[#d4af37] text-[#002c6c] flex items-center justify-center font-bold text-2xl uppercase mx-auto shadow-sm select-none">
+            <div className="w-16 h-16 rounded-full bg-[#D4AF37] border-2 border-[#d4af37] text-[#0A2540] flex items-center justify-center font-bold text-2xl uppercase mx-auto shadow-sm select-none">
               {user?.name.charAt(0)}
             </div>
-            <h4 className="font-bold text-[#002c6c] text-sm mt-3">{user?.name}</h4>
+            <h4 className="font-bold text-[#0A2540] text-sm mt-3">{user?.name}</h4>
             <p className="text-neutral-500 text-[10px] mt-0.5">{user?.email}</p>
           </div>
 

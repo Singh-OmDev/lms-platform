@@ -18,6 +18,7 @@ model User {
   progress       WatchProgress[]
   bookmarks      Bookmarks[]
   comments       Comments[]
+  articles       Article[]
 }
 
 model Video {
@@ -78,4 +79,19 @@ model Comments {
   
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   video     Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+}
+
+model Article {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  summary     String
+  category    String   // "AI", "Cybersecurity", "General"
+  imageUrl    String?
+  published   Boolean  @default(true)
+  authorId    Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }

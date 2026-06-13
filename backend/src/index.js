@@ -7,6 +7,7 @@ import authRoutes from './routes/authRoutes.js';
 import videoRoutes from './routes/videoRoutes.js';
 import progressRoutes from './routes/progressRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
+import articleRoutes from './routes/articleRoutes.js';
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/videos', videoRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/articles', articleRoutes);
 
 // Base Route
 app.get('/', (req, res) => {

@@ -72,7 +72,7 @@ export default function VideoLibrary() {
     <div className="space-y-6 pb-16 font-sans text-[#2d3748]">
       {/* Dossier Header */}
       <div className="border-b-2 border-[#d2d6dc] pb-4">
-        <h1 className="text-xl font-serif font-bold text-[#002c6c] tracking-tight">Public Course Catalog</h1>
+        <h1 className="text-xl font-serif font-bold text-[#0A2540] tracking-tight">Public Course Catalog</h1>
         <p className="text-neutral-500 text-xs mt-1">
           Explore and enroll in certified technology and cyber-defense course directories.
         </p>
@@ -100,7 +100,7 @@ export default function VideoLibrary() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="bg-white border border-[#c3c8cf] rounded-sm px-2.5 py-1.5 text-xs text-[#2d3748] outline-none focus:border-[#002c6c] cursor-pointer"
+              className="bg-white border border-[#c3c8cf] rounded-sm px-2.5 py-1.5 text-xs text-[#2d3748] outline-none focus:border-[#0A2540] cursor-pointer"
             >
               {categories.map(cat => (
                 <option key={cat} value={cat}>{cat}</option>
@@ -114,7 +114,7 @@ export default function VideoLibrary() {
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="bg-white border border-[#c3c8cf] rounded-sm px-2.5 py-1.5 text-xs text-[#2d3748] outline-none focus:border-[#002c6c] cursor-pointer"
+              className="bg-white border border-[#c3c8cf] rounded-sm px-2.5 py-1.5 text-xs text-[#2d3748] outline-none focus:border-[#0A2540] cursor-pointer"
             >
               <option value="All">All Progress</option>
               <option value="In Progress">In Progress</option>
@@ -128,7 +128,7 @@ export default function VideoLibrary() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-white border border-[#c3c8cf] rounded-sm px-2.5 py-1.5 text-xs text-[#2d3748] outline-none focus:border-[#002c6c] cursor-pointer"
+              className="bg-white border border-[#c3c8cf] rounded-sm px-2.5 py-1.5 text-xs text-[#2d3748] outline-none focus:border-[#0A2540] cursor-pointer"
             >
               <option value="Default">Default</option>
               <option value="Newest">Newest</option>
@@ -139,13 +139,13 @@ export default function VideoLibrary() {
           <div className="flex items-center border border-[#cbd5e0] rounded-sm bg-[#f8fafc] p-0.5">
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-1.5 rounded-sm transition-colors cursor-pointer ${viewMode === 'grid' ? 'bg-[#002c6c] text-white' : 'text-neutral-500 hover:text-neutral-700'}`}
+              className={`p-1.5 rounded-sm transition-colors cursor-pointer ${viewMode === 'grid' ? 'bg-[#0A2540] text-white' : 'text-neutral-500 hover:text-neutral-700'}`}
             >
               <Grid className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-1.5 rounded-sm transition-colors cursor-pointer ${viewMode === 'list' ? 'bg-[#002c6c] text-white' : 'text-neutral-500 hover:text-neutral-700'}`}
+              className={`p-1.5 rounded-sm transition-colors cursor-pointer ${viewMode === 'list' ? 'bg-[#0A2540] text-white' : 'text-neutral-500 hover:text-neutral-700'}`}
             >
               <List className="w-3.5 h-3.5" />
             </button>
@@ -183,6 +183,10 @@ export default function VideoLibrary() {
                   src={video.thumbnailUrl} 
                   alt={video.title} 
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop';
+                  }}
                 />
                 <span className="absolute bottom-2.5 right-2.5 bg-black/80 px-2 py-0.5 rounded-sm text-[10px] font-mono text-white border border-neutral-700 select-none">
                   {formatDuration(video.duration)}
@@ -190,7 +194,7 @@ export default function VideoLibrary() {
                 
                 {/* Watch overlay button */}
                 <div className="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                  <Link to={`/video/${video.id}`} className="w-10 h-10 rounded-full bg-[#002c6c] text-white flex items-center justify-center hover:scale-105 transition-transform shadow">
+                  <Link to={`/video/${video.id}`} className="w-10 h-10 rounded-full bg-[#0A2540] text-white flex items-center justify-center hover:scale-105 transition-transform shadow">
                     <Play className="w-4 h-4 fill-current ml-0.5" />
                   </Link>
                 </div>
@@ -200,15 +204,15 @@ export default function VideoLibrary() {
               <div className="flex-grow p-4 flex flex-col justify-between space-y-4">
                 <div className="space-y-2">
                   <div className="flex flex-wrap gap-1.5 select-none">
-                    <span className="text-[9px] font-bold uppercase bg-[#f0f4f8] text-[#002c6c] px-2 py-0.5 rounded-sm border border-[#cbd5e0]">
+                    <span className="text-[9px] font-bold uppercase bg-[#f0f4f8] text-[#0A2540] px-2 py-0.5 rounded-sm border border-[#cbd5e0]">
                       {video.category}
                     </span>
-                    <span className="text-[9px] font-bold uppercase bg-[#f0f4f8] text-[#002c6c] px-2 py-0.5 rounded-sm border border-[#cbd5e0]">
+                    <span className="text-[9px] font-bold uppercase bg-[#f0f4f8] text-[#0A2540] px-2 py-0.5 rounded-sm border border-[#cbd5e0]">
                       {video.difficulty}
                     </span>
                   </div>
 
-                  <h3 className="font-serif font-bold text-sm text-[#002c6c] line-clamp-1">
+                  <h3 className="font-serif font-bold text-sm text-[#0A2540] line-clamp-1">
                     {video.title}
                   </h3>
                   
@@ -227,7 +231,7 @@ export default function VideoLibrary() {
                       </div>
                       <div className="w-full bg-[#e2e8f0] h-2 rounded-sm overflow-hidden border border-[#cbd5e0]">
                         <div 
-                          className="bg-[#002c6c] h-full transition-all" 
+                          className="bg-[#0A2540] h-full transition-all" 
                           style={{ width: `${video.progress.completionPercentage}%` }}
                         />
                       </div>
@@ -256,7 +260,7 @@ export default function VideoLibrary() {
         /* Empty */
         <div className="text-center py-16 border border-[#cbd5e0] bg-white rounded-sm max-w-md mx-auto space-y-3 shadow-sm">
           <FolderOpen className="w-8 h-8 text-neutral-500 mx-auto" />
-          <h3 className="font-serif font-bold text-sm text-[#002c6c]">No Courses Found</h3>
+          <h3 className="font-serif font-bold text-sm text-[#0A2540]">No Courses Found</h3>
           <p className="text-neutral-500 text-xs max-w-xs mx-auto">
             Try adjusting search inputs, changing category selections, or clearing filters.
           </p>

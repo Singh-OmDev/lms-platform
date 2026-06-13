@@ -149,7 +149,7 @@ export default function VideoPlayer() {
   const getAISummary = (title) => {
     return (
       <div className="space-y-4 text-xs text-[#2d3748]">
-        <div className="flex items-center gap-2 text-[#002c6c] font-bold uppercase tracking-wider text-[11px] font-sans">
+        <div className="flex items-center gap-2 text-[#0A2540] font-bold uppercase tracking-wider text-[11px] font-sans">
           <span>AI Summary Directive Notes</span>
         </div>
         <ul className="list-disc pl-4 text-neutral-600 space-y-2.5 leading-relaxed font-sans">
@@ -185,10 +185,10 @@ export default function VideoPlayer() {
         <div className="bg-white border border-[#cbd5e0] rounded-sm p-5 space-y-3 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[10px] font-bold uppercase bg-[#f0f4f8] text-[#002c6c] px-2 py-0.5 rounded-sm border border-[#cbd5e0]">
+              <span className="text-[10px] font-bold uppercase bg-[#f0f4f8] text-[#0A2540] px-2 py-0.5 rounded-sm border border-[#cbd5e0]">
                 {video.category}
               </span>
-              <span className="text-[10px] font-bold uppercase bg-[#f0f4f8] text-[#002c6c] px-2 py-0.5 rounded-sm border border-[#cbd5e0]">
+              <span className="text-[10px] font-bold uppercase bg-[#f0f4f8] text-[#0A2540] px-2 py-0.5 rounded-sm border border-[#cbd5e0]">
                 {video.difficulty}
               </span>
             </div>
@@ -196,14 +196,14 @@ export default function VideoPlayer() {
             {video.progress?.completed && (
               <button
                 onClick={() => setShowCertificateModal(true)}
-                className="btn-gold py-1.5 px-3 text-[10px] flex items-center gap-1.5 font-bold uppercase tracking-wider text-[#002c6c] transition-all hover:scale-102"
+                className="btn-gold py-1.5 px-3 text-[10px] flex items-center gap-1.5 font-bold uppercase tracking-wider text-[#0A2540] transition-all hover:scale-102"
               >
-                <Award className="w-3.5 h-3.5 text-[#002c6c]" /> Claim Certificate
+                <Award className="w-3.5 h-3.5 text-[#0A2540]" /> Claim Certificate
               </button>
             )}
           </div>
 
-          <h2 className="text-lg font-serif font-bold text-[#002c6c] tracking-tight">
+          <h2 className="text-lg font-serif font-bold text-[#0A2540] tracking-tight">
             {video.title}
           </h2>
 
@@ -228,8 +228,8 @@ export default function VideoPlayer() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-1.5 px-4 py-3.5 text-xs font-bold border-b-4 outline-none cursor-pointer whitespace-nowrap transition-colors duration-150 ${
                     activeTab === tab.id 
-                      ? 'border-[#002c6c] text-[#002c6c] bg-white' 
-                      : 'border-transparent text-neutral-500 hover:text-[#002c6c]'
+                      ? 'border-[#0A2540] text-[#0A2540] bg-white' 
+                      : 'border-transparent text-neutral-500 hover:text-[#0A2540]'
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
@@ -254,7 +254,7 @@ export default function VideoPlayer() {
                   placeholder="Record study log directives, codes, or terminal summaries here..."
                   value={note}
                   onChange={handleNoteChange}
-                  className="w-full h-36 p-3.5 rounded-sm bg-white border border-[#c3c8cf] text-xs text-[#1a202c] placeholder-neutral-500 focus:border-[#002c6c] focus:ring-1 focus:ring-[#002c6c] outline-none resize-none transition-colors"
+                  className="w-full h-36 p-3.5 rounded-sm bg-white border border-[#c3c8cf] text-xs text-[#1a202c] placeholder-neutral-500 focus:border-[#0A2540] focus:ring-1 focus:ring-[#0A2540] outline-none resize-none transition-colors"
                 />
               </div>
             )}
@@ -275,7 +275,7 @@ export default function VideoPlayer() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     {bookmarks.map((b) => (
                       <div key={b.id} className="flex justify-between items-center p-2.5 rounded-sm border border-[#cbd5e0] bg-[#f8fafc] hover:border-[#b1b7c1] transition-colors">
-                        <span className="text-xs font-semibold text-[#002c6c] font-mono">
+                        <span className="text-xs font-semibold text-[#0A2540] font-mono">
                           Timestamp: {formatTime(b.timestamp)}
                         </span>
                         <button
@@ -318,7 +318,7 @@ export default function VideoPlayer() {
                     video.comments.map((comm) => (
                       <div key={comm.id} className="p-3 bg-[#f8fafc] border border-[#cbd5e0] rounded-sm text-xs space-y-1">
                         <div className="flex justify-between text-[10px] text-neutral-500 font-mono font-semibold">
-                          <span className="text-[#002c6c]">{comm.user.name}</span>
+                          <span className="text-[#0A2540]">{comm.user.name}</span>
                           <span>{new Date(comm.createdAt).toLocaleDateString()}</span>
                         </div>
                         <p className="text-[#2d3748] leading-normal">{comm.message}</p>
@@ -341,7 +341,7 @@ export default function VideoPlayer() {
         <div className="p-5 rounded-sm border border-[#cbd5e0] bg-white space-y-5 shadow-sm">
           {/* Header */}
           <div className="pb-3 border-b border-[#cbd5e0] space-y-2">
-            <h3 className="font-serif font-bold text-xs text-[#002c6c] uppercase tracking-wider">Course Curriculum</h3>
+            <h3 className="font-serif font-bold text-xs text-[#0A2540] uppercase tracking-wider">Course Curriculum</h3>
             
             {/* Overall Course Progress */}
             <div className="space-y-1 pt-1">
@@ -351,7 +351,7 @@ export default function VideoPlayer() {
               </div>
               <div className="w-full bg-[#e2e8f0] h-2 rounded-sm overflow-hidden border border-[#cbd5e0]">
                 <div 
-                  className="bg-[#002c6c] h-full transition-all" 
+                  className="bg-[#0A2540] h-full transition-all" 
                   style={{ width: `${Math.round((([video, ...relatedVideos].filter(l => l.progress?.completed).length) / ([video, ...relatedVideos].length)) * 100 || 0)}%` }}
                 />
               </div>
@@ -372,7 +372,7 @@ export default function VideoPlayer() {
                     to={`/video/${item.id}`}
                     className={`p-3 rounded-sm border flex items-center justify-between gap-3 transition-colors block text-xs ${
                       isActive 
-                        ? 'border-l-4 border-l-[#002c6c] border-[#cbd5e0] bg-[#f0f4f8] font-bold text-[#002c6c]' 
+                        ? 'border-l-4 border-l-[#0A2540] border-[#cbd5e0] bg-[#f0f4f8] font-bold text-[#0A2540]' 
                         : 'border-[#cbd5e0] bg-white hover:bg-neutral-50 text-neutral-600'
                     }`}
                   >
@@ -380,7 +380,7 @@ export default function VideoPlayer() {
                       {/* Status Icon */}
                       <span className="flex-shrink-0 select-none">
                         {isActive ? (
-                          <span className="text-[#002c6c] font-bold">▶</span>
+                          <span className="text-[#0A2540] font-bold">▶</span>
                         ) : isCompleted ? (
                           <span className="text-emerald-600 font-bold">✓</span>
                         ) : (
@@ -415,32 +415,32 @@ export default function VideoPlayer() {
           </button>
 
           {/* Certificate content - formal navy gold print document */}
-          <div className="certificate-print-container border-4 border-[#002c6c] bg-white p-8 space-y-6 text-center rounded-sm relative">
+          <div className="certificate-print-container border-4 border-[#0A2540] bg-white p-8 space-y-6 text-center rounded-sm relative">
             {/* Decorative Gold corners */}
-            <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#f2a900]"></div>
-            <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#f2a900]"></div>
-            <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#f2a900]"></div>
-            <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#f2a900]"></div>
+            <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#D4AF37]"></div>
+            <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#D4AF37]"></div>
+            <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#D4AF37]"></div>
+            <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#D4AF37]"></div>
 
             <div className="flex justify-center mb-2">
               <img src="/rajasthan_logo.png" alt="Government of Rajasthan Logo" className="w-16 h-16 object-contain" />
             </div>
 
-            <h2 className="text-lg font-serif font-bold tracking-widest text-[#002c6c] uppercase">Government of Rajasthan</h2>
+            <h2 className="text-lg font-serif font-bold tracking-widest text-[#0A2540] uppercase">Government of Rajasthan</h2>
             <p className="text-[9px] font-sans text-neutral-500 uppercase tracking-widest font-bold">Department of Information Technology & Communication</p>
             
-            <div className="h-0.5 bg-[#f2a900] w-20 mx-auto my-2" />
+            <div className="h-0.5 bg-[#D4AF37] w-20 mx-auto my-2" />
             
             <p className="text-[10px] font-sans text-[#718096] uppercase tracking-wider">Official Certificate of Course Completion</p>
             
-            <h1 className="text-2xl font-serif font-bold text-[#002c6c] underline underline-offset-4 decoration-[#f2a900] decoration-2">{user?.name}</h1>
+            <h1 className="text-2xl font-serif font-bold text-[#0A2540] underline underline-offset-4 decoration-[#D4AF37] decoration-2">{user?.name}</h1>
             
             <p className="text-xs text-[#4a5568] max-w-sm mx-auto leading-relaxed">
               has successfully completed all required modules, passed validation checks, and satisfied study compliance hours for the technology track:
             </p>
             
             <div className="p-2.5 rounded-sm bg-[#f0f4f8] border border-[#cbd5e0] inline-block">
-              <span className="text-xs font-serif font-bold text-[#002c6c] uppercase">
+              <span className="text-xs font-serif font-bold text-[#0A2540] uppercase">
                 {video.category === 'Artificial Intelligence' ? 'Artificial Intelligence Core & Neural Systems' : 'Cybersecurity Defense Penetration Frameworks'}
               </span>
             </div>
@@ -458,9 +458,9 @@ export default function VideoPlayer() {
           {/* Print button */}
           <button 
             onClick={() => window.print()}
-            className="btn-gold w-full py-2.5 flex items-center justify-center gap-1.5 uppercase tracking-wider text-xs font-bold text-[#002c6c]"
+            className="btn-gold w-full py-2.5 flex items-center justify-center gap-1.5 uppercase tracking-wider text-xs font-bold text-[#0A2540]"
           >
-            <Printer className="w-4 h-4 text-[#002c6c]" /> Print Official Credential
+            <Printer className="w-4 h-4 text-[#0A2540]" /> Print Official Credential
           </button>
         </div>
       </div>

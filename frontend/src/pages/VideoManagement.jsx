@@ -253,7 +253,7 @@ export default function VideoManagement() {
       {/* Title Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b-2 border-[#d2d6dc] pb-4">
         <div>
-          <h1 className="text-xl font-serif font-bold text-[#002c6c] tracking-tight">Course Inventory Registry</h1>
+          <h1 className="text-xl font-serif font-bold text-[#0A2540] tracking-tight">Course Inventory Registry</h1>
           <p className="text-neutral-550 text-xs mt-1">
             Maintain video lectures, adjust tags, and manage curriculum metadata.
           </p>
@@ -273,7 +273,7 @@ export default function VideoManagement() {
       {/* Bulk actions banner */}
       {selectedIds.length > 0 && (
         <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-sm bg-white border border-[#cbd5e0] text-xs shadow-sm font-sans font-semibold">
-          <span className="text-[#002c6c]">{selectedIds.length} lessons selected for bulk actions:</span>
+          <span className="text-[#0A2540]">{selectedIds.length} lessons selected for bulk actions:</span>
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2">
               <select
@@ -318,7 +318,7 @@ export default function VideoManagement() {
                       type="checkbox" 
                       checked={selectedIds.length === videos.length} 
                       onChange={toggleSelectAll}
-                      className="rounded border-[#cbd5e0] bg-white accent-[#002c6c] cursor-pointer"
+                      className="rounded border-[#cbd5e0] bg-white accent-[#0A2540] cursor-pointer"
                     />
                   </th>
                   <th className="py-3 px-4">Thumbnail</th>
@@ -336,13 +336,13 @@ export default function VideoManagement() {
                         type="checkbox" 
                         checked={selectedIds.includes(v.id)} 
                         onChange={() => toggleSelect(v.id)}
-                        className="rounded border-[#cbd5e0] bg-white accent-[#002c6c] cursor-pointer"
+                        className="rounded border-[#cbd5e0] bg-white accent-[#0A2540] cursor-pointer"
                       />
                     </td>
                     <td className="py-3 px-4">
                       <img src={v.thumbnailUrl} alt={v.title} className="w-14 h-9 object-cover rounded-sm border border-[#cbd5e0] bg-neutral-100" />
                     </td>
-                    <td className="py-3 px-4 max-w-xs truncate font-serif font-bold text-[#002c6c]">{v.title}</td>
+                    <td className="py-3 px-4 max-w-xs truncate font-serif font-bold text-[#0A2540]">{v.title}</td>
                     <td className="py-3 px-4 font-semibold text-neutral-500">{v.category}</td>
                     <td className="py-3 px-4 text-center">
                       <span className="px-2 py-0.5 rounded-sm text-[9px] font-mono uppercase border border-[#cbd5e0] bg-[#f8fafc] text-neutral-600">
@@ -382,7 +382,7 @@ export default function VideoManagement() {
               {/* Header */}
               <div className="flex justify-between items-center pb-5 border-b border-[#cbd5e0] mb-6">
                 <div>
-                  <h3 className="text-base font-serif font-bold text-[#002c6c] uppercase tracking-wider">
+                  <h3 className="text-base font-serif font-bold text-[#0A2540] uppercase tracking-wider">
                     {editingVideo ? 'Overwrite Course Details' : 'Register New Course'}
                   </h3>
                   <p className="text-neutral-500 text-xs mt-1">Configure metadata variables and play URLs.</p>
@@ -408,7 +408,7 @@ export default function VideoManagement() {
                     onClick={handleZoneClick}
                     className={`
                       border border-dashed rounded-sm p-5 text-center transition-colors flex flex-col items-center justify-center gap-2 cursor-pointer
-                      ${dragActive ? 'border-[#002c6c] bg-[#f0f4f8]' : 'border-[#cbd5e0] hover:border-neutral-500 bg-[#f8fafc]'}
+                      ${dragActive ? 'border-[#0A2540] bg-[#f0f4f8]' : 'border-[#cbd5e0] hover:border-neutral-500 bg-[#f8fafc]'}
                     `}
                   >
                     <input 
@@ -418,9 +418,9 @@ export default function VideoManagement() {
                       accept="video/*"
                       className="hidden"
                     />
-                    <UploadCloud className="w-8 h-8 text-[#002c6c]" />
+                    <UploadCloud className="w-8 h-8 text-[#0A2540]" />
                     <div>
-                      <h4 className="text-xs font-semibold text-[#002c6c]">Drag & drop video payload (MP4)</h4>
+                      <h4 className="text-xs font-semibold text-[#0A2540]">Drag & drop video payload (MP4)</h4>
                       <p className="text-[10px] text-neutral-500 mt-0.5">or click to choose local files</p>
                     </div>
                     
@@ -431,7 +431,7 @@ export default function VideoManagement() {
                           <span>{uploadProgress}%</span>
                         </div>
                         <div className="w-full bg-[#e2e8f0] h-1.5 rounded-sm overflow-hidden border border-[#cbd5e0]">
-                          <div className="bg-[#002c6c] h-full transition-all" style={{ width: `${uploadProgress}%` }} />
+                          <div className="bg-[#0A2540] h-full transition-all" style={{ width: `${uploadProgress}%` }} />
                         </div>
                       </div>
                     )}
@@ -470,7 +470,7 @@ export default function VideoManagement() {
                     <select
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      className="bg-white border border-[#c3c8cf] rounded-sm px-3 py-2.5 text-xs text-[#2d3748] w-full outline-none focus:border-[#002c6c] cursor-pointer"
+                      className="bg-white border border-[#c3c8cf] rounded-sm px-3 py-2.5 text-xs text-[#2d3748] w-full outline-none focus:border-[#0A2540] cursor-pointer"
                     >
                       <option value="">Select Domain...</option>
                       <option value="Artificial Intelligence">Artificial Intelligence</option>
@@ -484,7 +484,7 @@ export default function VideoManagement() {
                     <select
                       value={difficulty}
                       onChange={(e) => setDifficulty(e.target.value)}
-                      className="bg-white border border-[#c3c8cf] rounded-sm px-3 py-2.5 text-xs text-[#2d3748] w-full outline-none focus:border-[#002c6c] cursor-pointer"
+                      className="bg-white border border-[#c3c8cf] rounded-sm px-3 py-2.5 text-xs text-[#2d3748] w-full outline-none focus:border-[#0A2540] cursor-pointer"
                     >
                       <option value="Beginner">Beginner</option>
                       <option value="Intermediate">Intermediate</option>

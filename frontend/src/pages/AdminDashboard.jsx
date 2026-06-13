@@ -55,7 +55,7 @@ export default function AdminDashboard() {
     <div className="space-y-6 pb-16 font-sans text-[#2d3748]">
       {/* Dossier Header */}
       <div className="border-b-2 border-[#d2d6dc] pb-4">
-        <h1 className="text-xl font-serif font-bold text-[#002c6c] tracking-tight">Admin System Registry</h1>
+        <h1 className="text-xl font-serif font-bold text-[#0A2540] tracking-tight">Admin System Registry</h1>
         <p className="text-neutral-500 text-xs mt-1">
           Inspect student statistics, registration graphs, and course completion metrics.
         </p>
@@ -64,39 +64,39 @@ export default function AdminDashboard() {
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Users */}
-        <div className="border-l-4 border-l-[#002c6c] border border-[#cbd5e0] bg-white p-5 flex items-center justify-between rounded-sm shadow-sm">
+        <div className="border-l-4 border-l-[#0A2540] border border-[#cbd5e0] bg-white p-5 flex items-center justify-between rounded-sm shadow-sm">
           <div className="space-y-1">
             <span className="text-[10px] font-bold text-neutral-550 uppercase tracking-wider block">Total Users</span>
-            <h3 className="text-2xl font-serif font-bold text-[#002c6c]">{stats?.totalUsers || 0}</h3>
+            <h3 className="text-2xl font-serif font-bold text-[#0A2540]">{stats?.totalUsers || 0}</h3>
           </div>
-          <Users className="w-5 h-5 text-[#002c6c]" />
+          <Users className="w-5 h-5 text-[#0A2540]" />
         </div>
 
         {/* Total Courses */}
-        <div className="border-l-4 border-l-[#002c6c] border border-[#cbd5e0] bg-white p-5 flex items-center justify-between rounded-sm shadow-sm">
+        <div className="border-l-4 border-l-[#0A2540] border border-[#cbd5e0] bg-white p-5 flex items-center justify-between rounded-sm shadow-sm">
           <div className="space-y-1">
             <span className="text-[10px] font-bold text-neutral-555 uppercase tracking-wider block">Videos Catalog</span>
-            <h3 className="text-2xl font-serif font-bold text-[#002c6c]">{stats?.totalVideos || 0}</h3>
+            <h3 className="text-2xl font-serif font-bold text-[#0A2540]">{stats?.totalVideos || 0}</h3>
           </div>
-          <Video className="w-5 h-5 text-[#002c6c]" />
+          <Video className="w-5 h-5 text-[#0A2540]" />
         </div>
 
         {/* Active Users */}
-        <div className="border-l-4 border-l-[#002c6c] border border-[#cbd5e0] bg-white p-5 flex items-center justify-between rounded-sm shadow-sm">
+        <div className="border-l-4 border-l-[#0A2540] border border-[#cbd5e0] bg-white p-5 flex items-center justify-between rounded-sm shadow-sm">
           <div className="space-y-1">
             <span className="text-[10px] font-bold text-neutral-555 uppercase tracking-wider block">Active Watchers</span>
-            <h3 className="text-2xl font-serif font-bold text-[#002c6c]">{stats?.activeUsers || 0}</h3>
+            <h3 className="text-2xl font-serif font-bold text-[#0A2540]">{stats?.activeUsers || 0}</h3>
           </div>
-          <Activity className="w-5 h-5 text-[#002c6c]" />
+          <Activity className="w-5 h-5 text-[#0A2540]" />
         </div>
 
         {/* Watch Hours */}
-        <div className="border-l-4 border-l-[#002c6c] border border-[#cbd5e0] bg-white p-5 flex items-center justify-between rounded-sm shadow-sm">
+        <div className="border-l-4 border-l-[#0A2540] border border-[#cbd5e0] bg-white p-5 flex items-center justify-between rounded-sm shadow-sm">
           <div className="space-y-1">
             <span className="text-[10px] font-bold text-neutral-555 uppercase tracking-wider block">Watch Duration</span>
-            <h3 className="text-2xl font-serif font-bold text-[#002c6c]">{stats?.watchHours || 0} hrs</h3>
+            <h3 className="text-2xl font-serif font-bold text-[#0A2540]">{stats?.watchHours || 0} hrs</h3>
           </div>
-          <Clock className="w-5 h-5 text-[#002c6c]" />
+          <Clock className="w-5 h-5 text-[#0A2540]" />
         </div>
       </div>
 
@@ -105,7 +105,7 @@ export default function AdminDashboard() {
         {/* User Growth */}
         <div className="p-5 rounded-sm border border-[#cbd5e0] bg-white flex flex-col h-80 shadow-sm">
           <div className="flex justify-between items-center mb-4 pb-2 border-b border-[#e2e8f0]">
-            <h3 className="font-serif font-bold text-xs text-[#002c6c] uppercase tracking-wider">User Registrations</h3>
+            <h3 className="font-serif font-bold text-xs text-[#0A2540] uppercase tracking-wider">User Registrations</h3>
             <span className="text-[10px] font-semibold text-neutral-500 font-mono">MONTHLY REGISTRY</span>
           </div>
           <div className="flex-grow w-full">
@@ -126,7 +126,7 @@ export default function AdminDashboard() {
         {/* Category popularity */}
         <div className="p-5 rounded-sm border border-[#cbd5e0] bg-white flex flex-col h-80 shadow-sm">
           <div className="flex justify-between items-center mb-4 pb-2 border-b border-[#e2e8f0]">
-            <h3 className="font-serif font-bold text-xs text-[#002c6c] uppercase tracking-wider">Engagement by Domain</h3>
+            <h3 className="font-serif font-bold text-xs text-[#0A2540] uppercase tracking-wider">Engagement by Domain</h3>
             <span className="text-[10px] font-semibold text-neutral-500 font-mono">VIEWS BY DOMAIN</span>
           </div>
           <div className="flex-grow w-full">
@@ -151,7 +151,7 @@ export default function AdminDashboard() {
 
       {/* Popular Lessons Table */}
       <div className="p-5 bg-white border border-[#cbd5e0] rounded-sm shadow-sm">
-        <h3 className="font-serif font-bold text-xs text-[#002c6c] uppercase tracking-wider mb-4 pb-2 border-b border-[#cbd5e0]">Popular Course Modules</h3>
+        <h3 className="font-serif font-bold text-xs text-[#0A2540] uppercase tracking-wider mb-4 pb-2 border-b border-[#cbd5e0]">Popular Course Modules</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
@@ -167,14 +167,14 @@ export default function AdminDashboard() {
               {charts?.mostViewedVideos?.length > 0 ? (
                 charts.mostViewedVideos.map((video) => (
                   <tr key={video.id} className="border-b border-[#cbd5e0] hover:bg-neutral-50 text-[#2d3748]">
-                    <td className="py-3 px-3 font-serif font-bold text-[#002c6c] max-w-xs truncate">{video.title}</td>
+                    <td className="py-3 px-3 font-serif font-bold text-[#0A2540] max-w-xs truncate">{video.title}</td>
                     <td className="py-3 px-3 font-semibold text-neutral-500">{video.category}</td>
                     <td className="py-3 px-3 font-mono">{video.views} enrollees</td>
                     <td className="py-3 px-3">
                       <div className="flex items-center gap-2">
                         <span className="font-mono font-semibold w-8">{video.completionRate}%</span>
                         <div className="w-16 bg-[#e2e8f0] h-2 rounded-sm overflow-hidden border border-[#cbd5e0]">
-                          <div className="bg-[#002c6c] h-full" style={{ width: `${video.completionRate}%` }} />
+                          <div className="bg-[#0A2540] h-full" style={{ width: `${video.completionRate}%` }} />
                         </div>
                       </div>
                     </td>

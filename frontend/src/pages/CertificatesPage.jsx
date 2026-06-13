@@ -47,7 +47,7 @@ export default function CertificatesPage() {
       
       {/* Header */}
       <div className="border-b-2 border-[#d2d6dc] pb-4">
-        <h1 className="text-xl font-serif font-bold text-[#002c6c] tracking-tight">Compliance Credentials Center</h1>
+        <h1 className="text-xl font-serif font-bold text-[#0A2540] tracking-tight">Compliance Credentials Center</h1>
         <p className="text-neutral-500 text-xs mt-1">
           Review and print official compliance certificates generated upon complete track completion.
         </p>
@@ -63,7 +63,7 @@ export default function CertificatesPage() {
               <Award className="w-8 h-8" />
             </div>
             <div>
-              <h3 className="font-serif font-bold text-sm text-[#002c6c]">AI Specialist Track</h3>
+              <h3 className="font-serif font-bold text-sm text-[#0A2540]">AI Specialist Track</h3>
               <p className="text-neutral-500 text-xs mt-1 leading-normal">
                 Awarded upon successful completion of the Artificial Intelligence Core & Neural Systems training modules.
               </p>
@@ -96,7 +96,7 @@ export default function CertificatesPage() {
               <Award className="w-8 h-8" />
             </div>
             <div>
-              <h3 className="font-serif font-bold text-sm text-[#002c6c]">Security Analyst Track</h3>
+              <h3 className="font-serif font-bold text-sm text-[#0A2540]">Security Analyst Track</h3>
               <p className="text-neutral-500 text-xs mt-1 leading-normal">
                 Awarded upon successful completion of the Cybersecurity Defense & Hacking Frameworks training modules.
               </p>
@@ -136,32 +136,32 @@ export default function CertificatesPage() {
             </button>
 
             {/* Certificate content - formal navy gold print document */}
-            <div className="certificate-print-container border-4 border-[#002c6c] bg-white p-8 space-y-6 text-center rounded-sm relative">
+            <div className="certificate-print-container border-4 border-[#0A2540] bg-white p-8 space-y-6 text-center rounded-sm relative">
               {/* Decorative Gold corners */}
-              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#f2a900]"></div>
-              <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#f2a900]"></div>
-              <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#f2a900]"></div>
-              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#f2a900]"></div>
+              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#D4AF37]"></div>
+              <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#D4AF37]"></div>
+              <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#D4AF37]"></div>
+              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#D4AF37]"></div>
 
               <div className="flex justify-center mb-2">
                 <img src="/rajasthan_logo.png" alt="Government of Rajasthan Logo" className="w-16 h-16 object-contain" />
               </div>
 
-              <h2 className="text-lg font-serif font-bold tracking-widest text-[#002c6c] uppercase">Government of Rajasthan</h2>
+              <h2 className="text-lg font-serif font-bold tracking-widest text-[#0A2540] uppercase">Government of Rajasthan</h2>
               <p className="text-[9px] font-sans text-neutral-500 uppercase tracking-widest font-bold">Department of Information Technology & Communication</p>
               
-              <div className="h-0.5 bg-[#f2a900] w-20 mx-auto my-2" />
+              <div className="h-0.5 bg-[#D4AF37] w-20 mx-auto my-2" />
               
               <p className="text-[10px] font-sans text-[#718096] uppercase tracking-wider">Official Certificate of Course Completion</p>
               
-              <h1 className="text-2xl font-serif font-bold text-[#002c6c] underline underline-offset-4 decoration-[#f2a900] decoration-2">{user?.name}</h1>
+              <h1 className="text-2xl font-serif font-bold text-[#0A2540] underline underline-offset-4 decoration-[#D4AF37] decoration-2">{user?.name}</h1>
               
               <p className="text-xs text-[#4a5568] max-w-sm mx-auto leading-relaxed">
                 has successfully completed all required modules, passed validation checks, and satisfied study compliance hours for the technology track:
               </p>
               
               <div className="p-2.5 rounded-sm bg-[#f0f4f8] border border-[#cbd5e0] inline-block">
-                <span className="text-xs font-serif font-bold text-[#002c6c] uppercase">
+                <span className="text-xs font-serif font-bold text-[#0A2540] uppercase">
                   {viewCertificate === 'ai' ? 'Artificial Intelligence Core & Neural Systems' : 'Cybersecurity Defense Penetration Frameworks'}
                 </span>
               </div>
@@ -179,9 +179,9 @@ export default function CertificatesPage() {
             {/* Print button */}
             <button 
               onClick={() => window.print()}
-              className="btn-gold w-full py-2.5 flex items-center justify-center gap-1.5 uppercase tracking-wider text-xs font-bold text-[#002c6c] cursor-pointer"
+              className="btn-gold w-full py-2.5 flex items-center justify-center gap-1.5 uppercase tracking-wider text-xs font-bold text-[#0A2540] cursor-pointer"
             >
-              <Printer className="w-4 h-4 text-[#002c6c]" /> Print Official Credential
+              <Printer className="w-4 h-4 text-[#0A2540]" /> Print Official Credential
             </button>
           </div>
         </div>

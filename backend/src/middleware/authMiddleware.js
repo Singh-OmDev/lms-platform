@@ -73,3 +73,37 @@ export const requireAdmin = (req, res, next) => {
   }
   next();
 };
+
+export const optionalAuthenticate = async (req, res, next) => {
+  try {
+    const { userId } = getAuth(req);
+    if (!userId) {
+      return next();
+    }
+
+    const clerkUser = await clerkClient.users.getUser(userId);
+    const email = clerkUser.emailAddresses[0]?.emailAddress;
+    if (!email) {
+      return next();
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true
+      }
+    });
+
+    if (user) {
+      req.user = user;
+    }
+    next();
+  } catch (error) {
+    // Proceed without throwing if auth check fails on optional routes
+    next();
+  }
+};
+

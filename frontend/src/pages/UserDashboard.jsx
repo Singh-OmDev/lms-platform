@@ -65,10 +65,10 @@ export default function UserDashboard() {
     <div className="space-y-8 pb-16 font-sans text-[#2d3748]">
       
       {/* Welcome & Branding Banner */}
-      <div className="relative overflow-hidden rounded-sm bg-gradient-to-r from-[#002c6c] to-[#0d3b80] text-white p-6 md:p-8 shadow-md border-b-4 border-[#f2a900]">
+      <div className="relative overflow-hidden rounded-sm bg-gradient-to-r from-[#0A2540] to-[#123E66] text-white p-6 md:p-8 shadow-md border-b-4 border-[#D4AF37]">
         <div className="relative z-10 space-y-2 max-w-xl">
-          <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-[#f2a900] bg-white/10 px-2 py-0.5 rounded-sm w-fit border border-[#f2a900]/30">
-            <Sparkles className="w-3.5 h-3.5 text-[#f2a900]" /> Student Learning Console
+          <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-[#D4AF37] bg-white/10 px-2 py-0.5 rounded-sm w-fit border border-[#D4AF37]/30">
+            <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" /> Student Learning Console
           </div>
           <h1 className="text-xl md:text-2xl font-serif font-bold tracking-tight">
             Welcome back, {user?.name || 'Student'}!
@@ -78,7 +78,7 @@ export default function UserDashboard() {
           </p>
         </div>
         {/* Background Emblem Accent */}
-        <div className="absolute right-6 bottom-0 translate-y-6 opacity-10 select-none pointer-events-none hidden md:block">
+        <div className="absolute right-6 bottom-0 translate-y-6 opacity-25 dark:opacity-40 select-none pointer-events-none hidden md:block">
           <img src="/rajasthan_logo.png" alt="Emblem" className="w-48 h-48 object-contain" />
         </div>
       </div>
@@ -86,7 +86,7 @@ export default function UserDashboard() {
       {/* Continue Learning Section */}
       <div className="space-y-4">
         <div className="border-b border-[#cbd5e0] pb-2 flex justify-between items-center">
-          <h2 className="text-base font-serif font-bold text-[#002c6c] tracking-tight">Continue Learning</h2>
+          <h2 className="text-base font-serif font-bold text-[#0A2540] tracking-tight">Continue Learning</h2>
           <span className="text-[10px] font-mono text-neutral-500 font-bold bg-[#edf2f7] px-2 py-0.5 rounded-sm">
             {continueWatching.length} In Progress
           </span>
@@ -99,12 +99,20 @@ export default function UserDashboard() {
                 <div className="p-5 space-y-4">
                   <div className="flex justify-between items-start gap-4">
                     <div>
-                      <span className="text-[9px] font-bold uppercase bg-[#f0f4f8] text-[#002c6c] px-2 py-0.5 rounded-sm border border-[#cbd5e0] inline-block mb-2">
+                      <span className="text-[9px] font-bold uppercase bg-[#f0f4f8] text-[#0A2540] px-2 py-0.5 rounded-sm border border-[#cbd5e0] inline-block mb-2">
                         {v.category}
                       </span>
-                      <h3 className="font-serif font-bold text-sm text-[#002c6c] line-clamp-1">{v.title}</h3>
+                      <h3 className="font-serif font-bold text-sm text-[#0A2540] line-clamp-1">{v.title}</h3>
                     </div>
-                    <img src={v.thumbnailUrl} alt={v.title} className="w-16 h-10 object-cover rounded-sm border border-[#cbd5e0] flex-shrink-0" />
+                    <img 
+                      src={v.thumbnailUrl} 
+                      alt={v.title} 
+                      className="w-16 h-10 object-cover rounded-sm border border-[#cbd5e0] flex-shrink-0" 
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop';
+                      }}
+                    />
                   </div>
                   
                   {/* Progress bar */}
@@ -114,7 +122,7 @@ export default function UserDashboard() {
                       <span>{Math.round(v.progress.completionPercentage)}%</span>
                     </div>
                     <div className="w-full bg-[#e2e8f0] h-2 rounded-sm overflow-hidden border border-[#cbd5e0]">
-                      <div className="bg-[#002c6c] h-full transition-all" style={{ width: `${v.progress.completionPercentage}%` }} />
+                      <div className="bg-[#0A2540] h-full transition-all" style={{ width: `${v.progress.completionPercentage}%` }} />
                     </div>
                   </div>
                 </div>
@@ -134,7 +142,7 @@ export default function UserDashboard() {
           <div className="p-10 rounded-sm border border-[#cbd5e0] bg-white text-center text-neutral-500 text-xs shadow-sm space-y-2">
             <BookOpen className="w-6 h-6 text-neutral-400 mx-auto" />
             <p className="font-medium">No active courses in progress.</p>
-            <p className="text-[10px]">Head over to the <Link to="/library" className="text-[#002c6c] font-bold underline">Courses Catalog</Link> to enroll and start learning.</p>
+            <p className="text-[10px]">Head over to the <Link to="/library" className="text-[#0A2540] font-bold underline">Courses Catalog</Link> to enroll and start learning.</p>
           </div>
         )}
       </div>
@@ -145,7 +153,7 @@ export default function UserDashboard() {
         {/* Left: Recommended Courses */}
         <div className="lg:col-span-2 space-y-4">
           <div className="border-b border-[#cbd5e0] pb-2">
-            <h2 className="text-base font-serif font-bold text-[#002c6c] tracking-tight">Recommended for You</h2>
+            <h2 className="text-base font-serif font-bold text-[#0A2540] tracking-tight">Recommended for You</h2>
           </div>
           
           <div className="space-y-3">
@@ -153,16 +161,24 @@ export default function UserDashboard() {
               recommended.map((v) => (
                 <div key={v.id} className="p-4 rounded-sm border border-[#cbd5e0] bg-white hover:shadow-sm hover:border-[#b1b7c1] transition-all flex items-center justify-between gap-4">
                   <div className="flex items-center gap-4 min-w-0">
-                    <img src={v.thumbnailUrl} alt={v.title} className="w-20 h-12 object-cover rounded-sm border border-[#cbd5e0] flex-shrink-0" />
+                    <img 
+                      src={v.thumbnailUrl} 
+                      alt={v.title} 
+                      className="w-20 h-12 object-cover rounded-sm border border-[#cbd5e0] flex-shrink-0" 
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop';
+                      }}
+                    />
                     <div className="min-w-0 space-y-1">
-                      <span className="text-[8px] font-bold uppercase bg-[#edf2f7] text-[#002c6c] px-1.5 py-0.5 rounded-sm border border-[#cbd5e0]">
+                      <span className="text-[8px] font-bold uppercase bg-[#edf2f7] text-[#0A2540] px-1.5 py-0.5 rounded-sm border border-[#cbd5e0]">
                         {v.category}
                       </span>
-                      <h4 className="text-xs font-serif font-bold text-[#002c6c] truncate mt-1">{v.title}</h4>
+                      <h4 className="text-xs font-serif font-bold text-[#0A2540] truncate mt-1">{v.title}</h4>
                       <p className="text-[10px] text-neutral-500 line-clamp-1">{v.description}</p>
                     </div>
                   </div>
-                  <Link to={`/video/${v.id}`} className="p-2 border border-[#cbd5e0] rounded-sm hover:bg-[#f0f4f8] text-[#002c6c] transition-colors flex-shrink-0">
+                  <Link to={`/video/${v.id}`} className="p-2 border border-[#cbd5e0] rounded-sm hover:bg-[#f0f4f8] text-[#0A2540] transition-colors flex-shrink-0">
                     <ChevronRight className="w-4 h-4" />
                   </Link>
                 </div>
@@ -178,7 +194,7 @@ export default function UserDashboard() {
         {/* Right: New Additions Log */}
         <div className="space-y-4">
           <div className="border-b border-[#cbd5e0] pb-2">
-            <h2 className="text-base font-serif font-bold text-[#002c6c] tracking-tight">New Course Additions</h2>
+            <h2 className="text-base font-serif font-bold text-[#0A2540] tracking-tight">New Course Additions</h2>
           </div>
           
           <div className="p-5 rounded-sm border border-[#cbd5e0] bg-white shadow-sm space-y-4">
@@ -188,9 +204,9 @@ export default function UserDashboard() {
                 to={`/video/${v.id}`} 
                 className="flex items-start gap-3 text-xs border-b border-[#f0f4f8] pb-3 last:border-0 last:pb-0 group"
               >
-                <div className="w-1.5 h-1.5 rounded-full bg-[#f2a900] mt-1.5 flex-shrink-0 group-hover:scale-125 transition-transform" />
+                <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] mt-1.5 flex-shrink-0 group-hover:scale-125 transition-transform" />
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-serif font-bold text-[#002c6c] group-hover:underline truncate">{v.title}</h4>
+                  <h4 className="font-serif font-bold text-[#0A2540] group-hover:underline truncate">{v.title}</h4>
                   <div className="flex items-center gap-1.5 text-[9px] text-neutral-550 mt-0.5 font-mono uppercase font-semibold">
                     <span>{v.category}</span>
                     <span>•</span>
