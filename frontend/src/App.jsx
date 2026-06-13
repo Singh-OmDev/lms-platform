@@ -40,11 +40,12 @@ function PublicRoute({ children }) {
 
 // Clerk State Synchronization Manager
 function ClerkSyncManager({ children }) {
-  const { isLoaded, isSignedIn, getToken } = useAuth();
+  const { isLoaded, isSignedIn, getToken, signOut } = useAuth();
   const { user: clerkUser } = useUser();
   const { setUser } = useStore();
   const [syncing, setSyncing] = useState(true);
   const [showWarning, setShowWarning] = useState(false);
+  const [syncError, setSyncError] = useState(false);
 
   useEffect(() => {
     setClerkGetToken(getToken);
@@ -64,6 +65,7 @@ function ClerkSyncManager({ children }) {
 
     if (!isSignedIn) {
       setUser(null);
+      setSyncError(false);
       setSyncing(false);
       return;
     }
@@ -72,9 +74,11 @@ function ClerkSyncManager({ children }) {
       try {
         const res = await api.get('/auth/profile');
         setUser(res.data);
+        setSyncError(false);
       } catch (err) {
         console.error('Failed to sync user with database:', err);
         setUser(null);
+        setSyncError(true);
       } finally {
         setSyncing(false);
       }
@@ -82,6 +86,38 @@ function ClerkSyncManager({ children }) {
 
     syncUser();
   }, [isLoaded, isSignedIn, clerkUser, setUser]);
+
+  if (syncError) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center gap-4 text-center p-6 font-sans text-white">
+        <div className="max-w-md bg-slate-900 border border-red-900/50 p-6 rounded-xl space-y-4 shadow-xl">
+          <p className="font-bold text-red-400 text-sm">Account Synchronization Failed</p>
+          <p className="text-xs text-slate-400 leading-relaxed">
+            We authenticated your session with Clerk, but could not link it to a user account in the database.
+          </p>
+          <p className="text-[10px] text-slate-500 leading-relaxed font-mono bg-black/40 p-3 rounded border border-slate-800 text-left">
+            <strong>Possible cause:</strong> The backend is unable to connect to the PostgreSQL database on Neon, or Clerk secret keys are misconfigured. Check backend logs on Render.
+          </p>
+          <button
+            onClick={async () => {
+              try {
+                await signOut();
+              } catch (e) {
+                console.error(e);
+              }
+              setUser(null);
+              setSyncError(false);
+              setSyncing(false);
+              window.location.href = '/login';
+            }}
+            className="w-full py-2 bg-red-600 hover:bg-red-750 text-white rounded-md text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+          >
+            Sign Out & Reset
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (!isLoaded || syncing) {
     return (
