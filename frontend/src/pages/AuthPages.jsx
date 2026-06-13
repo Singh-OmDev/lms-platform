@@ -2,36 +2,43 @@ import React from 'react';
 import { SignIn, SignUp } from '@clerk/clerk-react';
 import { Shield, Award, BookOpen, ShieldAlert, Activity, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useStore } from '../store/useStore';
 
 export default function AuthPages({ isRegisterInitial = false }) {
+  const { theme } = useStore();
+  const isDark = theme === 'dark';
+
   const clerkAppearance = {
     variables: {
-      colorPrimary: '#0A2540',
-      colorText: '#1E293B',
-      colorTextSecondary: '#4A5568',
-      colorBackground: '#FFFFFF',
-      colorInputBackground: '#F8FAFC',
-      colorInputText: '#1E293B',
+      colorPrimary: isDark ? '#D4AF37' : '#0A2540',
+      colorText: isDark ? '#F1F5F9' : '#1E293B',
+      colorTextSecondary: isDark ? '#94A3B8' : '#4A5568',
+      colorBackground: isDark ? '#0E2035' : '#FFFFFF',
+      colorInputBackground: isDark ? '#0C1E32' : '#F8FAFC',
+      colorInputText: isDark ? '#F1F5F9' : '#1E293B',
       fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       borderRadius: '6px',
     },
     elements: {
       card: 'shadow-none border-0 bg-transparent p-0 m-0',
-      headerTitle: 'font-serif text-lg md:text-xl font-bold text-[#0A2540]',
-      headerSubtitle: 'text-xs text-gray-500 font-medium',
-      formButtonPrimary: 'bg-[#0A2540] hover:bg-[#071A2E] text-white border-b-2 border-[#051321] text-xs font-bold uppercase tracking-wider py-2.5 shadow-sm active:translate-y-[1px] transition-all cursor-pointer w-full',
-      socialButtonsBlockButton: 'border border-gray-200 hover:bg-gray-50 text-xs font-semibold py-2 rounded-md transition-colors cursor-pointer',
-      formFieldInput: 'bg-gray-50 border border-gray-300 focus:border-[#0A2540] focus:ring-1 focus:ring-[#0A2540] text-xs rounded-md py-2.5 px-3 transition-all outline-none',
-      formFieldLabel: 'text-[10px] font-bold uppercase tracking-wider text-gray-600 mb-1',
-      footerActionLink: 'text-[#0A2540] hover:text-[#0b48a0] font-bold transition-colors',
-      identityPreviewText: 'text-xs font-bold text-gray-700',
+      headerTitle: `font-serif text-lg md:text-xl font-bold ${isDark ? 'text-white' : 'text-[#0A2540]'}`,
+      headerSubtitle: `text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'} font-medium`,
+      formButtonPrimary: `${isDark ? 'bg-[#D4AF37] hover:bg-[#C5A059] text-[#0A2540] border-[#A88725]' : 'bg-[#0A2540] hover:bg-[#071A2E] text-white border-[#051321]'} border-b-2 text-xs font-bold uppercase tracking-wider py-2.5 shadow-sm active:translate-y-[1px] transition-all cursor-pointer w-full`,
+      socialButtonsBlockButton: `border ${isDark ? 'border-[#1E2E44] hover:bg-[#1E2E44] !text-white' : 'border-gray-200 hover:bg-gray-50 text-gray-700'} text-xs font-semibold py-2 rounded-md transition-colors cursor-pointer`,
+      formFieldInput: `${isDark ? 'bg-[#0C1E32] border-[#1E2E44] text-white focus:border-[#D4AF37] focus:ring-[#D4AF37]' : 'bg-gray-50 border-gray-300 text-[#1E293B] focus:border-[#0A2540] focus:ring-[#0A2540]'} border focus:ring-1 text-xs rounded-md py-2.5 px-3 transition-all outline-none`,
+      formFieldLabel: `text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-gray-600'} mb-1`,
+      footerActionLink: `${isDark ? 'text-[#D4AF37] hover:text-[#C5A059]' : 'text-[#0A2540] hover:text-[#0b48a0]'} font-bold transition-colors`,
+      identityPreviewText: `text-xs font-bold ${isDark ? 'text-gray-300' : 'text-gray-700'}`,
       identityPreviewEditButton: 'text-[#D4AF37] hover:text-[#A88725] font-bold',
-      formFieldInputShowPasswordButton: 'text-[#0A2540] hover:text-[#071A2E] font-bold',
+      formFieldInputShowPasswordButton: `${isDark ? 'text-[#D4AF37] hover:text-[#C5A059]' : 'text-[#0A2540] hover:text-[#071A2E]'} font-bold`,
+      dividerText: isDark ? 'text-gray-400' : 'text-gray-500',
+      dividerLine: isDark ? 'bg-[#1E2E44]' : 'bg-gray-200',
+      socialButtonsBlockButtonText: isDark ? '!text-white font-semibold' : 'text-gray-700 font-semibold',
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row font-sans bg-[#F8FAFC]">
+    <div className={`min-h-screen flex flex-col md:flex-row font-sans ${isDark ? 'bg-[#0C1E32]' : 'bg-[#F8FAFC]'}`}>
       
       {/* Left Column: Official Branding Banner & Info */}
       <div className="relative md:w-1/2 bg-gradient-to-br from-[#0A2540] via-[#0F1E36] to-[#051321] text-white p-8 md:p-12 flex flex-col justify-between overflow-hidden">
@@ -114,25 +121,25 @@ export default function AuthPages({ isRegisterInitial = false }) {
         <div className="flex justify-between items-center text-xs">
           <Link
             to="/"
-            className="inline-flex items-center gap-1 font-bold text-[#0A2540] hover:text-[#0b48a0] transition-colors"
+            className={`inline-flex items-center gap-1 font-bold ${isDark ? 'text-[#D4AF37] hover:text-[#C5A059]' : 'text-[#0A2540] hover:text-[#0b48a0]'} transition-colors`}
           >
             <ArrowLeft className="w-4 h-4" />
             Return to Portal Homepage
           </Link>
-          <span className="text-[10px] font-mono text-gray-500 font-bold bg-gray-150 px-2 py-0.5 rounded-sm select-none uppercase tracking-wide">
+          <span className={`text-[10px] font-mono ${isDark ? 'text-gray-400 bg-slate-800' : 'text-gray-500 bg-gray-150'} font-bold px-2 py-0.5 rounded-sm select-none uppercase tracking-wide`}>
             Secure Entry
           </span>
         </div>
 
         {/* Clerk Widget */}
         <div className="my-auto py-8 flex justify-center">
-          <div className="w-full max-w-[420px] p-6 sm:p-8 bg-white border border-gray-200 rounded-md shadow-lg hover-glow transition-all duration-300">
+          <div className={`w-full max-w-[420px] p-6 sm:p-8 ${isDark ? 'bg-[#0E2035] border-[#1E2E44]' : 'bg-white border-gray-200'} border rounded-md shadow-lg hover-glow transition-all duration-300`}>
             {/* Government Logo inside card */}
             <div className="flex flex-col items-center text-center mb-6">
-              <div className="w-10 h-10 rounded-full bg-[#F8FAFC] border border-gray-250 flex items-center justify-center mb-2 shadow-inner">
-                <Shield className="w-5 h-5 text-[#0A2540]" />
+              <div className={`w-10 h-10 rounded-full ${isDark ? 'bg-[#0C1E32] border-[#1E2E44]' : 'bg-[#F8FAFC] border-gray-250'} border flex items-center justify-center mb-2 shadow-inner`}>
+                <Shield className={`w-5 h-5 ${isDark ? 'text-[#D4AF37]' : 'text-[#0A2540]'}`} />
               </div>
-              <h2 className="text-sm font-serif font-bold text-[#0A2540] uppercase tracking-wider">
+              <h2 className={`text-sm font-serif font-bold ${isDark ? 'text-white' : 'text-[#0A2540]'} uppercase tracking-wider`}>
                 LMS Credential Console
               </h2>
               <div className="h-[2px] w-12 bg-[#D4AF37] mt-1.5 rounded" />
@@ -159,12 +166,12 @@ export default function AuthPages({ isRegisterInitial = false }) {
         </div>
 
         {/* Footer info links */}
-        <div className="text-[10px] text-gray-400 text-center flex justify-center space-x-4">
-          <a href="#" className="hover:text-gray-600 transition-colors">Privacy Charter</a>
+        <div className={`text-[10px] ${isDark ? 'text-gray-500' : 'text-gray-400'} text-center flex justify-center space-x-4`}>
+          <a href="#" className={`hover:${isDark ? 'text-gray-300' : 'text-gray-600'} transition-colors`}>Privacy Charter</a>
           <span>•</span>
-          <a href="#" className="hover:text-gray-600 transition-colors">System Disclaimers</a>
+          <a href="#" className={`hover:${isDark ? 'text-gray-300' : 'text-gray-600'} transition-colors`}>System Disclaimers</a>
           <span>•</span>
-          <a href="#" className="hover:text-gray-600 transition-colors">Support Registry</a>
+          <a href="#" className={`hover:${isDark ? 'text-gray-300' : 'text-gray-600'} transition-colors`}>Support Registry</a>
         </div>
       </div>
       

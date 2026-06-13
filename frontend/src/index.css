@@ -356,6 +356,16 @@
   background: #D4AF37;
 }
 
-
-
-
+/* Clerk Widget Dark Theme Overrides */
+.dark .cl-socialButtonsBlockButtonText {
+  color: #F1F5F9 !important;
+}
+.dark .cl-socialButtonsBlockButton {
+  color: #F1F5F9 !important;
+}
+.dark .cl-dividerText {
+  color: #94A3B8 !important;
+}
+.dark .cl-footerActionText {
+  color: #94A3B8 !important;
+}

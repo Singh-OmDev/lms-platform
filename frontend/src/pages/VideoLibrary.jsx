@@ -88,7 +88,7 @@ export default function VideoLibrary() {
             placeholder="Search courses catalog..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="form-input pl-9 text-xs"
+            className="form-input !pl-9 text-xs"
           />
         </div>
 
