@@ -44,10 +44,20 @@ function ClerkSyncManager({ children }) {
   const { user: clerkUser } = useUser();
   const { setUser } = useStore();
   const [syncing, setSyncing] = useState(true);
+  const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
     setClerkGetToken(getToken);
   }, [getToken]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isLoaded || syncing) {
+        setShowWarning(true);
+      }
+    }, 6000);
+    return () => clearTimeout(timer);
+  }, [isLoaded, syncing]);
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -75,8 +85,19 @@ function ClerkSyncManager({ children }) {
 
   if (!isLoaded || syncing) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center gap-4 text-center p-6 font-sans">
         <div className="w-8 h-8 border-4 border-sky-600 border-t-transparent rounded-full animate-spin"></div>
+        {showWarning && (
+          <div className="max-w-md bg-slate-900 border border-slate-800/80 p-5 rounded-xl text-xs text-slate-400 space-y-3 shadow-xl">
+            <p className="font-bold text-sky-400 text-sm">Initialization taking longer than expected...</p>
+            <p className="text-left leading-relaxed">This is usually caused by one of the following:</p>
+            <ul className="list-disc pl-4 text-left space-y-1.5 text-slate-350">
+              <li><strong>Clerk publishable key missing</strong>: Check if <code>VITE_CLERK_PUBLISHABLE_KEY</code> is set in your Vercel Environment Variables.</li>
+              <li><strong>Backend server spin-up</strong>: Render free tier instances go to sleep when inactive and can take up to 50 seconds to warm up and respond.</li>
+              <li><strong>CORS or Network Block</strong>: Press <strong>F12</strong> to open your Browser Developer Console and click the <strong>Console</strong> or <strong>Network</strong> tab to see any red error messages.</li>
+            </ul>
+          </div>
+        )}
       </div>
     );
   }
