@@ -55,23 +55,23 @@ export const translations = {
       signIn: "Sign In",
       register: "Register Account",
       authorizedCurriculum: "State Authorized Cybersecurity & AI Curriculum",
-      heroTitle: "Rajasthan Portal for Artificial Intelligence and Cybersecurity Training",
-      heroSubtitle: "Committed to preparing state administrative personnel, IT officers, and public students with verified technical knowledge. Monitor study time, log metrics, and claim Rajasthan Gov compliance credentials.",
-      registerCourses: "Register for Courses",
-      complianceLogin: "Compliance Login Portal",
-      systemRegistryActive: "System Registry: Active Sync",
-      databaseLedger: "Database Ledger",
-      syllabusEnrolled: "Standard Syllabus Enrolled",
-      learningCore: "Deep Learning & Cybersecurity Core",
-      complianceReached: "Compliance Reached",
-      modulesCompleted: "of 6 Modules Completed",
-      totalPlatformHours: "Total Platform Hours",
-      verifiableCertificates: "Verifiable Certificates",
-      issued: "Issued",
-      auditRequirements: "Audit Requirements",
-      progressSaved: "Progress Saved to Cloud",
-      scratchpadLive: "Scratchpad Workspace Live",
-      verificationSeal: "Verification Seal Authenticated",
+      heroTitle: "AI & Cybersecurity Training Portal",
+      heroSubtitle: "For Government Employees & Students • Track study progress, monitor logs, and claim official compliance credentials.",
+      registerCourses: "Start Learning",
+      complianceLogin: "Sign In",
+      systemRegistryActive: "Platform Telemetry: Active Sync",
+      databaseLedger: "Live Verification Sync",
+      syllabusEnrolled: "Platform-wide Enrollees",
+      learningCore: "Deep Learning & Cybersecurity Core Syllabus",
+      complianceReached: "Completion Rate",
+      modulesCompleted: "Modules Completed",
+      totalPlatformHours: "Content Library",
+      verifiableCertificates: "Courses Available",
+      issued: "Active Modules",
+      auditRequirements: "Portal Checklist",
+      progressSaved: "Progress Synced securely",
+      scratchpadLive: "Notes Workspace Active",
+      verificationSeal: "Seal Authenticated",
       registrarLedger: "DoIT&C Registrar Ledger",
       capabilitiesTitle: "Capabilities & Directives Directory",
       capabilitiesDesc: "Review course directives and technical capabilities integrated into this compliance training registry.",
@@ -91,27 +91,27 @@ export const translations = {
       secureLogs: "secure data logs",
       directives: [
         {
-          title: "Directive 101: Artificial Intelligence Core",
+          title: "AI Fundamentals",
           description: "Access certified training curriculum covering neural networks, deep learning models, and data pipelines."
         },
         {
-          title: "Directive 102: Infrastructure & Penetration Defense",
+          title: "Cybersecurity Essentials",
           description: "Learn system auditing, pen-testing metrics, network protocol verification, and cloud security frameworks."
         },
         {
-          title: "Directive 103: Automated Study Registry",
+          title: "Secure Coding Practices",
           description: "Playback state saves current timestamps to the security database automatically at 10-second intervals."
         },
         {
-          title: "Directive 104: Workspace Notes Scratchpad",
+          title: "Penetration Testing",
           description: "Take persistent notes and document code snippets directly alongside video playback streams."
         },
         {
-          title: "Directive 105: Instructor Administration",
+          title: "Network Security",
           description: "Instructors can audit progress compliance, append new video files, and adjust curriculum parameters."
         },
         {
-          title: "Directive 106: HD Lecture Catalog",
+          title: "Threat Intelligence",
           description: "Stream high-definition lecture assets built to support agency compliance training."
         }
       ]
@@ -333,23 +333,23 @@ export const translations = {
       signIn: "प्रवेश करें",
       register: "खाता पंजीकृत करें",
       authorizedCurriculum: "राज्य अधिकृत साइबर सुरक्षा और एआई पाठ्यक्रम",
-      heroTitle: "कृत्रिम बुद्धिमत्ता और साइबर सुरक्षा प्रशिक्षण के लिए राजस्थान पोर्टल",
-      heroSubtitle: "राज्य प्रशासनिक कर्मियों, आईटी अधिकारियों और आम छात्रों को सत्यापित तकनीकी ज्ञान के साथ तैयार करने के लिए प्रतिबद्ध। अध्ययन के समय की निगरानी करें, मेट्रिक्स लॉग करें, और राजस्थान सरकार के अनुपालन क्रेडेंशियल प्राप्त करें।",
-      registerCourses: "पाठ्यक्रमों के लिए पंजीकरण करें",
-      complianceLogin: "अनुपालन लॉगिन पोर्टल",
-      systemRegistryActive: "सिस्टम रजिस्ट्री: सक्रिय सिंक",
-      databaseLedger: "डेटाबेस बहीखाता",
-      syllabusEnrolled: "मानक पाठ्यक्रम नामांकित",
-      learningCore: "डीप लर्निंग और साइबर सुरक्षा कोर",
-      complianceReached: "अनुपालन सीमा तक पहुंचे",
-      modulesCompleted: "में से 6 मॉड्यूल पूर्ण",
-      totalPlatformHours: "कुल प्लेटफॉर्म घंटे",
-      verifiableCertificates: "सत्यापन योग्य प्रमाण पत्र",
-      issued: "जारी किए गए",
-      auditRequirements: "ऑडिट आवश्यकताएं",
-      progressSaved: "प्रगति क्लाउड में सहेजी गई",
-      scratchpadLive: "स्क्रैचपैड कार्यक्षेत्र सक्रिय",
-      verificationSeal: "सत्यापन सील प्रमाणित",
+      heroTitle: "एआई और साइबर सुरक्षा प्रशिक्षण पोर्टल",
+      heroSubtitle: "सरकारी कर्मचारियों और छात्रों के लिए • प्रगति ट्रैक करें, लॉग की निगरानी करें, और आधिकारिक अनुपालन क्रेडेंशियल प्राप्त करें।",
+      registerCourses: "सीखना शुरू करें",
+      complianceLogin: "प्रवेश करें",
+      systemRegistryActive: "प्लेटफ़ॉर्म टेलीमेट्री: सक्रिय सिंक",
+      databaseLedger: "लाइव सत्यापन सिंक",
+      syllabusEnrolled: "प्लेटफ़ॉर्म-व्यापी नामांकित छात्र",
+      learningCore: "डीप लर्निंग और साइबर सुरक्षा कोर पाठ्यक्रम",
+      complianceReached: "पूर्णता दर",
+      modulesCompleted: "मॉड्यूल पूर्ण किए गए",
+      totalPlatformHours: "कंटेंट लाइब्रेरी",
+      verifiableCertificates: "पाठ्यक्रम उपलब्ध",
+      issued: "सक्रिय मॉड्यूल",
+      auditRequirements: "पोर्टल चेकलिस्ट",
+      progressSaved: "प्रगति सुरक्षित रूप से सिंक की गई",
+      scratchpadLive: "नोट्स कार्यक्षेत्र सक्रिय",
+      verificationSeal: "सील प्रमाणित",
       registrarLedger: "DoIT&C रजिस्ट्रार बहीखाता",
       capabilitiesTitle: "क्षमताओं और निर्देशों की निर्देशिका",
       capabilitiesDesc: "इस अनुपालन प्रशिक्षण रजिस्ट्री में एकीकृत पाठ्यक्रम निर्देशों और तकनीकी क्षमताओं की समीक्षा करें।",
@@ -369,27 +369,27 @@ export const translations = {
       secureLogs: "सुरक्षित डेटा लॉग",
       directives: [
         {
-          title: "निर्देश 101: कृत्रिम बुद्धिमत्ता कोर",
+          title: "एआई बुनियादी सिद्धांत (AI Fundamentals)",
           description: "न्यूरल नेटवर्क, डीप लर्निंग मॉडल और डेटा पाइपलाइनों को कवर करने वाले प्रमाणित प्रशिक्षण पाठ्यक्रम तक पहुंचें।"
         },
         {
-          title: "निर्देश 102: बुनियादी ढांचा और प्रवेश रक्षा",
+          title: "साइबर सुरक्षा आवश्यक तत्व (Cybersecurity Essentials)",
           description: "सिस्टम ऑडिटिंग, प्रवेश-परीक्षण मेट्रिक्स, नेटवर्क प्रोटोकॉल सत्यापन और क्लाउड सुरक्षा ढांचे सीखें।"
         },
         {
-          title: "निर्देश 103: स्वचालित अध्ययन रजिस्ट्री",
+          title: "सुरक्षित कोडिंग अभ्यास (Secure Coding)",
           description: "प्लेबैक स्थिति हर 10 सेकंड के अंतराल पर सुरक्षा डेटाबेस में वर्तमान टाइमस्टैम्प को स्वचालित रूप से सहेजती है।"
         },
         {
-          title: "निर्देश 104: कार्यक्षेत्र नोट्स स्क्रैचपैड",
+          title: "पेनेट्रेशन टेस्टिंग (Penetration Testing)",
           description: "वीडियो प्लेबैक स्ट्रीम के साथ सीधे लगातार नोट्स लें और कोड स्निपेट्स का दस्तावेजीकरण करें।"
         },
         {
-          title: "निर्देश 105: प्रशिक्षक प्रशासन",
-          description: "प्रशिक्षक प्रगति अनुपालन का ऑडिट कर सकते हैं, नए वीडियो फ़ाइलें जोड़ सकते हैं और पाठ्यक्रम मानकों को समायोजित कर सकते।"
+          title: "नेटवर्क सुरक्षा (Network Security)",
+          description: "प्रगति अनुपालन का ऑडिट कर सकते हैं, नए वीडियो फ़ाइलें जोड़ सकते हैं और पाठ्यक्रम मानकों को समायोजित कर सकते।"
         },
         {
-          title: "निर्देश 106: एचडी व्याख्यान सूची",
+          title: "खतरा खुफिया (Threat Intelligence)",
           description: "एजेंसी अनुपालन प्रशिक्षण का समर्थन करने के लिए निर्मित उच्च-परिभाषा व्याख्यान संपत्तियों को स्ट्रीम करें।"
         }
       ]

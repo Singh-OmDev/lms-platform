@@ -184,16 +184,12 @@ export default function Sidebar({ children }) {
         {/* Bottom subnav row */}
         <div className="bg-[#f8fafc] border-b border-[#cbd5e0] text-[#4a5568]">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
-            <nav className="flex space-x-6 overflow-x-auto scrollbar-none">
+            <nav className="flex space-x-3 overflow-x-auto py-2.5 scrollbar-none">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`py-3.5 text-xs font-bold border-b-4 whitespace-nowrap transition-colors duration-150 ${
-                    isActive(item.path)
-                      ? 'border-[#0A2540] text-[#0A2540]'
-                      : 'border-transparent text-[#4a5568] hover:text-[#0A2540]'
-                  }`}
+                  className={`subnav-link ${isActive(item.path) ? 'active' : ''}`}
                 >
                   {item.name}
                 </Link>
