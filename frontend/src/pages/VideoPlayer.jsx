@@ -13,10 +13,12 @@ import {
 } from 'lucide-react';
 import { api, useStore } from '../store/useStore';
 import CustomPlayer from '../components/CustomPlayer';
+import { useTranslation } from '../utils/translations';
 
 export default function VideoPlayer() {
   const { id } = useParams();
   const { user, addToast } = useStore();
+  const { t } = useTranslation();
   
   const [loading, setLoading] = useState(true);
   const [videoData, setVideoData] = useState(null);
@@ -150,13 +152,13 @@ export default function VideoPlayer() {
     return (
       <div className="space-y-4 text-xs text-[#2d3748]">
         <div className="flex items-center gap-2 text-[#0A2540] font-bold uppercase tracking-wider text-[11px] font-sans">
-          <span>AI Summary Directive Notes</span>
+          <span>{t('video.aiSummary')}</span>
         </div>
-        <ul className="list-disc pl-4 text-neutral-600 space-y-2.5 leading-relaxed font-sans">
-          <li><strong>Curriculum Scope:</strong> Detailed operational methods and parameters evaluated in the video lesson: <em>"{title}"</em>.</li>
-          <li><strong>Technical Core:</strong> Inspect script execution commands, auditing parameters, and terminal logs shown in the catalog.</li>
-          <li><strong>Quality Notice:</strong> Verify file permissions, configuration routes, and schema structures before deployment.</li>
-          <li><strong>Study Milestone:</strong> Re-examine note entries and continue to the next lecture in the directory list.</li>
+        <ul className="list-disc pl-4 text-neutral-650 space-y-2.5 leading-relaxed font-sans">
+          <li><strong>{t('video.scope')}</strong> {t('video.scopeDesc')} <em>"{title}"</em>.</li>
+          <li><strong>{t('video.techCore')}</strong> {t('video.techCoreDesc')}</li>
+          <li><strong>{t('video.qualityNotice')}</strong> {t('video.qualityNoticeDesc')}</li>
+          <li><strong>{t('video.milestone')}</strong> {t('video.milestoneDesc')}</li>
         </ul>
       </div>
     );
@@ -196,9 +198,9 @@ export default function VideoPlayer() {
             {video.progress?.completed && (
               <button
                 onClick={() => setShowCertificateModal(true)}
-                className="btn-gold py-1.5 px-3 text-[10px] flex items-center gap-1.5 font-bold uppercase tracking-wider text-[#0A2540] transition-all hover:scale-102"
+                className="btn-gold py-1.5 px-3 text-[10px] flex items-center gap-1.5 font-bold uppercase tracking-wider text-[#0A2540] transition-all hover:scale-102 cursor-pointer"
               >
-                <Award className="w-3.5 h-3.5 text-[#0A2540]" /> Claim Certificate
+                <Award className="w-3.5 h-3.5 text-[#0A2540]" /> {t('video.claimCert')}
               </button>
             )}
           </div>
@@ -207,7 +209,7 @@ export default function VideoPlayer() {
             {video.title}
           </h2>
 
-          <p className="text-neutral-500 text-xs leading-normal">
+          <p className="text-neutral-550 text-xs leading-normal">
             {video.description}
           </p>
         </div>
@@ -216,10 +218,10 @@ export default function VideoPlayer() {
         <div className="border border-[#cbd5e0] bg-white rounded-sm shadow-sm overflow-hidden">
           <div className="flex border-b border-[#cbd5e0] bg-[#f8fafc] px-2 overflow-x-auto scrollbar-none">
             {[
-              { id: 'summary', label: 'AI Summary', icon: FileText },
-              { id: 'notes', label: 'My Notes Dossier', icon: FileText },
-              { id: 'bookmarks', label: 'Checkpoints', icon: Bookmark },
-              { id: 'comments', label: 'Discussion Log', icon: MessageSquare }
+              { id: 'summary', label: t('video.aiSummaryTab'), icon: FileText },
+              { id: 'notes', label: t('video.myNotesTab'), icon: FileText },
+              { id: 'bookmarks', label: t('video.checkpointsTab'), icon: Bookmark },
+              { id: 'comments', label: t('video.discussionTab'), icon: MessageSquare }
             ].map((tab) => {
               const Icon = tab.icon;
               return (
@@ -229,7 +231,7 @@ export default function VideoPlayer() {
                   className={`flex items-center gap-1.5 px-4 py-3.5 text-xs font-bold border-b-4 outline-none cursor-pointer whitespace-nowrap transition-colors duration-150 ${
                     activeTab === tab.id 
                       ? 'border-[#0A2540] text-[#0A2540] bg-white' 
-                      : 'border-transparent text-neutral-500 hover:text-[#0A2540]'
+                      : 'border-transparent text-neutral-550 hover:text-[#0A2540]'
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
@@ -249,9 +251,9 @@ export default function VideoPlayer() {
 
             {activeTab === 'notes' && (
               <div className="space-y-3">
-                <div className="text-[10px] font-mono text-neutral-550 uppercase tracking-wider font-semibold">Workspace Study Notes (Auto-saved)</div>
+                <div className="text-[10px] font-mono text-neutral-550 uppercase tracking-wider font-semibold">{t('video.autoSaved')}</div>
                 <textarea
-                  placeholder="Record study log directives, codes, or terminal summaries here..."
+                  placeholder={t('video.notesPlaceholder')}
                   value={note}
                   onChange={handleNoteChange}
                   className="w-full h-36 p-3.5 rounded-sm bg-white border border-[#c3c8cf] text-xs text-[#1a202c] placeholder-neutral-500 focus:border-[#0A2540] focus:ring-1 focus:ring-[#0A2540] outline-none resize-none transition-colors"
@@ -262,12 +264,12 @@ export default function VideoPlayer() {
             {activeTab === 'bookmarks' && (
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-mono text-neutral-550 uppercase font-semibold">Dossier Bookmark</span>
+                  <span className="text-[10px] font-mono text-neutral-550 uppercase font-semibold">{t('video.bookmarkDossier')}</span>
                   <button
                     onClick={addBookmark}
-                    className="btn-gold px-2.5 py-1 text-[10px] flex items-center gap-1 cursor-pointer"
+                    className="btn-gold px-2.5 py-1 text-[10px] flex items-center gap-1 cursor-pointer font-bold"
                   >
-                    <Plus className="w-3 h-3" /> Log Current Time
+                    <Plus className="w-3 h-3" /> {t('video.logCurrentTime')}
                   </button>
                 </div>
                 
@@ -276,20 +278,20 @@ export default function VideoPlayer() {
                     {bookmarks.map((b) => (
                       <div key={b.id} className="flex justify-between items-center p-2.5 rounded-sm border border-[#cbd5e0] bg-[#f8fafc] hover:border-[#b1b7c1] transition-colors">
                         <span className="text-xs font-semibold text-[#0A2540] font-mono">
-                          Timestamp: {formatTime(b.timestamp)}
+                          {t('video.timestamp')}: {formatTime(b.timestamp)}
                         </span>
                         <button
                           onClick={() => deleteBookmark(b.id)}
                           className="text-xs text-red-650 hover:text-red-750 font-bold cursor-pointer"
                         >
-                          Delete
+                          {t('video.delete')}
                         </button>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-6 text-neutral-500 text-xs">
-                    No study checkpoints saved.
+                  <div className="text-center py-6 text-neutral-550 text-xs">
+                    {t('video.noCheckpoints')}
                   </div>
                 )}
               </div>
@@ -300,16 +302,16 @@ export default function VideoPlayer() {
                 <form onSubmit={handleCommentSubmit} className="flex gap-2">
                   <input
                     type="text"
-                    placeholder="Submit inquiry or study comment..."
+                    placeholder={t('video.commentPlaceholder')}
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     className="form-input text-xs"
                   />
                   <button
                     type="submit"
-                    className="btn-primary py-1 px-3.5 text-xs"
+                    className="btn-primary py-1 px-3.5 text-xs font-bold"
                   >
-                    Submit
+                    {t('video.submit')}
                   </button>
                 </form>
 
@@ -325,8 +327,8 @@ export default function VideoPlayer() {
                       </div>
                     ))
                   ) : (
-                    <div className="text-center py-6 text-neutral-500 text-xs">
-                      No student inquiries posted yet.
+                    <div className="text-center py-6 text-neutral-550 text-xs">
+                      {t('video.noInquiries')}
                     </div>
                   )}
                 </div>
@@ -341,12 +343,12 @@ export default function VideoPlayer() {
         <div className="p-5 rounded-sm border border-[#cbd5e0] bg-white space-y-5 shadow-sm">
           {/* Header */}
           <div className="pb-3 border-b border-[#cbd5e0] space-y-2">
-            <h3 className="font-serif font-bold text-xs text-[#0A2540] uppercase tracking-wider">Course Curriculum</h3>
+            <h3 className="font-serif font-bold text-xs text-[#0A2540] uppercase tracking-wider">{t('video.curriculum')}</h3>
             
             {/* Overall Course Progress */}
             <div className="space-y-1 pt-1">
-              <div className="flex justify-between text-[10px] font-mono text-neutral-550 font-bold">
-                <span>Course Completion</span>
+              <div className="flex justify-between text-[10px] font-mono text-neutral-555 font-bold">
+                <span>{t('video.completion')}</span>
                 <span>{Math.round((([video, ...relatedVideos].filter(l => l.progress?.completed).length) / ([video, ...relatedVideos].length)) * 100 || 0)}%</span>
               </div>
               <div className="w-full bg-[#e2e8f0] h-2 rounded-sm overflow-hidden border border-[#cbd5e0]">
@@ -380,18 +382,18 @@ export default function VideoPlayer() {
                       {/* Status Icon */}
                       <span className="flex-shrink-0 select-none">
                         {isActive ? (
-                          <span className="text-[#0A2540] font-bold">▶</span>
+                          <span className="text-[#0A2540] font-bold">{t('video.play')}</span>
                         ) : isCompleted ? (
-                          <span className="text-emerald-600 font-bold">✓</span>
+                          <span className="text-emerald-600 font-bold">{t('video.check')}</span>
                         ) : (
-                          <span className="text-neutral-400 font-bold">□</span>
+                          <span className="text-neutral-450 font-bold">{t('video.box')}</span>
                         )}
                       </span>
                       
                       <span className="truncate">{item.title}</span>
                     </div>
                     
-                    <span className="text-[10px] font-mono text-neutral-500 flex-shrink-0">
+                    <span className="text-[10px] font-mono text-neutral-550 flex-shrink-0">
                       {formatTime(item.duration)}
                     </span>
                   </Link>
@@ -402,70 +404,72 @@ export default function VideoPlayer() {
       </div>
 
       {/* Rajasthan Gov certificate print view modal */}
+      {showCertificateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="relative w-full max-w-xl bg-white border border-[#cbd5e0] p-8 rounded-sm shadow-2xl space-y-6">
+            {/* Close */}
+            <button 
+              onClick={() => setShowCertificateModal(false)}
+              className="absolute top-4 right-4 text-neutral-500 hover:text-black transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
 
-    {showCertificateModal && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-        <div className="relative w-full max-w-xl bg-white border border-[#cbd5e0] p-8 rounded-sm shadow-2xl space-y-6">
-          {/* Close */}
-          <button 
-            onClick={() => setShowCertificateModal(false)}
-            className="absolute top-4 right-4 text-neutral-500 hover:text-black transition-colors cursor-pointer"
-          >
-            <X className="w-5 h-5" />
-          </button>
+            {/* Certificate content - formal navy gold print document */}
+            <div className="certificate-print-container border-4 border-[#0A2540] bg-white p-8 space-y-6 text-center rounded-sm relative">
+              {/* Decorative Gold corners */}
+              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#D4AF37]"></div>
+              <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#D4AF37]"></div>
+              <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#D4AF37]"></div>
+              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#D4AF37]"></div>
 
-          {/* Certificate content - formal navy gold print document */}
-          <div className="certificate-print-container border-4 border-[#0A2540] bg-white p-8 space-y-6 text-center rounded-sm relative">
-            {/* Decorative Gold corners */}
-            <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#D4AF37]"></div>
-            <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#D4AF37]"></div>
-            <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#D4AF37]"></div>
-            <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#D4AF37]"></div>
-
-            <div className="flex justify-center mb-2">
-              <img src="/rajasthan_logo.png" alt="Government of Rajasthan Logo" className="w-16 h-16 object-contain" />
-            </div>
-
-            <h2 className="text-lg font-serif font-bold tracking-widest text-[#0A2540] uppercase">Government of Rajasthan</h2>
-            <p className="text-[9px] font-sans text-neutral-500 uppercase tracking-widest font-bold">Department of Information Technology & Communication</p>
-            
-            <div className="h-0.5 bg-[#D4AF37] w-20 mx-auto my-2" />
-            
-            <p className="text-[10px] font-sans text-[#718096] uppercase tracking-wider">Official Certificate of Course Completion</p>
-            
-            <h1 className="text-2xl font-serif font-bold text-[#0A2540] underline underline-offset-4 decoration-[#D4AF37] decoration-2">{user?.name}</h1>
-            
-            <p className="text-xs text-[#4a5568] max-w-sm mx-auto leading-relaxed">
-              has successfully completed all required modules, passed validation checks, and satisfied study compliance hours for the technology track:
-            </p>
-            
-            <div className="p-2.5 rounded-sm bg-[#f0f4f8] border border-[#cbd5e0] inline-block">
-              <span className="text-xs font-serif font-bold text-[#0A2540] uppercase">
-                {video.category === 'Artificial Intelligence' ? 'Artificial Intelligence Core & Neural Systems' : 'Cybersecurity Defense Penetration Frameworks'}
-              </span>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 pt-6 max-w-sm mx-auto text-[9px] font-mono text-neutral-500 font-bold uppercase tracking-wider">
-              <div className="border-t border-[#cbd5e0] pt-2">
-                DIRECTOR, DOIT&C
+              <div className="flex justify-center mb-2">
+                <img src="/rajasthan_logo.png" alt="Government of Rajasthan Logo" className="w-16 h-16 object-contain" />
               </div>
-              <div className="border-t border-[#cbd5e0] pt-2">
-                STATE COORDINATOR
+
+              <h2 className="text-lg font-serif font-bold tracking-widest text-[#0A2540] uppercase">{t('certificates.printTitle')}</h2>
+              <p className="text-[9px] font-sans text-neutral-500 uppercase tracking-widest font-bold">{t('certificates.printSub')}</p>
+              
+              <div className="h-0.5 bg-[#D4AF37] w-20 mx-auto my-2" />
+              
+              <p className="text-[10px] font-sans text-[#718096] uppercase tracking-wider">{t('certificates.printOfficial')}</p>
+              
+              <h1 className="text-2xl font-serif font-bold text-[#0A2540] underline underline-offset-4 decoration-[#D4AF37] decoration-2">{user?.name}</h1>
+              
+              <p className="text-xs text-[#4a5568] max-w-sm mx-auto leading-relaxed">
+                {t('certificates.printDesc')}
+              </p>
+              
+              <div className="p-2.5 rounded-sm bg-[#f0f4f8] border border-[#cbd5e0] inline-block">
+                <span className="text-xs font-serif font-bold text-[#0A2540] uppercase">
+                  {video.category === 'Artificial Intelligence' 
+                    ? (t('certificates.title') === 'Compliance Credentials Center' ? 'Artificial Intelligence Core & Neural Systems' : 'आर्टिफिशियल इंटेलिजेंस कोर और न्यूरल सिस्टम')
+                    : (t('certificates.title') === 'Compliance Credentials Center' ? 'Cybersecurity Defense Penetration Frameworks' : 'साइबर सुरक्षा रक्षा प्रवेश ढांचा')
+                  }
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 pt-6 max-w-sm mx-auto text-[9px] font-mono text-neutral-500 font-bold uppercase tracking-wider">
+                <div className="border-t border-[#cbd5e0] pt-2">
+                  {t('certificates.director')}
+                </div>
+                <div className="border-t border-[#cbd5e0] pt-2">
+                  {t('certificates.coordinator')}
+                </div>
               </div>
             </div>
+
+            {/* Print button */}
+            <button 
+              onClick={() => window.print()}
+              className="btn-gold w-full py-2.5 flex items-center justify-center gap-1.5 uppercase tracking-wider text-xs font-bold text-[#0A2540] cursor-pointer"
+            >
+              <Printer className="w-4 h-4 text-[#0A2540]" /> {t('certificates.printCredential')}
+            </button>
           </div>
-
-          {/* Print button */}
-          <button 
-            onClick={() => window.print()}
-            className="btn-gold w-full py-2.5 flex items-center justify-center gap-1.5 uppercase tracking-wider text-xs font-bold text-[#0A2540]"
-          >
-            <Printer className="w-4 h-4 text-[#0A2540]" /> Print Official Credential
-          </button>
         </div>
-      </div>
-    )}
-    
-  </div>
-);
+      )}
+      
+    </div>
+  );
 }

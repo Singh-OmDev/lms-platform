@@ -61,6 +61,13 @@ export const useStore = create((set, get) => ({
     set({ user: updated });
   },
 
+  // Language State
+  language: localStorage.getItem('lms_language') || 'en',
+  setLanguage: (lang) => {
+    localStorage.setItem('lms_language', lang);
+    set({ language: lang });
+  },
+
   // Theme State
   theme: localStorage.getItem('lms_theme') || 'dark',
   toggleTheme: () => {

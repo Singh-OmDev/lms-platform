@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Play, BookOpen, Clock, ChevronRight, Sparkles, Award } from 'lucide-react';
 import { api, useStore } from '../store/useStore';
+import { useTranslation } from '../utils/translations';
 
 export default function UserDashboard() {
   const navigate = useNavigate();
   const { user, addToast } = useStore();
+  const { t } = useTranslation();
   
   const [loading, setLoading] = useState(true);
   const [continueWatching, setContinueWatching] = useState([]);
@@ -68,13 +70,13 @@ export default function UserDashboard() {
       <div className="relative overflow-hidden rounded-sm bg-gradient-to-r from-[#0A2540] to-[#123E66] text-white p-6 md:p-8 shadow-md border-b-4 border-[#D4AF37]">
         <div className="relative z-10 space-y-2 max-w-xl">
           <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-[#D4AF37] bg-white/10 px-2 py-0.5 rounded-sm w-fit border border-[#D4AF37]/30">
-            <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" /> Student Learning Console
+            <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" /> {t('dashboard.console')}
           </div>
           <h1 className="text-xl md:text-2xl font-serif font-bold tracking-tight">
-            Welcome back, {user?.name || 'Student'}!
+            {t('dashboard.welcome')}, {user?.name || t('profile.student')}!
           </h1>
           <p className="text-neutral-200 text-xs md:text-sm font-medium leading-relaxed">
-            Rajasthan Portal for Artificial Intelligence and Cybersecurity Training. Continue your customized technology track or explore new curriculum modules below.
+            {t('dashboard.subtitle')}
           </p>
         </div>
         {/* Background Emblem Accent */}
@@ -86,9 +88,9 @@ export default function UserDashboard() {
       {/* Continue Learning Section */}
       <div className="space-y-4">
         <div className="border-b border-[#cbd5e0] pb-2 flex justify-between items-center">
-          <h2 className="text-base font-serif font-bold text-[#0A2540] tracking-tight">Continue Learning</h2>
-          <span className="text-[10px] font-mono text-neutral-500 font-bold bg-[#edf2f7] px-2 py-0.5 rounded-sm">
-            {continueWatching.length} In Progress
+          <h2 className="text-base font-serif font-bold text-[#0A2540] tracking-tight">{t('dashboard.continueLearning')}</h2>
+          <span className="text-[10px] font-mono text-neutral-550 font-bold bg-[#edf2f7] px-2 py-0.5 rounded-sm">
+            {continueWatching.length} {t('dashboard.inProgress')}
           </span>
         </div>
 
@@ -117,8 +119,8 @@ export default function UserDashboard() {
                   
                   {/* Progress bar */}
                   <div className="space-y-1">
-                    <div className="flex justify-between text-[10px] font-mono text-neutral-500 font-semibold">
-                      <span>Course Progress</span>
+                    <div className="flex justify-between text-[10px] font-mono text-neutral-550 font-semibold">
+                      <span>{t('dashboard.courseProgress')}</span>
                       <span>{Math.round(v.progress.completionPercentage)}%</span>
                     </div>
                     <div className="w-full bg-[#e2e8f0] h-2 rounded-sm overflow-hidden border border-[#cbd5e0]">
@@ -129,20 +131,20 @@ export default function UserDashboard() {
 
                 <div className="bg-[#f8fafc] border-t border-[#cbd5e0] px-5 py-3 flex items-center justify-between">
                   <span className="text-[10px] text-neutral-500 font-semibold flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5" /> Est: {v.estimatedTime || '10 mins'}
+                    <Clock className="w-3.5 h-3.5" /> {t('dashboard.estimated')}: {v.estimatedTime || '10 mins'}
                   </span>
                   <Link to={`/video/${v.id}`} className="btn-primary py-1 px-3 text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider">
-                    <Play className="w-3 h-3 fill-current" /> Continue
+                    <Play className="w-3 h-3 fill-current" /> {t('dashboard.continue')}
                   </Link>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="p-10 rounded-sm border border-[#cbd5e0] bg-white text-center text-neutral-500 text-xs shadow-sm space-y-2">
+          <div className="p-10 rounded-sm border border-[#cbd5e0] bg-white text-center text-neutral-550 text-xs shadow-sm space-y-2">
             <BookOpen className="w-6 h-6 text-neutral-400 mx-auto" />
-            <p className="font-medium">No active courses in progress.</p>
-            <p className="text-[10px]">Head over to the <Link to="/library" className="text-[#0A2540] font-bold underline">Courses Catalog</Link> to enroll and start learning.</p>
+            <p className="font-medium">{t('dashboard.noActiveCourses')}</p>
+            <p className="text-[10px]">{t('dashboard.catalogPrompt')}</p>
           </div>
         )}
       </div>
@@ -153,7 +155,7 @@ export default function UserDashboard() {
         {/* Left: Recommended Courses */}
         <div className="lg:col-span-2 space-y-4">
           <div className="border-b border-[#cbd5e0] pb-2">
-            <h2 className="text-base font-serif font-bold text-[#0A2540] tracking-tight">Recommended for You</h2>
+            <h2 className="text-base font-serif font-bold text-[#0A2540] tracking-tight">{t('dashboard.recommended')}</h2>
           </div>
           
           <div className="space-y-3">
@@ -175,7 +177,7 @@ export default function UserDashboard() {
                         {v.category}
                       </span>
                       <h4 className="text-xs font-serif font-bold text-[#0A2540] truncate mt-1">{v.title}</h4>
-                      <p className="text-[10px] text-neutral-500 line-clamp-1">{v.description}</p>
+                      <p className="text-[10px] text-neutral-550 line-clamp-1">{v.description}</p>
                     </div>
                   </div>
                   <Link to={`/video/${v.id}`} className="p-2 border border-[#cbd5e0] rounded-sm hover:bg-[#f0f4f8] text-[#0A2540] transition-colors flex-shrink-0">
@@ -184,8 +186,8 @@ export default function UserDashboard() {
                 </div>
               ))
             ) : (
-              <div className="p-6 text-center text-xs text-neutral-500 border border-dashed border-[#cbd5e0] rounded-sm">
-                All courses successfully enrolled!
+              <div className="p-6 text-center text-xs text-neutral-550 border border-dashed border-[#cbd5e0] rounded-sm">
+                {t('dashboard.allEnrolled')}
               </div>
             )}
           </div>
@@ -194,7 +196,7 @@ export default function UserDashboard() {
         {/* Right: New Additions Log */}
         <div className="space-y-4">
           <div className="border-b border-[#cbd5e0] pb-2">
-            <h2 className="text-base font-serif font-bold text-[#0A2540] tracking-tight">New Course Additions</h2>
+            <h2 className="text-base font-serif font-bold text-[#0A2540] tracking-tight">{t('dashboard.newAdditions')}</h2>
           </div>
           
           <div className="p-5 rounded-sm border border-[#cbd5e0] bg-white shadow-sm space-y-4">
