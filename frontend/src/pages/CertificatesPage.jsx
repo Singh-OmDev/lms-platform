@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Award, Eye, X, Printer } from 'lucide-react';
 import { api, useStore } from '../store/useStore';
+import { useTranslation } from '../utils/translations';
 
 export default function CertificatesPage() {
   const { user, addToast } = useStore();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState(null);
   const [viewCertificate, setViewCertificate] = useState(null);
@@ -47,9 +49,9 @@ export default function CertificatesPage() {
       
       {/* Header */}
       <div className="border-b-2 border-[#d2d6dc] pb-4">
-        <h1 className="text-xl font-serif font-bold text-[#0A2540] tracking-tight">Compliance Credentials Center</h1>
+        <h1 className="text-xl font-serif font-bold text-[#0A2540] tracking-tight">{t('certificates.title')}</h1>
         <p className="text-neutral-500 text-xs mt-1">
-          Review and print official compliance certificates generated upon complete track completion.
+          {t('certificates.subtitle')}
         </p>
       </div>
 
@@ -63,27 +65,27 @@ export default function CertificatesPage() {
               <Award className="w-8 h-8" />
             </div>
             <div>
-              <h3 className="font-serif font-bold text-sm text-[#0A2540]">AI Specialist Track</h3>
+              <h3 className="font-serif font-bold text-sm text-[#0A2540]">{t('certificates.aiTitle')}</h3>
               <p className="text-neutral-500 text-xs mt-1 leading-normal">
-                Awarded upon successful completion of the Artificial Intelligence Core & Neural Systems training modules.
+                {t('certificates.aiDesc')}
               </p>
             </div>
           </div>
 
           <div className="flex items-center justify-between pt-4 border-t border-[#edf2f7]">
-            <span className={`text-[10px] font-bold uppercase tracking-wider ${hasAI ? 'text-emerald-600' : 'text-neutral-400'}`}>
-              {hasAI ? '✓ Earned' : 'Locked'}
+            <span className={`text-[10px] font-bold uppercase tracking-wider ${hasAI ? 'text-emerald-600' : 'text-neutral-450'}`}>
+              {hasAI ? t('certificates.earned') : t('certificates.locked')}
             </span>
             {hasAI ? (
               <button 
                 onClick={() => setViewCertificate('ai')}
                 className="btn-primary py-1.5 px-3 text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider cursor-pointer"
               >
-                <Eye className="w-3.5 h-3.5" /> Download PDF
+                <Eye className="w-3.5 h-3.5" /> {t('certificates.downloadPdf')}
               </button>
             ) : (
               <span className="text-[10px] font-mono font-bold text-neutral-550 bg-[#edf2f7] px-2 py-1 border border-[#cbd5e0] rounded-sm select-none">
-                {aiStats.completed} / {aiStats.total} Completed
+                {aiStats.completed} / {aiStats.total} {t('catalog.completedBadge')}
               </span>
             )}
           </div>
@@ -96,27 +98,27 @@ export default function CertificatesPage() {
               <Award className="w-8 h-8" />
             </div>
             <div>
-              <h3 className="font-serif font-bold text-sm text-[#0A2540]">Security Analyst Track</h3>
+              <h3 className="font-serif font-bold text-sm text-[#0A2540]">{t('certificates.cyberTitle')}</h3>
               <p className="text-neutral-500 text-xs mt-1 leading-normal">
-                Awarded upon successful completion of the Cybersecurity Defense & Hacking Frameworks training modules.
+                {t('certificates.cyberDesc')}
               </p>
             </div>
           </div>
 
           <div className="flex items-center justify-between pt-4 border-t border-[#edf2f7]">
-            <span className={`text-[10px] font-bold uppercase tracking-wider ${hasCyber ? 'text-emerald-600' : 'text-neutral-400'}`}>
-              {hasCyber ? '✓ Earned' : 'Locked'}
+            <span className={`text-[10px] font-bold uppercase tracking-wider ${hasCyber ? 'text-emerald-600' : 'text-neutral-450'}`}>
+              {hasCyber ? t('certificates.earned') : t('certificates.locked')}
             </span>
             {hasCyber ? (
               <button 
                 onClick={() => setViewCertificate('cyber')}
                 className="btn-primary py-1.5 px-3 text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider cursor-pointer"
               >
-                <Eye className="w-3.5 h-3.5" /> Download PDF
+                <Eye className="w-3.5 h-3.5" /> {t('certificates.downloadPdf')}
               </button>
             ) : (
-              <span className="text-[10px] font-mono font-bold text-neutral-550 bg-[#edf2f7] px-2 py-1 border border-[#cbd5e0] rounded-sm select-none">
-                {cyberStats.completed} / {cyberStats.total} Completed
+              <span className="text-[10px] font-mono font-bold text-neutral-555 bg-[#edf2f7] px-2 py-1 border border-[#cbd5e0] rounded-sm select-none">
+                {cyberStats.completed} / {cyberStats.total} {t('catalog.completedBadge')}
               </span>
             )}
           </div>
@@ -147,31 +149,33 @@ export default function CertificatesPage() {
                 <img src="/rajasthan_logo.png" alt="Government of Rajasthan Logo" className="w-16 h-16 object-contain" />
               </div>
 
-              <h2 className="text-lg font-serif font-bold tracking-widest text-[#0A2540] uppercase">Government of Rajasthan</h2>
-              <p className="text-[9px] font-sans text-neutral-500 uppercase tracking-widest font-bold">Department of Information Technology & Communication</p>
+              <h2 className="text-lg font-serif font-bold tracking-widest text-[#0A2540] uppercase">{t('certificates.printTitle')}</h2>
+              <p className="text-[9px] font-sans text-neutral-500 uppercase tracking-widest font-bold">{t('certificates.printSub')}</p>
               
               <div className="h-0.5 bg-[#D4AF37] w-20 mx-auto my-2" />
               
-              <p className="text-[10px] font-sans text-[#718096] uppercase tracking-wider">Official Certificate of Course Completion</p>
+              <p className="text-[10px] font-sans text-[#718096] uppercase tracking-wider">{t('certificates.printOfficial')}</p>
               
               <h1 className="text-2xl font-serif font-bold text-[#0A2540] underline underline-offset-4 decoration-[#D4AF37] decoration-2">{user?.name}</h1>
               
               <p className="text-xs text-[#4a5568] max-w-sm mx-auto leading-relaxed">
-                has successfully completed all required modules, passed validation checks, and satisfied study compliance hours for the technology track:
+                {t('certificates.printDesc')}
               </p>
               
               <div className="p-2.5 rounded-sm bg-[#f0f4f8] border border-[#cbd5e0] inline-block">
                 <span className="text-xs font-serif font-bold text-[#0A2540] uppercase">
-                  {viewCertificate === 'ai' ? 'Artificial Intelligence Core & Neural Systems' : 'Cybersecurity Defense Penetration Frameworks'}
+                  {viewCertificate === 'ai' 
+                    ? (t('certificates.title') === 'Compliance Credentials Center' ? 'Artificial Intelligence Core & Neural Systems' : 'आर्टिफिशियल इंटेलिजेंस कोर और न्यूरल सिस्टम')
+                    : (t('certificates.title') === 'Compliance Credentials Center' ? 'Cybersecurity Defense Penetration Frameworks' : 'साइबर सुरक्षा रक्षा प्रवेश ढांचा')}
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 pt-6 max-w-sm mx-auto text-[9px] font-mono text-neutral-500 font-bold uppercase tracking-wider">
+              <div className="grid grid-cols-2 gap-4 pt-6 max-w-sm mx-auto text-[9px] font-mono text-neutral-550 font-bold uppercase tracking-wider">
                 <div className="border-t border-[#cbd5e0] pt-2">
-                  DIRECTOR, DOIT&C
+                  {t('certificates.director')}
                 </div>
                 <div className="border-t border-[#cbd5e0] pt-2">
-                  STATE COORDINATOR
+                  {t('certificates.coordinator')}
                 </div>
               </div>
             </div>
@@ -181,7 +185,7 @@ export default function CertificatesPage() {
               onClick={() => window.print()}
               className="btn-gold w-full py-2.5 flex items-center justify-center gap-1.5 uppercase tracking-wider text-xs font-bold text-[#0A2540] cursor-pointer"
             >
-              <Printer className="w-4 h-4 text-[#0A2540]" /> Print Official Credential
+              <Printer className="w-4 h-4 text-[#0A2540]" /> {t('certificates.printCredential')}
             </button>
           </div>
         </div>

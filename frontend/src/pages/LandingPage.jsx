@@ -5,6 +5,7 @@ import {
   Clock, Award, Activity, ChevronRight, Mail, Phone, MapPin, Sparkles, BookOpen, AlertTriangle
 } from 'lucide-react';
 import { api, useStore } from '../store/useStore';
+import { useTranslation } from '../utils/translations';
 
 export default function LandingPage() {
   const { isAuthenticated } = useStore();
@@ -12,6 +13,8 @@ export default function LandingPage() {
   const [loadingArticles, setLoadingArticles] = useState(true);
   const [subscribeEmail, setSubscribeEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+
+  const { t, language, setLanguage } = useTranslation();
 
   useEffect(() => {
     const fetchRecentArticles = async () => {
@@ -32,7 +35,7 @@ export default function LandingPage() {
   const handleSubscribe = (e) => {
     e.preventDefault();
     if (!subscribeEmail.trim() || !subscribeEmail.includes('@')) {
-      alert('Please enter a valid email address');
+      alert(t('common.emailValidError'));
       return;
     }
     setSubscribed(true);
@@ -41,38 +44,38 @@ export default function LandingPage() {
   const directives = [
     {
       icon: Cpu,
-      title: "Directive 101: Artificial Intelligence Core",
-      description: "Access certified training curriculum covering neural networks, deep learning models, and data pipelines."
+      title: t('landing.directives.0.title'),
+      description: t('landing.directives.0.description')
     },
     {
       icon: Shield,
-      title: "Directive 102: Infrastructure & Penetration Defense",
-      description: "Learn system auditing, pen-testing metrics, network protocol verification, and cloud security frameworks."
+      title: t('landing.directives.1.title'),
+      description: t('landing.directives.1.description')
     },
     {
       icon: Compass,
-      title: "Directive 103: Automated Study Registry",
-      description: "Playback state saves current timestamps to the security database automatically at 10-second intervals."
+      title: t('landing.directives.2.title'),
+      description: t('landing.directives.2.description')
     },
     {
       icon: FileCode,
-      title: "Directive 104: Workspace Notes Scratchpad",
-      description: "Take persistent notes and document code snippets directly alongside video playback streams."
+      title: t('landing.directives.3.title'),
+      description: t('landing.directives.3.description')
     },
     {
       icon: Users,
-      title: "Directive 105: Instructor Administration",
-      description: "Instructors can audit progress compliance, append new video files, and adjust curriculum parameters."
+      title: t('landing.directives.4.title'),
+      description: t('landing.directives.4.description')
     },
     {
       icon: Video,
-      title: "Directive 106: HD Lecture Catalog",
-      description: "Stream high-definition lecture assets built to support agency compliance training."
+      title: t('landing.directives.5.title'),
+      description: t('landing.directives.5.description')
     }
   ];
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-IN', {
+    return new Date(dateString).toLocaleDateString(language === 'hi' ? 'hi-IN' : 'en-IN', {
       day: 'numeric',
       month: 'short',
       year: 'numeric',
@@ -85,7 +88,7 @@ export default function LandingPage() {
       {/* Official Government Banner */}
       <div className="bg-slate-200 dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800 px-6 py-1.5 text-[11px] text-slate-600 dark:text-slate-400 flex items-center space-x-2 select-none font-medium">
         <span className="inline-block w-4 h-2.5 bg-sky-600 border border-white"></span>
-        <span>An official website of the Government of Rajasthan • Department of IT & Communication (DoIT&C)</span>
+        <span>{t('landing.officialBanner')}</span>
       </div>
 
       {/* Navy Top Header */}
@@ -94,28 +97,35 @@ export default function LandingPage() {
           <Link to="/" className="flex items-center space-x-3 group">
             <img 
               src="/rajasthan_logo.png" 
-              alt="Rajasthan Government Emblem" 
+              alt={t('common.govEmblemAlt')} 
               className="w-10 h-10 object-contain bg-white rounded-full p-0.5 border border-[#D4AF37] transition-transform group-hover:scale-105" 
             />
             <div>
-              <span className="text-[9px] font-bold text-[#D4AF37] uppercase tracking-wider block">Government of Rajasthan</span>
+              <span className="text-[9px] font-bold text-[#D4AF37] uppercase tracking-wider block">{t('common.govOfRaj')}</span>
               <span className="font-serif font-bold text-sm sm:text-base tracking-wide text-white transition-colors group-hover:text-neutral-200 block">
-                AI & Cyber Security Hub
+                {t('common.hubTitle')}
               </span>
             </div>
           </Link>
           <div className="flex items-center space-x-4">
+            {/* Language Selection Toggle */}
+            <button 
+              onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
+              className="text-xs font-semibold text-neutral-300 hover:text-white transition-colors px-2 py-1 rounded border border-neutral-600 bg-white/5 active:scale-95 text-[10px]"
+            >
+              {language === 'en' ? 'हिन्दी' : 'EN'}
+            </button>
             {isAuthenticated ? (
               <Link to="/dashboard" className="btn-gold px-4 py-2 text-xs font-semibold">
-                Go to Dashboard
+                {t('landing.goDashboard')}
               </Link>
             ) : (
               <>
                 <Link to="/login" className="text-xs font-semibold text-neutral-300 hover:text-white transition-colors">
-                  Sign In
+                  {t('landing.signIn')}
                 </Link>
                 <Link to="/register" className="btn-gold px-4 py-2 text-xs font-semibold">
-                  Register Account
+                  {t('landing.register')}
                 </Link>
               </>
             )}
@@ -132,32 +142,32 @@ export default function LandingPage() {
           {/* Portal Notice Flag */}
           <div className="inline-flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-xs text-[#D4AF37] font-semibold backdrop-blur-md shadow-sm select-none">
             <Sparkles className="w-3.5 h-3.5 text-[#D4AF37] animate-pulse" />
-            <span>State Authorized Cybersecurity & AI Curriculum</span>
+            <span>{t('landing.authorizedCurriculum')}</span>
           </div>
           
           {/* Serif Formal Title */}
           <h1 className="text-3xl sm:text-5xl font-serif font-bold max-w-4xl leading-tight text-white tracking-tight">
-            Rajasthan Portal for Artificial Intelligence and Cybersecurity Training
+            {t('landing.heroTitle')}
           </h1>
           
           {/* Informative Subtitle */}
           <p className="text-neutral-300 text-xs sm:text-sm max-w-2xl leading-relaxed">
-            Committed to preparing state administrative personnel, IT officers, and public students with verified technical knowledge. Monitor study time, log metrics, and claim Rajasthan Gov compliance credentials.
+            {t('landing.heroSubtitle')}
           </p>
 
           {/* Action buttons */}
           <div className="flex flex-wrap justify-center gap-4 pt-4">
             {isAuthenticated ? (
               <Link to="/dashboard" className="btn-gold px-6 py-3 flex items-center gap-2 text-xs">
-                Go to Dashboard <ArrowRight className="w-4 h-4 text-[#0A2540]" />
+                {t('landing.goDashboard')} <ArrowRight className="w-4 h-4 text-[#0A2540]" />
               </Link>
             ) : (
               <>
                 <Link to="/register" className="btn-gold px-6 py-3 flex items-center gap-2 text-xs text-[#0A2540]">
-                  Register for Courses <ArrowRight className="w-4 h-4 text-[#0A2540]" />
+                  {t('landing.registerCourses')} <ArrowRight className="w-4 h-4 text-[#0A2540]" />
                 </Link>
                 <Link to="/login" className="bg-white/10 hover:bg-white/15 border border-white/20 px-6 py-3 text-xs font-semibold rounded-md transition-colors">
-                  Compliance Login Portal
+                  {t('landing.complianceLogin')}
                 </Link>
               </>
             )}
@@ -171,38 +181,38 @@ export default function LandingPage() {
           <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 mb-5">
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 rounded-full bg-emerald-500 border border-emerald-600 animate-pulse" />
-              <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase font-semibold">System Registry: Active Sync</span>
+              <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase font-semibold">{t('landing.systemRegistryActive')}</span>
             </div>
-            <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">Database Ledger</span>
+            <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">{t('landing.databaseLedger')}</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="md:col-span-2 space-y-5">
               <div className="border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0C1E32] p-4 space-y-3 rounded-md">
-                <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block font-bold">Standard Syllabus Enrolled</span>
+                <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block font-bold">{t('landing.syllabusEnrolled')}</span>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex-1">
-                    <h3 className="text-[#0A2540] dark:text-[#D4AF37] font-serif font-bold text-sm">Deep Learning & Cybersecurity Core</h3>
+                    <h3 className="text-[#0A2540] dark:text-[#D4AF37] font-serif font-bold text-sm">{t('landing.learningCore')}</h3>
                     <div className="w-full bg-slate-200 dark:bg-slate-800 h-2.5 rounded-sm overflow-hidden mt-2 border border-slate-300 dark:border-slate-700">
                       <div className="bg-[#0A2540] dark:bg-[#D4AF37] h-full transition-all" style={{ width: '75%' }} />
                     </div>
                   </div>
                   <div className="text-[10px] font-mono text-slate-500 dark:text-slate-400 font-semibold whitespace-nowrap text-right">
-                    <span>75% Compliance Reached</span>
+                    <span>75% {t('landing.complianceReached')}</span>
                     <br />
-                    <span>5 of 6 Modules Completed</span>
+                    <span>5 {t('landing.modulesCompleted')}</span>
                   </div>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0C1E32] p-4 rounded-md">
-                  <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block font-bold">Total Platform Hours</span>
+                  <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block font-bold">{t('landing.totalPlatformHours')}</span>
                   <div className="text-lg font-mono font-bold text-[#0A2540] dark:text-white mt-1">45h 12m</div>
                 </div>
                 <div className="border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0C1E32] p-4 rounded-md">
-                  <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block font-bold">Verifiable Certificates</span>
-                  <div className="text-lg font-mono font-bold text-[#0A2540] dark:text-white mt-1">2 Issued</div>
+                  <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block font-bold">{t('landing.verifiableCertificates')}</span>
+                  <div className="text-lg font-mono font-bold text-[#0A2540] dark:text-white mt-1">2 {t('landing.issued')}</div>
                 </div>
               </div>
             </div>
@@ -210,24 +220,24 @@ export default function LandingPage() {
             {/* Registry Checklist */}
             <div className="border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0C1E32] p-4 rounded-md flex flex-col justify-between">
               <div className="space-y-4">
-                <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block font-bold">Audit Requirements</span>
+                <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block font-bold">{t('landing.auditRequirements')}</span>
                 <div className="space-y-2.5 text-xs text-slate-700 dark:text-slate-300">
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-500 flex-shrink-0" />
-                    <span>Progress Saved to Cloud</span>
+                    <span>{t('landing.progressSaved')}</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-500 flex-shrink-0" />
-                    <span>Scratchpad Workspace Live</span>
+                    <span>{t('landing.scratchpadLive')}</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-500 flex-shrink-0" />
-                    <span>Verification Seal Authenticated</span>
+                    <span>{t('landing.verificationSeal')}</span>
                   </div>
                 </div>
               </div>
               <div className="pt-4 border-t border-slate-200 dark:border-slate-800 text-center text-[9px] font-mono text-slate-500 dark:text-slate-400 font-semibold">
-                DoIT&C Registrar Ledger
+                {t('landing.registrarLedger')}
               </div>
             </div>
           </div>
@@ -239,10 +249,10 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="max-w-2xl mb-10">
             <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#0A2540] dark:text-[#D4AF37] mb-2">
-              Capabilities & Directives Directory
+              {t('landing.capabilitiesTitle')}
             </h2>
             <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm font-medium">
-              Review course directives and technical capabilities integrated into this compliance training registry.
+              {t('landing.capabilitiesDesc')}
             </p>
           </div>
 
@@ -250,7 +260,7 @@ export default function LandingPage() {
             {directives.map((dir, idx) => {
               const Icon = dir.icon;
               return (
-                <div key={idx} className="premium-card p-5 flex flex-col justify-between shadow-sm">
+                <div key={idx} className="premium-card p-5 flex flex-col justify-between shadow-sm border border-slate-200 dark:border-slate-800 rounded-sm">
                   <div>
                     <div className="w-9 h-9 rounded bg-[#F8FAFC] dark:bg-[#0C1E32] border border-slate-250 dark:border-slate-800 flex items-center justify-center mb-4">
                       <Icon className="w-4 h-4 text-[#0A2540] dark:text-[#D4AF37]" />
@@ -271,17 +281,17 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
             <div>
               <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#0A2540] dark:text-[#D4AF37] mb-2">
-                Technical Bulletins & Publications
+                {t('landing.bulletinsTitle')}
               </h2>
               <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm font-medium">
-                Official regulatory warnings, technological circulars, and cyber-security audits from DoIT&C.
+                {t('landing.bulletinsSubtitle')}
               </p>
             </div>
             <Link
               to="/blogs"
               className="inline-flex items-center gap-1.5 px-4 py-2 bg-white dark:bg-[#0E2035] border border-slate-250 dark:border-slate-800 hover:border-[#D4AF37]/50 rounded-md text-xs font-bold text-[#0A2540] dark:text-white shadow-sm transition-colors cursor-pointer"
             >
-              Browse All Circulars <ChevronRight className="w-4 h-4" />
+              {t('landing.browseAll')} <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
 
@@ -303,7 +313,7 @@ export default function LandingPage() {
                       <img
                         src={art.imageUrl || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop'}
                         alt={art.title}
-                        className="w-full h-full object-cover opacity-85 group-hover:scale-102 transition-transform duration-500"
+                        className="w-full h-full object-cover opacity-85 group-hover:scale-102 transition-transform duration-550"
                       />
                       <span className="absolute top-3 left-3 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider bg-slate-900/60 text-[#D4AF37] border border-[#D4AF37]/40 rounded-sm">
                         {art.category}
@@ -312,7 +322,7 @@ export default function LandingPage() {
 
                     <div className="px-5 pb-2 space-y-2">
                       <div className="text-[9px] text-slate-500 font-bold flex items-center gap-1">
-                        <span>{art.author?.name || 'DoIT&C Admin'}</span>
+                        <span>{art.author?.name || t('blogs.authorAdmin')}</span>
                         <span>•</span>
                         <span>{formatDate(art.createdAt)}</span>
                       </div>
@@ -328,13 +338,13 @@ export default function LandingPage() {
                   <div className="px-5 py-4 border-t border-slate-100 dark:border-slate-800 mt-4 flex justify-between items-center text-[11px] font-bold">
                     <span className="text-[9px] text-slate-400 font-semibold flex items-center gap-1">
                       <Clock className="w-3.5 h-3.5" />
-                      {Math.max(1, Math.ceil((art.content?.split(/\s+/).length || 0) / 200))} min read
+                      {Math.max(1, Math.ceil((art.content?.split(/\s+/).length || 0) / 200))} {t('blogs.minRead')}
                     </span>
                     <Link
                       to={isAuthenticated ? `/blogs/${art.id}` : '/login'}
                       className="text-[#0A2540] dark:text-[#D4AF37] hover:underline flex items-center gap-0.5"
                     >
-                      Read circular <ArrowRight className="w-3.5 h-3.5" />
+                      {t('blogs.readArticle')} <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
                 </div>
@@ -343,7 +353,7 @@ export default function LandingPage() {
           ) : (
             <div className="text-center py-10 bg-white dark:bg-[#0E2035] border border-slate-200 dark:border-slate-800 rounded-md">
               <BookOpen className="w-8 h-8 text-slate-400 mx-auto mb-2" />
-              <p className="text-xs text-slate-500">No recent bulletins have been published yet.</p>
+              <p className="text-xs text-slate-500">{t('landing.noRecentBulletins')}</p>
             </div>
           )}
         </div>
@@ -354,24 +364,24 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-4">
             <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#0A2540] dark:text-[#D4AF37] leading-tight">
-              Administrative Dossier Management & Regulatory Compliance
+              {t('landing.dossierManagement')}
             </h2>
             <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
-              If authenticated as a security compliance administrator, the LMS provides dashboard modules to compile student statistics, manage lessons, review streaks syncs, and publish urgent state bulletins.
+              {t('landing.dossierDesc')}
             </p>
             <div className="space-y-3 pt-2 text-xs text-slate-700 dark:text-slate-300">
               <div className="flex items-start space-x-2">
                 <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <h4 className="font-bold text-[#0A2540] dark:text-white">Continuous Compliance Monitoring</h4>
-                  <p className="text-slate-500 dark:text-slate-400 text-[11px] mt-0.5">Logs progress percentages for all enrollees, compiling reports on overall platform metrics.</p>
+                  <h4 className="font-bold text-[#0A2540] dark:text-white">{t('landing.continuousCompliance')}</h4>
+                  <p className="text-slate-500 dark:text-slate-400 text-[11px] mt-0.5">{t('landing.continuousComplianceDesc')}</p>
                 </div>
               </div>
               <div className="flex items-start space-x-2">
                 <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <h4 className="font-bold text-[#0A2540] dark:text-white">Active Video/Lecture Repository</h4>
-                  <p className="text-slate-500 dark:text-slate-400 text-[11px] mt-0.5">Lectures are dynamically categorized (AI or Cyber Security) for simplified access.</p>
+                  <h4 className="font-bold text-[#0A2540] dark:text-white">{t('landing.activeVideoRepo')}</h4>
+                  <p className="text-slate-500 dark:text-slate-400 text-[11px] mt-0.5">{t('landing.activeVideoRepoDesc')}</p>
                 </div>
               </div>
             </div>
@@ -381,19 +391,19 @@ export default function LandingPage() {
           <div className="grid grid-cols-2 gap-4">
             <div className="border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0C1E32] rounded-md p-5 shadow-sm text-center">
               <div className="text-2xl font-mono font-bold text-[#0A2540] dark:text-[#D4AF37] mb-1">98.4%</div>
-              <div className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase font-bold">completion rate</div>
+              <div className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase font-bold">{t('landing.completionRate')}</div>
             </div>
             <div className="border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0C1E32] rounded-md p-5 shadow-sm text-center">
               <div className="text-2xl font-mono font-bold text-[#0A2540] dark:text-[#D4AF37] mb-1">10s</div>
-              <div className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase font-bold">sync interval</div>
+              <div className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase font-bold">{t('landing.syncInterval')}</div>
             </div>
             <div className="border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0C1E32] rounded-md p-5 shadow-sm text-center">
               <div className="text-2xl font-mono font-bold text-[#0A2540] dark:text-[#D4AF37] mb-1">12K+</div>
-              <div className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase font-bold">enrolled students</div>
+              <div className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase font-bold">{t('landing.enrolledStudents')}</div>
             </div>
             <div className="border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0C1E32] rounded-md p-5 shadow-sm text-center">
               <div className="text-2xl font-mono font-bold text-[#0A2540] dark:text-[#D4AF37] mb-1">Secure</div>
-              <div className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase font-bold">data logs</div>
+              <div className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase font-bold">{t('landing.secureLogs')}</div>
             </div>
           </div>
         </div>
@@ -406,56 +416,56 @@ export default function LandingPage() {
             {/* Col 1: Branding */}
             <div className="space-y-4">
               <div className="flex items-center space-x-2.5">
-                <img src="/rajasthan_logo.png" alt="Government of Rajasthan Logo" className="w-9 h-9 object-contain bg-white rounded-full p-0.5 border border-[#D4AF37]" />
+                <img src="/rajasthan_logo.png" alt={t('common.govEmblemAlt')} className="w-9 h-9 object-contain bg-white rounded-full p-0.5 border border-[#D4AF37]" />
                 <div>
-                  <span className="text-[8px] font-bold text-[#D4AF37] uppercase tracking-wider block">State Portal</span>
-                  <span className="font-serif font-bold tracking-wide text-sm text-white">AI & Cyber Hub</span>
+                  <span className="text-[8px] font-bold text-[#D4AF37] uppercase tracking-wider block">{t('common.statePortal')}</span>
+                  <span className="font-serif font-bold tracking-wide text-sm text-white">{t('common.aiCyberHub')}</span>
                 </div>
               </div>
               <p className="text-gray-400 text-[11px] leading-relaxed">
-                Official compliance registry and education resource portal managed by the Department of Information Technology & Communication (DoIT&C), Government of Rajasthan.
+                {t('common.compliancedesc')}
               </p>
             </div>
             
             {/* Col 2: Quick Links */}
             <div className="space-y-3">
-              <h4 className="font-bold text-[#D4AF37] uppercase tracking-wider text-[10px]">Administrative Links</h4>
+              <h4 className="font-bold text-[#D4AF37] uppercase tracking-wider text-[10px]">{t('common.adminLinks')}</h4>
               <ul className="space-y-2 text-gray-300 text-[11px]">
-                <li><a href="#" className="hover:text-white transition-colors">Official Gazettes & Circulars</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">RTI Request Submission</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Compliance Audit Logs</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Accessibility Guidelines</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">{t('common.quickLinks.gazettes')}</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">{t('common.quickLinks.rti')}</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">{t('common.quickLinks.audit')}</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">{t('common.quickLinks.accessibility')}</a></li>
               </ul>
             </div>
             
             {/* Col 3: Support Contact */}
             <div className="space-y-3">
-              <h4 className="font-bold text-[#D4AF37] uppercase tracking-wider text-[10px]">Helpdesk & Contacts</h4>
+              <h4 className="font-bold text-[#D4AF37] uppercase tracking-wider text-[10px]">{t('common.contacts')}</h4>
               <div className="space-y-2 text-gray-300 text-[11px]">
-                <p><strong>Support Desk:</strong> 1800-DOIT-RAJS</p>
-                <p><strong>Email Desk:</strong> support.lms@rajasthan.gov.in</p>
-                <p className="text-gray-400 leading-normal">
-                  IT Building, Yojana Bhawan, Tilak Marg, C-Scheme, Jaipur, Rajasthan 302005
+                <p><strong>{t('common.supportDesk')}</strong></p>
+                <p><strong>{t('common.emailDesk')}</strong></p>
+                <p className="text-gray-405 leading-normal">
+                  {t('common.address')}
                 </p>
               </div>
             </div>
             
             {/* Col 4: Interactive alerts form */}
             <div className="space-y-3">
-              <h4 className="font-bold text-[#D4AF37] uppercase tracking-wider text-[10px]">Compliance Bulletins</h4>
+              <h4 className="font-bold text-[#D4AF37] uppercase tracking-wider text-[10px]">{t('common.bulletins')}</h4>
               <p className="text-gray-400 text-[11px] leading-relaxed">
-                Subscribe to receive urgent cyber alerts and official technological circulars directly in your inbox.
+                {t('common.bulletinsDesc')}
               </p>
               
               {subscribed ? (
                 <div className="p-3 bg-[#0a2540]/60 border border-emerald-500/30 rounded-md text-emerald-400 text-[11px] font-semibold flex items-center gap-1.5 animate-in fade-in duration-200">
-                  <span>✓ Subscribed to bulletins successfully!</span>
+                  <span>✓ {t('common.subscribeBulletinsSuccess')}</span>
                 </div>
               ) : (
                 <form onSubmit={handleSubscribe} className="flex gap-1.5">
                   <input
                     type="email"
-                    placeholder="Enter email address"
+                    placeholder={t('common.enterEmail')}
                     value={subscribeEmail}
                     onChange={(e) => setSubscribeEmail(e.target.value)}
                     className="px-3 py-2 bg-slate-900 border border-slate-700 rounded-md text-xs text-white placeholder-gray-500 outline-none focus:border-[#D4AF37] flex-1"
@@ -465,7 +475,7 @@ export default function LandingPage() {
                     type="submit"
                     className="px-3.5 py-2 bg-[#D4AF37] hover:bg-[#C5A059] text-white font-bold text-xs rounded-md transition-colors cursor-pointer"
                   >
-                    Subscribe
+                    {t('common.subscribe')}
                   </button>
                 </form>
               )}
@@ -474,11 +484,11 @@ export default function LandingPage() {
           
           {/* Footer Sub-links */}
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] text-gray-400">
-            <span>© 2026 Department of IT & Communication, Government of Rajasthan. Official Portal.</span>
+            <span>{t('common.copyright')}</span>
             <div className="flex space-x-6">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Use</a>
-              <a href="#" className="hover:text-white transition-colors">State Disclaimers</a>
+              <a href="#" className="hover:text-white transition-colors">{t('common.privacyPolicy')}</a>
+              <a href="#" className="hover:text-white transition-colors">{t('common.termsOfUse')}</a>
+              <a href="#" className="hover:text-white transition-colors">{t('common.stateDisclaimers')}</a>
             </div>
           </div>
         </div>

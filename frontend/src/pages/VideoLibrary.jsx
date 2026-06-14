@@ -9,9 +9,11 @@ import {
   FolderOpen
 } from 'lucide-react';
 import { api, useStore } from '../store/useStore';
+import { useTranslation } from '../utils/translations';
 
 export default function VideoLibrary() {
   const { addToast } = useStore();
+  const { t } = useTranslation();
   const [videos, setVideos] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -72,9 +74,9 @@ export default function VideoLibrary() {
     <div className="space-y-6 pb-16 font-sans text-[#2d3748]">
       {/* Dossier Header */}
       <div className="border-b-2 border-[#d2d6dc] pb-4">
-        <h1 className="text-xl font-serif font-bold text-[#0A2540] tracking-tight">Public Course Catalog</h1>
+        <h1 className="text-xl font-serif font-bold text-[#0A2540] tracking-tight">{t('catalog.title')}</h1>
         <p className="text-neutral-500 text-xs mt-1">
-          Explore and enroll in certified technology and cyber-defense course directories.
+          {t('catalog.subtitle')}
         </p>
       </div>
 
@@ -85,7 +87,7 @@ export default function VideoLibrary() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 w-3.5 h-3.5" />
           <input
             type="text"
-            placeholder="Search courses catalog..."
+            placeholder={t('catalog.searchPlaceholder')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="form-input pl-9 text-xs"
@@ -96,42 +98,42 @@ export default function VideoLibrary() {
         <div className="flex flex-wrap items-center gap-4">
           {/* Category Filter */}
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">Domain</span>
+            <span className="text-[10px] font-bold text-neutral-555 uppercase tracking-wider">{t('catalog.domain')}</span>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="bg-white border border-[#c3c8cf] rounded-sm px-2.5 py-1.5 text-xs text-[#2d3748] outline-none focus:border-[#0A2540] cursor-pointer"
             >
               {categories.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
+                <option key={cat} value={cat}>{cat === 'All' ? (t('catalog.domain') === 'Domain' ? 'All Domains' : 'सभी डोमेन') : cat}</option>
               ))}
             </select>
           </div>
 
           {/* Status Filter */}
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">Status</span>
+            <span className="text-[10px] font-bold text-neutral-555 uppercase tracking-wider">{t('catalog.status')}</span>
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
               className="bg-white border border-[#c3c8cf] rounded-sm px-2.5 py-1.5 text-xs text-[#2d3748] outline-none focus:border-[#0A2540] cursor-pointer"
             >
-              <option value="All">All Progress</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
+              <option value="All">{t('catalog.allProgress')}</option>
+              <option value="In Progress">{t('catalog.inProgress')}</option>
+              <option value="Completed">{t('catalog.completed')}</option>
             </select>
           </div>
 
           {/* Sort By */}
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">Sort</span>
+            <span className="text-[10px] font-bold text-neutral-555 uppercase tracking-wider">{t('catalog.sort')}</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="bg-white border border-[#c3c8cf] rounded-sm px-2.5 py-1.5 text-xs text-[#2d3748] outline-none focus:border-[#0A2540] cursor-pointer"
             >
-              <option value="Default">Default</option>
-              <option value="Newest">Newest</option>
+              <option value="Default">{t('catalog.sortDefault')}</option>
+              <option value="Newest">{t('catalog.sortNewest')}</option>
             </select>
           </div>
 
@@ -216,7 +218,7 @@ export default function VideoLibrary() {
                     {video.title}
                   </h3>
                   
-                  <p className="text-neutral-500 text-xs leading-normal line-clamp-2">
+                  <p className="text-neutral-550 text-xs leading-normal line-clamp-2">
                     {video.description}
                   </p>
                 </div>
@@ -225,9 +227,9 @@ export default function VideoLibrary() {
                 <div className="space-y-2.5 pt-1">
                   {video.progress && (
                     <div className="space-y-1">
-                      <div className="flex justify-between text-[10px] font-mono text-neutral-500 font-semibold">
-                        <span>Curriculum Progress</span>
-                        <span>{Math.round(video.progress.completionPercentage)}% Completed</span>
+                      <div className="flex justify-between text-[10px] font-mono text-neutral-550 font-semibold">
+                        <span>{t('video.completion')}</span>
+                        <span>{Math.round(video.progress.completionPercentage)}% {t('catalog.completed')}</span>
                       </div>
                       <div className="w-full bg-[#e2e8f0] h-2 rounded-sm overflow-hidden border border-[#cbd5e0]">
                         <div 
@@ -243,11 +245,15 @@ export default function VideoLibrary() {
                       to={`/video/${video.id}`}
                       className="btn-primary py-1.5 px-3 text-xs"
                     >
-                      {video.progress?.completed ? 'Review Lesson' : video.progress?.currentTime > 0 ? 'Resume Lesson' : 'Launch Course'}
+                      {video.progress?.completed 
+                        ? t('catalog.reviewLesson') 
+                        : video.progress?.currentTime > 0 
+                          ? t('catalog.resumeLesson') 
+                          : t('catalog.launchCourse')}
                     </Link>
                     {video.progress?.completed && (
                       <span className="flex items-center gap-1 text-[9px] font-bold text-emerald-600 uppercase bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-sm select-none">
-                        Completed
+                        {t('catalog.completedBadge')}
                       </span>
                     )}
                   </div>
@@ -260,9 +266,9 @@ export default function VideoLibrary() {
         /* Empty */
         <div className="text-center py-16 border border-[#cbd5e0] bg-white rounded-sm max-w-md mx-auto space-y-3 shadow-sm">
           <FolderOpen className="w-8 h-8 text-neutral-500 mx-auto" />
-          <h3 className="font-serif font-bold text-sm text-[#0A2540]">No Courses Found</h3>
+          <h3 className="font-serif font-bold text-sm text-[#0A2540]">{t('catalog.noCourses')}</h3>
           <p className="text-neutral-500 text-xs max-w-xs mx-auto">
-            Try adjusting search inputs, changing category selections, or clearing filters.
+            {t('catalog.noCoursesDesc')}
           </p>
         </div>
       )}

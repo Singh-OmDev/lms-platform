@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, BookOpen, Clock, User, Calendar, ArrowRight, Sparkles } from 'lucide-react';
 import { api, useStore } from '../store/useStore';
+import { useTranslation } from '../utils/translations';
 
 export default function BlogsPage() {
   const { addToast } = useStore();
+  const { t, language } = useTranslation();
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -51,7 +53,7 @@ export default function BlogsPage() {
   const gridArticles = articles.length > 1 ? articles.slice(1) : [];
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-IN', {
+    return new Date(dateString).toLocaleDateString(language === 'hi' ? 'hi-IN' : 'en-IN', {
       day: 'numeric',
       month: 'short',
       year: 'numeric',
@@ -73,7 +75,7 @@ export default function BlogsPage() {
   const estimateReadTime = (content) => {
     const words = content?.split(/\s+/).length || 0;
     const minutes = Math.max(1, Math.ceil(words / 200));
-    return `${minutes} min read`;
+    return `${minutes} ${t('blogs.minRead')}`;
   };
 
   return (
@@ -83,13 +85,13 @@ export default function BlogsPage() {
       <div className="relative overflow-hidden rounded-sm bg-gradient-to-r from-[#0A2540] to-[#123E66] text-white p-6 md:p-8 shadow-md border-b-4 border-[#D4AF37]">
         <div className="relative z-10 space-y-2 max-w-xl">
           <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-[#D4AF37] bg-white/10 px-2 py-0.5 rounded-sm w-fit border border-[#D4AF37]/30">
-            <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" /> Intelligence Portal
+            <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" /> {t('blogs.intelligencePortal')}
           </div>
           <h1 className="text-xl md:text-2xl font-serif font-bold tracking-tight">
-            Blogs & Technical Articles
+            {t('blogs.title')}
           </h1>
           <p className="text-neutral-200 text-xs md:text-sm font-medium leading-relaxed">
-            Stay informed with the latest updates on Artificial Intelligence, Cybersecurity directives, and technological guidelines from the Department of IT & Communication.
+            {t('blogs.subtitle')}
           </p>
         </div>
         <div className="absolute right-6 bottom-0 translate-y-6 opacity-25 dark:opacity-40 select-none pointer-events-none hidden md:block">
@@ -111,7 +113,7 @@ export default function BlogsPage() {
                   : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100 hover:text-gray-900'
               }`}
             >
-              {cat === 'All' ? 'All Publications' : cat}
+              {cat === 'All' ? t('blogs.allPublications') : cat}
             </button>
           ))}
         </div>
@@ -121,7 +123,7 @@ export default function BlogsPage() {
           <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search articles..."
+            placeholder={t('blogs.searchPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-9 pr-4 py-2 bg-gray-50 hover:bg-gray-100/70 border border-gray-200 rounded-md text-xs outline-none focus:border-[#0A2540] focus:bg-white transition-all"
@@ -142,9 +144,9 @@ export default function BlogsPage() {
       ) : articles.length === 0 ? (
         <div className="text-center py-16 bg-white border border-gray-200 rounded-md shadow-sm">
           <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <h3 className="text-base font-bold text-gray-700">No Publications Found</h3>
+          <h3 className="text-base font-bold text-gray-700">{t('blogs.noPublications')}</h3>
           <p className="text-xs text-gray-500 mt-1 max-w-sm mx-auto">
-            We couldn't find any articles matching "{searchQuery}" under the category "{activeCategory}".
+            {t('blogs.noPublicationsDesc')}
           </p>
         </div>
       ) : (
@@ -167,7 +169,7 @@ export default function BlogsPage() {
                   <div className="flex items-center space-x-3 text-[10px] text-gray-500 font-bold">
                     <span className="flex items-center gap-1">
                       <User className="w-3.5 h-3.5 text-gray-400" />
-                      {featuredArticle.author?.name || 'DoIT&C Admin'}
+                      {featuredArticle.author?.name || t('blogs.authorAdmin')}
                     </span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
@@ -195,7 +197,7 @@ export default function BlogsPage() {
                     to={`/blogs/${featuredArticle.id}`}
                     className="inline-flex items-center gap-1 text-xs font-bold text-[#0A2540] hover:text-[#0b48a0] group/btn"
                   >
-                    Read Article
+                    {t('blogs.readArticle')}
                     <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5" />
                   </Link>
                 </div>
@@ -207,7 +209,7 @@ export default function BlogsPage() {
           {gridArticles.length > 0 && (
             <div className="space-y-4">
               <h3 className="text-sm font-bold text-[#0A2540] uppercase tracking-wider border-b border-gray-200 pb-2">
-                Recent Publications
+                {t('blogs.recentPublications')}
               </h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -234,7 +236,7 @@ export default function BlogsPage() {
                         <div className="flex items-center gap-2.5 text-[9px] text-gray-500 font-bold">
                           <span className="flex items-center gap-0.5 truncate max-w-[100px]">
                             <User className="w-3 h-3 text-gray-400" />
-                            {article.author?.name || 'DoIT&C Admin'}
+                            {article.author?.name || t('blogs.authorAdmin')}
                           </span>
                           <span>•</span>
                           <span className="flex items-center gap-0.5">
@@ -263,7 +265,7 @@ export default function BlogsPage() {
                         to={`/blogs/${article.id}`}
                         className="inline-flex items-center gap-0.5 text-xs font-bold text-[#0A2540] hover:text-[#0b48a0]"
                       >
-                        Read
+                        {t('blogs.read')}
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>

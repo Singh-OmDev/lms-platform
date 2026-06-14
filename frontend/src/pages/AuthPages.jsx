@@ -2,8 +2,11 @@ import React from 'react';
 import { SignIn, SignUp } from '@clerk/clerk-react';
 import { Shield, Award, BookOpen, ShieldAlert, Activity, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from '../utils/translations';
 
 export default function AuthPages({ isRegisterInitial = false }) {
+  const { t } = useTranslation();
+
   const clerkAppearance = {
     variables: {
       colorPrimary: '#0A2540',
@@ -20,7 +23,7 @@ export default function AuthPages({ isRegisterInitial = false }) {
       headerTitle: 'font-serif text-lg md:text-xl font-bold text-[#0A2540]',
       headerSubtitle: 'text-xs text-gray-500 font-medium',
       formButtonPrimary: 'bg-[#0A2540] hover:bg-[#071A2E] text-white border-b-2 border-[#051321] text-xs font-bold uppercase tracking-wider py-2.5 shadow-sm active:translate-y-[1px] transition-all cursor-pointer w-full',
-      socialButtonsBlockButton: 'border border-gray-200 hover:bg-gray-50 text-xs font-semibold py-2 rounded-md transition-colors cursor-pointer',
+      socialButtonsBlockButton: 'border border-gray-200 hover:bg-gray-55 text-xs font-semibold py-2 rounded-md transition-colors cursor-pointer',
       formFieldInput: 'bg-gray-50 border border-gray-300 focus:border-[#0A2540] focus:ring-1 focus:ring-[#0A2540] text-xs rounded-md py-2.5 px-3 transition-all outline-none',
       formFieldLabel: 'text-[10px] font-bold uppercase tracking-wider text-gray-600 mb-1',
       footerActionLink: 'text-[#0A2540] hover:text-[#0b48a0] font-bold transition-colors',
@@ -43,13 +46,13 @@ export default function AuthPages({ isRegisterInitial = false }) {
         <div className="relative z-10 flex items-center space-x-3">
           <img 
             src="/rajasthan_logo.png" 
-            alt="Government of Rajasthan Emblem" 
+            alt={t('common.govEmblemAlt')} 
             className="w-11 h-11 object-contain bg-white rounded-full p-0.5 border border-[#D4AF37]" 
           />
           <div>
-            <span className="text-[9px] font-bold text-[#D4AF37] uppercase tracking-widest block">Government of Rajasthan</span>
+            <span className="text-[9px] font-bold text-[#D4AF37] uppercase tracking-widest block">{t('common.govOfRaj')}</span>
             <span className="font-serif font-bold text-xs tracking-wider uppercase text-neutral-100">
-              Department of IT & Communication
+              {t('certificates.printSub')}
             </span>
           </div>
         </div>
@@ -57,14 +60,14 @@ export default function AuthPages({ isRegisterInitial = false }) {
         {/* Center Info bullets */}
         <div className="relative z-10 my-12 md:my-0 space-y-6 max-w-lg">
           <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-[#D4AF37] bg-white/5 px-2.5 py-1 rounded-sm w-fit border border-[#D4AF37]/25 backdrop-blur-md">
-            <Shield className="w-3.5 h-3.5 text-[#D4AF37]" /> State Defense Registry
+            <Shield className="w-3.5 h-3.5 text-[#D4AF37]" /> {t('auth.stateDefenseRegistry')}
           </div>
           
           <h1 className="text-2xl md:text-3xl font-serif font-bold text-white tracking-tight leading-tight">
-            AI & Cyber Security Hub
+            {t('auth.cyberSecurityHub')}
           </h1>
           <p className="text-xs md:text-sm text-neutral-300 font-medium leading-relaxed">
-            Register your administrative dossier to access authorized technological curriculums, cybersecurity guidelines, and official compliance exams.
+            {t('auth.authSubtitle')}
           </p>
 
           <div className="space-y-4 pt-4 border-t border-white/10">
@@ -74,8 +77,8 @@ export default function AuthPages({ isRegisterInitial = false }) {
                 <Award className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-xs font-bold text-white">State Issued Certificates</h4>
-                <p className="text-[11px] text-neutral-400 mt-0.5">Earn formal technological credentials signed by the Department of IT.</p>
+                <h4 className="text-xs font-bold text-white">{t('auth.certTitle')}</h4>
+                <p className="text-[11px] text-neutral-400 mt-0.5">{t('auth.certDesc')}</p>
               </div>
             </div>
             {/* Feature 2 */}
@@ -84,8 +87,8 @@ export default function AuthPages({ isRegisterInitial = false }) {
                 <BookOpen className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-xs font-bold text-white">Curated Syllabus Directory</h4>
-                <p className="text-[11px] text-neutral-400 mt-0.5">Master LLM prompt optimization, model evaluation, and advanced security defense checks.</p>
+                <h4 className="text-xs font-bold text-white">{t('auth.syllabusTitle')}</h4>
+                <p className="text-[11px] text-neutral-400 mt-0.5">{t('auth.syllabusDesc')}</p>
               </div>
             </div>
             {/* Feature 3 */}
@@ -94,8 +97,8 @@ export default function AuthPages({ isRegisterInitial = false }) {
                 <ShieldAlert className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-xs font-bold text-white">Real-Time Threat Bulletins</h4>
-                <p className="text-[11px] text-neutral-400 mt-0.5">Receive immediate administrative compliance alerts and state security bulletins.</p>
+                <h4 className="text-xs font-bold text-white">{t('auth.threatTitle')}</h4>
+                <p className="text-[11px] text-neutral-400 mt-0.5">{t('auth.threatDesc')}</p>
               </div>
             </div>
           </div>
@@ -103,8 +106,8 @@ export default function AuthPages({ isRegisterInitial = false }) {
 
         {/* Bottom copyright & disclaimer */}
         <div className="relative z-10 text-[10px] text-neutral-400 leading-normal pt-6 border-t border-white/5 flex flex-col sm:flex-row justify-between gap-2">
-          <span>© 2026 DoIT&C, Government of Rajasthan.</span>
-          <span>Official Learning Console.</span>
+          <span>{t('auth.copyright')}</span>
+          <span>{t('auth.officialConsole')}</span>
         </div>
       </div>
 
@@ -117,23 +120,23 @@ export default function AuthPages({ isRegisterInitial = false }) {
             className="inline-flex items-center gap-1 font-bold text-[#0A2540] hover:text-[#0b48a0] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Return to Portal Homepage
+            {t('auth.returnHome')}
           </Link>
           <span className="text-[10px] font-mono text-gray-500 font-bold bg-gray-150 px-2 py-0.5 rounded-sm select-none uppercase tracking-wide">
-            Secure Entry
+            {t('auth.secureEntry')}
           </span>
         </div>
 
         {/* Clerk Widget */}
         <div className="my-auto py-8 flex justify-center">
-          <div className="w-full max-w-[420px] p-6 sm:p-8 bg-white border border-gray-200 rounded-md shadow-lg hover-glow transition-all duration-300">
+          <div className="w-full max-w-[420px] p-6 sm:p-8 bg-white border border-gray-250 rounded-md shadow-lg hover-glow transition-all duration-300">
             {/* Government Logo inside card */}
             <div className="flex flex-col items-center text-center mb-6">
               <div className="w-10 h-10 rounded-full bg-[#F8FAFC] border border-gray-250 flex items-center justify-center mb-2 shadow-inner">
                 <Shield className="w-5 h-5 text-[#0A2540]" />
               </div>
               <h2 className="text-sm font-serif font-bold text-[#0A2540] uppercase tracking-wider">
-                LMS Credential Console
+                {t('auth.lmsCredential')}
               </h2>
               <div className="h-[2px] w-12 bg-[#D4AF37] mt-1.5 rounded" />
             </div>
@@ -159,12 +162,12 @@ export default function AuthPages({ isRegisterInitial = false }) {
         </div>
 
         {/* Footer info links */}
-        <div className="text-[10px] text-gray-400 text-center flex justify-center space-x-4">
-          <a href="#" className="hover:text-gray-600 transition-colors">Privacy Charter</a>
+        <div className="text-[10px] text-gray-450 text-center flex justify-center space-x-4">
+          <a href="#" className="hover:text-gray-600 transition-colors">{t('auth.privacyCharter')}</a>
           <span>•</span>
-          <a href="#" className="hover:text-gray-600 transition-colors">System Disclaimers</a>
+          <a href="#" className="hover:text-gray-650 transition-colors">{t('auth.systemDisclaimers')}</a>
           <span>•</span>
-          <a href="#" className="hover:text-gray-600 transition-colors">Support Registry</a>
+          <a href="#" className="hover:text-gray-650 transition-colors">{t('auth.supportRegistry')}</a>
         </div>
       </div>
       

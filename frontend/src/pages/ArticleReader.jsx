@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock, User, Calendar, Share2, Shield, Sparkles, BookOpen } from 'lucide-react';
 import { api, useStore } from '../store/useStore';
+import { useTranslation } from '../utils/translations';
 
 export default function ArticleReader() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToast } = useStore();
+  const { t, language } = useTranslation();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [sharing, setSharing] = useState(false);
@@ -30,7 +32,7 @@ export default function ArticleReader() {
   }, [id, navigate, addToast]);
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-IN', {
+    return new Date(dateString).toLocaleDateString(language === 'hi' ? 'hi-IN' : 'en-IN', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
@@ -53,12 +55,12 @@ export default function ArticleReader() {
   const estimateReadTime = (content) => {
     const words = content?.split(/\s+/).length || 0;
     const minutes = Math.max(1, Math.ceil(words / 200));
-    return `${minutes} min read`;
+    return `${minutes} ${t('blogs.minRead')}`;
   };
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
-    addToast('Article link copied to clipboard!', 'success');
+    addToast(t('blogs.linkCopied'), 'success');
   };
 
   if (loading) {
@@ -89,7 +91,7 @@ export default function ArticleReader() {
           className="inline-flex items-center gap-1 text-xs font-bold text-[#0A2540] hover:text-[#0b48a0] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Publications
+          {t('blogs.backToPublications')}
         </Link>
         
         <button
@@ -97,7 +99,7 @@ export default function ArticleReader() {
           className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-bold text-xs rounded-md shadow-sm transition-colors cursor-pointer"
         >
           <Share2 className="w-3.5 h-3.5" />
-          Share Article
+          {t('blogs.shareArticle')}
         </button>
       </div>
 
@@ -127,10 +129,10 @@ export default function ArticleReader() {
             </span>
             {!article.published && (
               <span className="px-2 py-0.5 bg-red-100 text-red-800 border border-red-200 rounded-sm text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
-                <Shield className="w-3 h-3" /> Draft Status
+                <Shield className="w-3 h-3" /> {t('blogs.draftStatus')}
               </span>
             )}
-            <span className="text-[10px] text-gray-500 font-semibold flex items-center gap-1.5">
+            <span className="text-[10px] text-gray-505 font-semibold flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5 text-gray-400" />
               {formatDate(article.createdAt)}
             </span>
@@ -142,14 +144,14 @@ export default function ArticleReader() {
           </h1>
 
           {/* Author info & Read time */}
-          <div className="flex flex-wrap justify-between items-center gap-4 pt-2 border-t border-gray-100 text-xs text-gray-500 font-semibold">
+          <div className="flex flex-wrap justify-between items-center gap-4 pt-2 border-t border-gray-100 text-xs text-gray-550 font-semibold">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-[#0A2540] text-[#D4AF37] flex items-center justify-center font-bold text-xs uppercase border border-[#d4af37]">
                 {article.author?.name ? article.author.name.charAt(0) : 'A'}
               </div>
               <div>
                 <p className="font-bold text-gray-700 leading-tight">
-                  {article.author?.name || 'Government representative'}
+                  {article.author?.name || t('blogs.officialRep')}
                 </p>
                 <p className="text-[10px] text-gray-400 font-mono">
                   {article.author?.email || 'doitc.circular@rajasthan.gov.in'}
@@ -182,7 +184,7 @@ export default function ArticleReader() {
         <div className="px-6 md:px-8 py-4 bg-gray-50 border-t border-gray-150 text-[10px] text-gray-400 font-sans flex items-center gap-2 select-none">
           <Shield className="w-4 h-4 text-gray-400 flex-shrink-0" />
           <span>
-            This document represents an official tech bulletin of the Department of IT & Communication, Gov. of Rajasthan. Content is intended for regulatory training and educational compliance only.
+            {t('blogs.docDisclaimer')}
           </span>
         </div>
       </article>
