@@ -8,6 +8,7 @@ import videoRoutes from './routes/videoRoutes.js';
 import progressRoutes from './routes/progressRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import articleRoutes from './routes/articleRoutes.js';
+import testRoutes from './routes/testRoutes.js';
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ app.use('/api/videos', videoRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/articles', articleRoutes);
+app.use('/api/tests', testRoutes);
 
 // Base Route
 app.get('/', (req, res) => {
@@ -55,7 +57,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong on the server!' });
 });
 
-// Server bootstrap initialization.
+// Server bootstrap initialization (reloaded)
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

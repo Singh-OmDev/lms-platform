@@ -240,14 +240,14 @@ export default function BlogManagement() {
                       <div className="flex items-center justify-center gap-2">
                         <Link
                           to={`/blogs/${art.id}`}
-                          className="p-1.5 border border-gray-250 hover:border-gray-400 rounded bg-white text-gray-500 hover:text-gray-700 transition-colors"
+                          className="p-1.5 border border-gray-200 hover:border-gray-400 rounded bg-white text-gray-500 hover:text-gray-700 transition-colors"
                           title="Preview article"
                         >
                           <Eye className="w-3.5 h-3.5" />
                         </Link>
                         <button
                           onClick={() => handleEditClick(art)}
-                          className="p-1.5 border border-gray-250 hover:border-gray-400 rounded bg-white text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
+                          className="p-1.5 border border-gray-200 hover:border-gray-400 rounded bg-white text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
                           title="Edit article details"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
@@ -268,7 +268,7 @@ export default function BlogManagement() {
           </div>
         ) : (
           <div className="text-center py-16 text-gray-400 font-semibold">
-            <BookOpen className="w-12 h-12 text-gray-250 mx-auto mb-3" />
+            <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-3" />
             <p>No article records found in the database registry.</p>
             <p className="text-[10px] text-gray-450 font-normal mt-1">
               Click the "Write Article" button to compose your first tech publication.

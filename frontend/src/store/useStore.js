@@ -69,28 +69,15 @@ export const useStore = create((set, get) => ({
   },
 
   // Theme State
-  theme: localStorage.getItem('lms_theme') || 'dark',
+  theme: 'light',
   toggleTheme: () => {
-    const nextTheme = get().theme === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('lms_theme', nextTheme);
-    
-    if (nextTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    
-    set({ theme: nextTheme });
+    set({ theme: 'light' });
   },
 
   // Initialize theme on app boot
   initTheme: () => {
-    const theme = get().theme;
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    localStorage.setItem('lms_theme', 'light');
+    document.documentElement.classList.remove('dark');
   },
 
   // Toasts Notifications State

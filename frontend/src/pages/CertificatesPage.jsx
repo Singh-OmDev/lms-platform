@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Award, Eye, X, Printer } from 'lucide-react';
+import { Award, Eye, X, Printer, HelpCircle, FileText, CheckCircle, AlertCircle, RefreshCw } from 'lucide-react';
 import { api, useStore } from '../store/useStore';
 import { useTranslation } from '../utils/translations';
 
@@ -10,21 +10,146 @@ export default function CertificatesPage() {
   const [stats, setStats] = useState(null);
   const [viewCertificate, setViewCertificate] = useState(null);
 
+  // Test states
+  const [testModalOpen, setTestModalOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [activeTest, setActiveTest] = useState(null);
+  const [loadingTest, setLoadingTest] = useState(false);
+  const [answers, setAnswers] = useState({});
+  const [submittingTest, setSubmittingTest] = useState(false);
+
+  const fetchStats = async () => {
+    try {
+      setLoading(true);
+      const res = await api.get('/analytics/stats');
+      setStats(res.data.stats);
+    } catch (err) {
+      console.error(err);
+      addToast('Failed to load certificates metrics', 'danger');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        setLoading(true);
-        const res = await api.get('/analytics/stats');
-        setStats(res.data.stats);
-      } catch (err) {
-        console.error(err);
-        addToast('Failed to load certificates metrics', 'danger');
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchStats();
   }, []);
+
+  const handleOpenTest = async (category) => {
+    try {
+      setActiveCategory(category);
+      setLoadingTest(true);
+      setTestModalOpen(true);
+      setAnswers({});
+      
+      const res = await api.get(`/tests/${encodeURIComponent(category)}`);
+      if (res.data.test) {
+        setActiveTest(res.data.test);
+        
+        // If there is an existing submission, populate answers
+        if (res.data.submission && res.data.submission.answers) {
+          try {
+            setAnswers(JSON.parse(res.data.submission.answers));
+          } catch (e) {
+            console.error('Failed to parse answers', e);
+          }
+        }
+      } else {
+        setActiveTest(null);
+        addToast('No test has been configured for this module yet.', 'warning');
+      }
+    } catch (err) {
+      console.error(err);
+      addToast('Failed to load module test questions', 'danger');
+    } finally {
+      setLoadingTest(false);
+    }
+  };
+
+  const handleSubmitTest = async (e) => {
+    e.preventDefault();
+    if (!activeTest) return;
+
+    // Validation: make sure all questions are answered
+    const unanswered = activeTest.questions.filter(q => answers[q.id] === undefined || answers[q.id] === '');
+    if (unanswered.length > 0) {
+      addToast(`Please answer all questions. (${unanswered.length} remaining)`, 'warning');
+      return;
+    }
+
+    try {
+      setSubmittingTest(true);
+      const res = await api.post(`/tests/${encodeURIComponent(activeCategory)}/submit`, {
+        answers
+      });
+      addToast(
+        res.data.hasShortAnswer 
+          ? 'Assessment submitted successfully! Pending grading by admin.' 
+          : 'Assessment submitted! Auto-graded successfully.', 
+        'success'
+      );
+      setTestModalOpen(false);
+      fetchStats(); // Refresh certificate states
+    } catch (err) {
+      console.error(err);
+      const errorMsg = err.response?.data?.error || 'Failed to submit assessment';
+      addToast(errorMsg, 'danger');
+    } finally {
+      setSubmittingTest(false);
+    }
+  };
+
+  const renderTestButton = (category, testStatus, catStats) => {
+    switch (testStatus) {
+      case 'no_test':
+        return (
+          <button 
+            onClick={() => setViewCertificate(category === 'Artificial Intelligence' ? 'ai' : 'cyber')}
+            className="btn-primary py-1.5 px-3 text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider cursor-pointer"
+          >
+            <Eye className="w-3.5 h-3.5" /> {t('certificates.downloadPdf')}
+          </button>
+        );
+      case 'not_taken':
+        return (
+          <button 
+            onClick={() => handleOpenTest(category)}
+            className="btn-gold py-1.5 px-3 text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider cursor-pointer text-[#0A2540]"
+          >
+            <HelpCircle className="w-3.5 h-3.5" /> Take Assessment
+          </button>
+        );
+      case 'pending':
+        return (
+          <button 
+            disabled
+            className="py-1.5 px-3 text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider bg-slate-100 text-slate-400 border border-slate-200 rounded-md select-none"
+          >
+            <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Pending Review
+          </button>
+        );
+      case 'failed':
+        return (
+          <button 
+            onClick={() => handleOpenTest(category)}
+            className="py-1.5 px-3 text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider bg-red-650 hover:bg-red-750 text-white rounded-md cursor-pointer transition-colors"
+          >
+            <AlertCircle className="w-3.5 h-3.5" /> Retry Assessment
+          </button>
+        );
+      case 'passed':
+        return (
+          <button 
+            onClick={() => setViewCertificate(category === 'Artificial Intelligence' ? 'ai' : 'cyber')}
+            className="btn-primary py-1.5 px-3 text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider cursor-pointer"
+          >
+            <Eye className="w-3.5 h-3.5" /> {t('certificates.downloadPdf')}
+          </button>
+        );
+      default:
+        return null;
+    }
+  };
 
   if (loading) {
     return (
@@ -38,11 +163,11 @@ export default function CertificatesPage() {
     );
   }
 
-  const aiStats = stats?.categoryStats?.['Artificial Intelligence'] || { total: 0, completed: 0 };
-  const cyberStats = stats?.categoryStats?.['Cybersecurity'] || { total: 0, completed: 0 };
+  const aiStats = stats?.categoryStats?.['Artificial Intelligence'] || { total: 0, completed: 0, testStatus: 'no_test' };
+  const cyberStats = stats?.categoryStats?.['Cybersecurity'] || { total: 0, completed: 0, testStatus: 'no_test' };
 
-  const hasAI = aiStats.total > 0 && aiStats.completed === aiStats.total;
-  const hasCyber = cyberStats.total > 0 && cyberStats.completed === cyberStats.total;
+  const hasAI = aiStats.total > 0 && aiStats.completed === aiStats.total && (aiStats.testStatus === 'passed' || aiStats.testStatus === 'no_test');
+  const hasCyber = cyberStats.total > 0 && cyberStats.completed === cyberStats.total && (cyberStats.testStatus === 'passed' || cyberStats.testStatus === 'no_test');
 
   return (
     <div className="space-y-6 pb-16 font-sans text-[#2d3748]">
@@ -64,11 +189,20 @@ export default function CertificatesPage() {
             <div className={`p-3 rounded bg-[#f8fafc] border ${hasAI ? 'border-amber-400 text-amber-500' : 'border-neutral-200 text-neutral-400'}`}>
               <Award className="w-8 h-8" />
             </div>
-            <div>
+            <div className="flex-1 min-w-0">
               <h3 className="font-serif font-bold text-sm text-[#0A2540]">{t('certificates.aiTitle')}</h3>
               <p className="text-neutral-500 text-xs mt-1 leading-normal">
                 {t('certificates.aiDesc')}
               </p>
+              
+              {aiStats.testStatus === 'failed' && aiStats.submissionFeedback && (
+                <div className="mt-2.5 p-2.5 bg-red-50 text-red-700 text-xs rounded border border-red-200/60 leading-relaxed flex items-start gap-1.5 animate-in fade-in duration-200">
+                  <AlertCircle className="w-4 h-4 text-red-655 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <strong>Review Feedback:</strong> "{aiStats.submissionFeedback}"
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -83,6 +217,8 @@ export default function CertificatesPage() {
               >
                 <Eye className="w-3.5 h-3.5" /> {t('certificates.downloadPdf')}
               </button>
+            ) : aiStats.total > 0 && aiStats.completed === aiStats.total ? (
+              renderTestButton('Artificial Intelligence', aiStats.testStatus, aiStats)
             ) : (
               <span className="text-[10px] font-mono font-bold text-neutral-550 bg-[#edf2f7] px-2 py-1 border border-[#cbd5e0] rounded-sm select-none">
                 {aiStats.completed} / {aiStats.total} {t('catalog.completedBadge')}
@@ -97,11 +233,20 @@ export default function CertificatesPage() {
             <div className={`p-3 rounded bg-[#f8fafc] border ${hasCyber ? 'border-amber-400 text-amber-500' : 'border-neutral-200 text-neutral-400'}`}>
               <Award className="w-8 h-8" />
             </div>
-            <div>
+            <div className="flex-1 min-w-0">
               <h3 className="font-serif font-bold text-sm text-[#0A2540]">{t('certificates.cyberTitle')}</h3>
               <p className="text-neutral-500 text-xs mt-1 leading-normal">
                 {t('certificates.cyberDesc')}
               </p>
+
+              {cyberStats.testStatus === 'failed' && cyberStats.submissionFeedback && (
+                <div className="mt-2.5 p-2.5 bg-red-50 text-red-700 text-xs rounded border border-red-200/60 leading-relaxed flex items-start gap-1.5 animate-in fade-in duration-200">
+                  <AlertCircle className="w-4 h-4 text-red-655 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <strong>Review Feedback:</strong> "{cyberStats.submissionFeedback}"
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -116,6 +261,8 @@ export default function CertificatesPage() {
               >
                 <Eye className="w-3.5 h-3.5" /> {t('certificates.downloadPdf')}
               </button>
+            ) : cyberStats.total > 0 && cyberStats.completed === cyberStats.total ? (
+              renderTestButton('Cybersecurity', cyberStats.testStatus, cyberStats)
             ) : (
               <span className="text-[10px] font-mono font-bold text-neutral-555 bg-[#edf2f7] px-2 py-1 border border-[#cbd5e0] rounded-sm select-none">
                 {cyberStats.completed} / {cyberStats.total} {t('catalog.completedBadge')}
@@ -187,6 +334,117 @@ export default function CertificatesPage() {
             >
               <Printer className="w-4 h-4 text-[#0A2540]" /> {t('certificates.printCredential')}
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Assessment taking modal */}
+      {testModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/55 backdrop-blur-sm overflow-y-auto">
+          <div className="relative w-full max-w-2xl bg-white border border-[#cbd5e0] p-8 rounded-sm shadow-2xl space-y-6 my-8 max-h-[90vh] overflow-y-auto">
+            {/* Close */}
+            <button 
+              onClick={() => setTestModalOpen(false)}
+              className="absolute top-4 right-4 text-neutral-500 hover:text-black transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div>
+              <h2 className="text-lg font-serif font-bold text-[#0A2540]">{activeCategory} Assessment</h2>
+              <p className="text-neutral-550 text-xs mt-1">
+                Complete the questions below to demonstrate module comprehension and claim your certificate.
+              </p>
+            </div>
+
+            {loadingTest ? (
+              <div className="space-y-4 py-8 text-center text-xs text-neutral-500">
+                <RefreshCw className="w-6 h-6 animate-spin mx-auto text-[#0A2540]" />
+                <p>Loading assessment questions...</p>
+              </div>
+            ) : !activeTest ? (
+              <div className="py-8 text-center text-xs text-neutral-500 space-y-2">
+                <AlertCircle className="w-8 h-8 text-amber-500 mx-auto" />
+                <p>No assessment configured yet for this module.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmitTest} className="space-y-6">
+                
+                {/* Info Banner */}
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded text-amber-800 text-xs leading-relaxed flex items-start gap-2">
+                  <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <strong>Passing Criteria:</strong> You must score at least 70% on MCQ questions. Any short-answer responses will be manually graded by the Course Administrator.
+                  </div>
+                </div>
+
+                {/* Questions List */}
+                <div className="space-y-6">
+                  {activeTest.questions.map((q, idx) => (
+                    <div key={q.id} className="p-4 bg-slate-50 border border-slate-200 rounded space-y-3">
+                      <div className="flex items-start gap-2">
+                        <span className="w-5 h-5 bg-[#0A2540] text-white rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">
+                          {idx + 1}
+                        </span>
+                        <p className="text-xs font-bold text-[#0A2540] leading-normal">{q.questionText}</p>
+                      </div>
+
+                      {q.type === 'MCQ' ? (
+                        <div className="grid grid-cols-1 gap-2 pl-7 pt-1">
+                          {q.options.split('|').map((opt, optIdx) => (
+                            <label 
+                              key={optIdx} 
+                              className={`flex items-center gap-2.5 p-2.5 rounded border text-xs cursor-pointer transition-all ${
+                                String(answers[q.id]) === String(optIdx)
+                                  ? 'bg-[#0A2540]/5 border-[#0A2540] text-[#0A2540] font-semibold'
+                                  : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100/50'
+                              }`}
+                            >
+                              <input 
+                                type="radio" 
+                                name={`question-${q.id}`} 
+                                checked={String(answers[q.id]) === String(optIdx)}
+                                onChange={() => setAnswers({ ...answers, [q.id]: String(optIdx) })}
+                                className="accent-[#0A2540] w-3.5 h-3.5"
+                              />
+                              <span>{opt}</span>
+                            </label>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="pl-7 pt-1">
+                          <textarea
+                            value={answers[q.id] || ''}
+                            onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })}
+                            rows={3}
+                            placeholder="Write your answer clearly and concisely..."
+                            className="w-full p-3 bg-white border border-slate-300 rounded text-xs text-slate-800 outline-none focus:border-[#0A2540]"
+                            required
+                          />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Submit button */}
+                <button
+                  type="submit"
+                  disabled={submittingTest}
+                  className="btn-gold w-full py-2.5 flex items-center justify-center gap-1.5 uppercase tracking-wider text-xs font-bold text-[#0A2540] cursor-pointer disabled:opacity-60"
+                >
+                  {submittingTest ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin text-[#0A2540]" /> Submitting Assessment...
+                    </>
+                  ) : (
+                    <>
+                      <FileText className="w-4 h-4 text-[#0A2540]" /> Submit Assessment
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       )}

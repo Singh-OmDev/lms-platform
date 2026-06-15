@@ -48,6 +48,7 @@ function ClerkSyncManager({ children }) {
   const { setUser } = useStore();
   const [syncing, setSyncing] = useState(true);
   const [syncError, setSyncError] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     setClerkGetToken(getToken);
@@ -112,7 +113,9 @@ function ClerkSyncManager({ children }) {
     );
   }
 
-  if (!isLoaded || syncing) {
+  const isPublicRoute = ['/', '/login', '/register'].includes(location.pathname);
+
+  if (!isLoaded || (syncing && !isPublicRoute)) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-sky-600 border-t-transparent rounded-full animate-spin"></div>
@@ -175,7 +178,7 @@ function RouteWrapper() {
 export default function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-slate-950 dark:bg-slate-950 transition-colors duration-300">
+      <div className="min-h-screen bg-[#F8FAFC] transition-colors duration-300">
         <ClerkSyncManager>
           <RouteWrapper />
         </ClerkSyncManager>

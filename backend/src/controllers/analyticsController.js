@@ -41,11 +41,45 @@ export const getUserStats = async (req, res) => {
       }
     });
 
+    // Fetch tests and user submissions to evaluate testStatus
+    const tests = await prisma.test.findMany({
+      include: {
+        submissions: {
+          where: { userId }
+        }
+      }
+    });
+
     const categoryStats = {};
     Object.keys(categoryTotals).forEach(cat => {
+      const categoryTest = tests.find(t => t.category === cat);
+      let testStatus = 'no_test';
+      let submissionId = null;
+      let submissionScore = null;
+      let submissionFeedback = null;
+      
+      if (categoryTest) {
+        const userSub = categoryTest.submissions[0];
+        if (!userSub) {
+          testStatus = 'not_taken';
+        } else if (userSub.status === 'pending') {
+          testStatus = 'pending';
+          submissionId = userSub.id;
+        } else if (userSub.status === 'graded') {
+          testStatus = userSub.passed ? 'passed' : 'failed';
+          submissionId = userSub.id;
+          submissionScore = userSub.score;
+          submissionFeedback = userSub.feedback;
+        }
+      }
+
       categoryStats[cat] = {
         total: categoryTotals[cat],
-        completed: categoryCompletions[cat] || 0
+        completed: categoryCompletions[cat] || 0,
+        testStatus,
+        submissionId,
+        submissionScore,
+        submissionFeedback
       };
     });
 

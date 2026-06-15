@@ -129,10 +129,10 @@ export default function AuthPages({ isRegisterInitial = false }) {
 
         {/* Clerk Widget */}
         <div className="my-auto py-8 flex justify-center">
-          <div className="w-full max-w-[420px] p-6 sm:p-8 bg-white border border-gray-250 rounded-md shadow-lg hover-glow transition-all duration-300">
+          <div className="w-full max-w-[420px] p-6 sm:p-8 bg-white border border-gray-200 rounded-md shadow-lg hover-glow transition-all duration-300">
             {/* Government Logo inside card */}
             <div className="flex flex-col items-center text-center mb-6">
-              <div className="w-10 h-10 rounded-full bg-[#F8FAFC] border border-gray-250 flex items-center justify-center mb-2 shadow-inner">
+              <div className="w-10 h-10 rounded-full bg-[#F8FAFC] border border-gray-200 flex items-center justify-center mb-2 shadow-inner">
                 <Shield className="w-5 h-5 text-[#0A2540]" />
               </div>
               <h2 className="text-sm font-serif font-bold text-[#0A2540] uppercase tracking-wider">

@@ -237,6 +237,9 @@ export const translations = {
     admin: {
       title: "Admin System Registry",
       subtitle: "Inspect student statistics, registration graphs, and course completion metrics.",
+      overview: "Overview Dashboard",
+      manageTests: "Manage Module Tests",
+      gradeSubmissions: "Grade Submissions",
       totalUsers: "Total Users",
       videosCatalog: "Videos Catalog",
       activeWatchers: "Active Watchers",
@@ -515,6 +518,9 @@ export const translations = {
     admin: {
       title: "व्यवस्थापक प्रणाली रजिस्ट्री",
       subtitle: "छात्र आंकड़ों, पंजीकरण ग्राफों और पाठ्यक्रम पूर्णता मेट्रिक्स का निरीक्षण करें।",
+      overview: "अवलोकन डैशबोर्ड",
+      manageTests: "मॉड्यूल परीक्षण प्रबंधित करें",
+      gradeSubmissions: "सबमिशन ग्रेड करें",
       totalUsers: "कुल उपयोगकर्ता",
       videosCatalog: "वीडियो सूची",
       activeWatchers: "सक्रिय दर्शक",
