@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Shield, Cpu, Compass, ArrowRight, CheckCircle, FileCode, Users, Video, FileText,
-  Clock, Award, Activity, ChevronRight, Mail, Phone, MapPin, Sparkles, BookOpen, AlertTriangle
+import {
+  ArrowRight, CheckCircle, Clock, ChevronRight, Sparkles, BookOpen
 } from 'lucide-react';
 import { api, useStore } from '../store/useStore';
 import { useTranslation } from '../utils/translations';
@@ -41,38 +40,7 @@ export default function LandingPage() {
     setSubscribed(true);
   };
 
-  const directives = [
-    {
-      icon: Cpu,
-      title: t('landing.directives.0.title'),
-      description: t('landing.directives.0.description')
-    },
-    {
-      icon: Shield,
-      title: t('landing.directives.1.title'),
-      description: t('landing.directives.1.description')
-    },
-    {
-      icon: Compass,
-      title: t('landing.directives.2.title'),
-      description: t('landing.directives.2.description')
-    },
-    {
-      icon: FileCode,
-      title: t('landing.directives.3.title'),
-      description: t('landing.directives.3.description')
-    },
-    {
-      icon: Users,
-      title: t('landing.directives.4.title'),
-      description: t('landing.directives.4.description')
-    },
-    {
-      icon: Video,
-      title: t('landing.directives.5.title'),
-      description: t('landing.directives.5.description')
-    }
-  ];
+
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString(language === 'hi' ? 'hi-IN' : 'en-IN', {
@@ -84,7 +52,7 @@ export default function LandingPage() {
 
   return (
     <div className="bg-[#F8FAFC] dark:bg-[#07172A] text-slate-800 dark:text-slate-100 min-h-screen selection:bg-[#D4AF37]/30 selection:text-[#0A2540] font-sans flex flex-col transition-colors duration-200">
-      
+
       {/* Official Government Banner */}
       <div className="bg-slate-200 dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800 px-6 py-1.5 text-[11px] text-slate-600 dark:text-slate-400 flex items-center space-x-2 select-none font-medium">
         <span className="inline-block w-4 h-2.5 bg-sky-600 border border-white"></span>
@@ -95,10 +63,10 @@ export default function LandingPage() {
       <nav className="sticky top-0 z-50 border-b-4 border-[#D4AF37] bg-[#0A2540] text-white shadow-md">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-3 group">
-            <img 
-              src="/rajasthan_logo.png" 
-              alt={t('common.govEmblemAlt')} 
-              className="w-10 h-10 object-contain bg-white rounded-full p-0.5 border border-[#D4AF37] transition-transform group-hover:scale-105" 
+            <img
+              src="/rajasthan_logo.png"
+              alt={t('common.govEmblemAlt')}
+              className="w-10 h-10 object-contain bg-white rounded-full p-0.5 border border-[#D4AF37] transition-transform group-hover:scale-105"
             />
             <div>
               <span className="text-[9px] font-bold text-[#D4AF37] uppercase tracking-wider block">{t('common.govOfRaj')}</span>
@@ -109,7 +77,7 @@ export default function LandingPage() {
           </Link>
           <div className="flex items-center space-x-4">
             {/* Language Selection Toggle */}
-            <button 
+            <button
               onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
               className="text-xs font-semibold text-neutral-300 hover:text-white transition-colors px-2 py-1 rounded border border-neutral-600 bg-white/5 active:scale-95 text-[10px]"
             >
@@ -137,19 +105,19 @@ export default function LandingPage() {
       <section className="relative overflow-hidden bg-gradient-to-br from-[#0A2540] via-[#0F1E36] to-[#051321] text-white py-16 md:py-24 border-b border-slate-800">
         {/* Abstract Tech Mask Grid */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#132b4b_1px,transparent_1px),linear-gradient(to_bottom,#132b4b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-35" />
-        
+
         <div className="max-w-5xl mx-auto px-6 relative z-10 flex flex-col items-center text-center space-y-6">
           {/* Portal Notice Flag */}
           <div className="inline-flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-xs text-[#D4AF37] font-semibold backdrop-blur-md shadow-sm select-none">
             <Sparkles className="w-3.5 h-3.5 text-[#D4AF37] animate-pulse" />
             <span>{t('landing.authorizedCurriculum')}</span>
           </div>
-          
+
           {/* Serif Formal Title */}
           <h1 className="text-3xl sm:text-5xl font-serif font-bold max-w-4xl leading-tight text-white tracking-tight">
             {t('landing.heroTitle')}
           </h1>
-          
+
           {/* Informative Subtitle */}
           <p className="text-neutral-300 text-xs sm:text-sm max-w-2xl leading-relaxed">
             {t('landing.heroSubtitle')}
@@ -175,105 +143,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Student Transcript Registry Mockup */}
-      <section className="max-w-5xl mx-auto px-6 -translate-y-8 z-20 w-full">
-        <div className="w-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0E2035] rounded-md p-6 text-left shadow-lg hover-glow transition-all duration-300">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 mb-5">
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 rounded-full bg-emerald-500 border border-emerald-600 animate-pulse" />
-              <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase font-semibold">{t('landing.systemRegistryActive')}</span>
-            </div>
-            <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">{t('landing.databaseLedger')}</span>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:col-span-2 space-y-5">
-              <div className="border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0C1E32] p-4 space-y-3 rounded-md">
-                <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block font-bold">{t('landing.syllabusEnrolled')}</span>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex-1">
-                    <h3 className="text-[#0A2540] dark:text-[#D4AF37] font-serif font-bold text-sm">{t('landing.learningCore')}</h3>
-                    <div className="w-full bg-slate-200 dark:bg-slate-800 h-2.5 rounded-sm overflow-hidden mt-2 border border-slate-300 dark:border-slate-700">
-                      <div className="bg-[#0A2540] dark:bg-[#D4AF37] h-full transition-all" style={{ width: '75%' }} />
-                    </div>
-                  </div>
-                  <div className="text-[10px] font-mono text-slate-500 dark:text-slate-400 font-semibold whitespace-nowrap text-right">
-                    <span>75% {t('landing.complianceReached')}</span>
-                    <br />
-                    <span>5 {t('landing.modulesCompleted')}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0C1E32] p-4 rounded-md">
-                  <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block font-bold">{t('landing.totalPlatformHours')}</span>
-                  <div className="text-lg font-mono font-bold text-[#0A2540] dark:text-white mt-1">45h 12m</div>
-                </div>
-                <div className="border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0C1E32] p-4 rounded-md">
-                  <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block font-bold">{t('landing.verifiableCertificates')}</span>
-                  <div className="text-lg font-mono font-bold text-[#0A2540] dark:text-white mt-1">2 {t('landing.issued')}</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Registry Checklist */}
-            <div className="border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0C1E32] p-4 rounded-md flex flex-col justify-between">
-              <div className="space-y-4">
-                <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest block font-bold">{t('landing.auditRequirements')}</span>
-                <div className="space-y-2.5 text-xs text-slate-700 dark:text-slate-300">
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-500 flex-shrink-0" />
-                    <span>{t('landing.progressSaved')}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-500 flex-shrink-0" />
-                    <span>{t('landing.scratchpadLive')}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-500 flex-shrink-0" />
-                    <span>{t('landing.verificationSeal')}</span>
-                  </div>
-                </div>
-              </div>
-              <div className="pt-4 border-t border-slate-200 dark:border-slate-800 text-center text-[9px] font-mono text-slate-500 dark:text-slate-400 font-semibold">
-                {t('landing.registrarLedger')}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Feature Bulletins */}
-      <section className="bg-white dark:bg-[#07172A] border-b border-slate-200 dark:border-slate-800 transition-colors py-12">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="max-w-2xl mb-10">
-            <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#0A2540] dark:text-[#D4AF37] mb-2">
-              {t('landing.capabilitiesTitle')}
-            </h2>
-            <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm font-medium">
-              {t('landing.capabilitiesDesc')}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {directives.map((dir, idx) => {
-              const Icon = dir.icon;
-              return (
-                <div key={idx} className="premium-card p-5 flex flex-col justify-between shadow-sm border border-slate-200 dark:border-slate-800 rounded-sm">
-                  <div>
-                    <div className="w-9 h-9 rounded bg-[#F8FAFC] dark:bg-[#0C1E32] border border-slate-250 dark:border-slate-800 flex items-center justify-center mb-4">
-                      <Icon className="w-4 h-4 text-[#0A2540] dark:text-[#D4AF37]" />
-                    </div>
-                    <h3 className="font-serif font-bold text-sm text-[#0A2540] dark:text-white mb-2">{dir.title}</h3>
-                    <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">{dir.description}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
 
       {/* Live Technical Bulletins & Publications Feed */}
       <section className="bg-[#F8FAFC] dark:bg-[#0C1E32] border-b border-slate-200 dark:border-slate-800 py-16 transition-colors">
@@ -426,7 +296,7 @@ export default function LandingPage() {
                 {t('common.compliancedesc')}
               </p>
             </div>
-            
+
             {/* Col 2: Quick Links */}
             <div className="space-y-3">
               <h4 className="font-bold text-[#D4AF37] uppercase tracking-wider text-[10px]">{t('common.adminLinks')}</h4>
@@ -437,7 +307,7 @@ export default function LandingPage() {
                 <li><a href="#" className="hover:text-white transition-colors">{t('common.quickLinks.accessibility')}</a></li>
               </ul>
             </div>
-            
+
             {/* Col 3: Support Contact */}
             <div className="space-y-3">
               <h4 className="font-bold text-[#D4AF37] uppercase tracking-wider text-[10px]">{t('common.contacts')}</h4>
@@ -449,14 +319,14 @@ export default function LandingPage() {
                 </p>
               </div>
             </div>
-            
+
             {/* Col 4: Interactive alerts form */}
             <div className="space-y-3">
               <h4 className="font-bold text-[#D4AF37] uppercase tracking-wider text-[10px]">{t('common.bulletins')}</h4>
               <p className="text-gray-400 text-[11px] leading-relaxed">
                 {t('common.bulletinsDesc')}
               </p>
-              
+
               {subscribed ? (
                 <div className="p-3 bg-[#0a2540]/60 border border-emerald-500/30 rounded-md text-emerald-400 text-[11px] font-semibold flex items-center gap-1.5 animate-in fade-in duration-200">
                   <span>✓ {t('common.subscribeBulletinsSuccess')}</span>
@@ -481,7 +351,7 @@ export default function LandingPage() {
               )}
             </div>
           </div>
-          
+
           {/* Footer Sub-links */}
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] text-gray-400">
             <span>{t('common.copyright')}</span>

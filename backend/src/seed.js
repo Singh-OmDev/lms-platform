@@ -6,6 +6,9 @@ async function main() {
   await prisma.watchProgress.deleteMany({});
   await prisma.bookmarks.deleteMany({});
   await prisma.comments.deleteMany({});
+  await prisma.testSubmission.deleteMany({});
+  await prisma.question.deleteMany({});
+  await prisma.test.deleteMany({});
   await prisma.article.deleteMany({});
   await prisma.video.deleteMany({});
   await prisma.category.deleteMany({});
@@ -176,6 +179,61 @@ Review the *Neural Networks from Scratch* video to get an intuition of backpropa
       data: article
     });
   }
+
+  console.log('Seeding module tests and questions...');
+  await prisma.test.create({
+    data: {
+      category: 'Artificial Intelligence',
+      questions: {
+        create: [
+          {
+            type: 'MCQ',
+            questionText: 'What is the primary loss function parameter optimized during Generative Adversarial Network (GAN) min-max training?',
+            options: 'Mean Squared Error (MSE)|Binary Cross-Entropy (BCE)|Huber Loss|Categorical Cross-Entropy',
+            correctOption: '1'
+          },
+          {
+            type: 'MCQ',
+            questionText: 'Which mathematical technique does LoRA (Low-Rank Adaptation) use to reduce the number of trainable LLM parameters?',
+            options: 'Weight pruning|Quantization|Rank-decomposition matrices|Gradient clipping',
+            correctOption: '2'
+          },
+          {
+            type: 'SHORT',
+            questionText: 'Explain the difference between feed-forward propagation and backpropagation in a neural network.',
+            correctOption: 'Feed-forward computes the output and loss from inputs, while backpropagation calculates the gradients of the loss function with respect to weights using the chain rule to update them.'
+          }
+        ]
+      }
+    }
+  });
+
+  await prisma.test.create({
+    data: {
+      category: 'Cybersecurity',
+      questions: {
+        create: [
+          {
+            type: 'MCQ',
+            questionText: 'Which OWASP Top 10 vulnerability occurs when user-supplied input is directly executed as a command or query by an interpreter?',
+            options: 'Broken Access Control|Injection|Cryptographic Failures|Security Misconfiguration',
+            correctOption: '1'
+          },
+          {
+            type: 'MCQ',
+            questionText: 'In network penetration testing, which tool is primary used for packet capture and deep network protocol analysis?',
+            options: 'Nmap|Metasploit|Wireshark|Hydra',
+            correctOption: '2'
+          },
+          {
+            type: 'SHORT',
+            questionText: 'Explain SPF, DKIM, and DMARC and how they defend state email infrastructures against spear-phishing.',
+            correctOption: 'SPF lists authorized sending IPs. DKIM adds cryptographic signatures to verify sender identity. DMARC uses SPF/DKIM checks to define receiver policies (e.g. block or quarantine) for failing mails.'
+          }
+        ]
+      }
+    }
+  });
 
   console.log('Database successfully seeded!');
 }

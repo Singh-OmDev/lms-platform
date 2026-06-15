@@ -19,6 +19,7 @@ model User {
   bookmarks      Bookmarks[]
   comments       Comments[]
   articles       Article[]
+  submissions    TestSubmission[]
 }
 
 model Video {
@@ -94,4 +95,45 @@ model Article {
   updatedAt   DateTime @updatedAt
   
   author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+model Test {
+  id          Int              @id @default(autoincrement())
+  category    String           @unique
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  
+  questions   Question[]
+  submissions TestSubmission[]
+}
+
+model Question {
+  id             Int      @id @default(autoincrement())
+  testId         Int
+  type           String   // "MCQ" or "SHORT"
+  questionText   String
+  options        String   @default("") // Semicolon-separated options for MCQ
+  correctOption  String   @default("") // Correct option index or text for MCQ
+  createdAt      DateTime @default(now())
+  
+  test           Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
+}
+
+model TestSubmission {
+  id        Int      @id @default(autoincrement())
+  testId    Int
+  userId    Int
+  answers   String   // JSON string of answers
+  score     Int?
+  passed    Boolean  @default(false)
+  status    String   @default("pending") // "pending", "graded"
+  feedback  String?
+  gradedAt  DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  test      Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, testId])
 }

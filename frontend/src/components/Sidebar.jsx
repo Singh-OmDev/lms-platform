@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
-  Moon, 
-  Sun,
   LogOut,
   User,
   Shield,
@@ -116,14 +114,7 @@ export default function Sidebar({ children }) {
                 </button>
               </div>
 
-              {/* Theme Toggle */}
-              <button
-                onClick={toggleTheme}
-                className="p-2 text-neutral-300 hover:text-white rounded-md border border-[#001f4d] bg-[#001a40] hover:border-neutral-500 transition-colors cursor-pointer"
-                aria-label="Toggle Theme Contrast"
-              >
-                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              </button>
+
 
               {/* Profile Dropdown */}
               {user && (

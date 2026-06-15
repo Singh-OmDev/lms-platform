@@ -549,7 +549,7 @@ export default function BlogManagement() {
           </div>
         ) : (
           <div className="text-center py-16 text-gray-500 font-semibold">
-            <BookOpen className="w-12 h-12 text-gray-250 mx-auto mb-3" />
+            <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-3" />
             <p>No article records match the active criteria.</p>
             <p className="text-[10px] text-gray-400 font-normal mt-1">
               Adjust your search keywords/filters or click "Write Article" to compose one.
