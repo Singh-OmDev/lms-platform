@@ -1,176 +1,213 @@
 import React from 'react';
 import { SignIn, SignUp } from '@clerk/clerk-react';
-import { Shield, Award, BookOpen, ShieldAlert, Activity, ArrowLeft } from 'lucide-react';
+import { Shield, Award, BookOpen, ShieldAlert, ArrowLeft, Lock, Terminal } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useStore } from '../store/useStore';
 import { useTranslation } from '../utils/translations';
 
 export default function AuthPages({ isRegisterInitial = false }) {
+  const { theme } = useStore();
   const { t } = useTranslation();
 
+  // Clerk appearance — always light inside the card (isolated from dark global CSS)
   const clerkAppearance = {
     variables: {
-      colorPrimary: '#0A2540',
+      colorPrimary: '#0C0E14',
       colorText: '#1E293B',
-      colorTextSecondary: '#4A5568',
+      colorTextSecondary: '#64748B',
       colorBackground: '#FFFFFF',
       colorInputBackground: '#F8FAFC',
       colorInputText: '#1E293B',
-      fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      borderRadius: '6px',
+      colorNeutral: '#64748B',
+      fontFamily: "'Outfit', system-ui, sans-serif",
+      borderRadius: '10px',
+      fontSize: '14px',
     },
     elements: {
-      card: 'shadow-none border-0 bg-transparent p-0 m-0',
-      headerTitle: 'font-serif text-lg md:text-xl font-bold text-[#0A2540]',
-      headerSubtitle: 'text-xs text-gray-500 font-medium',
-      formButtonPrimary: 'bg-[#0A2540] hover:bg-[#071A2E] text-white border-b-2 border-[#051321] text-xs font-bold uppercase tracking-wider py-2.5 shadow-sm active:translate-y-[1px] transition-all cursor-pointer w-full',
-      socialButtonsBlockButton: 'border border-gray-200 hover:bg-gray-55 text-xs font-semibold py-2 rounded-md transition-colors cursor-pointer',
-      formFieldInput: 'bg-gray-50 border border-gray-300 focus:border-[#0A2540] focus:ring-1 focus:ring-[#0A2540] text-xs rounded-md py-2.5 px-3 transition-all outline-none',
-      formFieldLabel: 'text-[10px] font-bold uppercase tracking-wider text-gray-600 mb-1',
-      footerActionLink: 'text-[#0A2540] hover:text-[#0b48a0] font-bold transition-colors',
+      rootBox: 'w-full',
+      card: 'shadow-none border-0 bg-transparent p-0 m-0 w-full',
+      headerTitle: 'font-bold text-[#0C0E14] text-[15px] tracking-tight',
+      headerSubtitle: 'text-xs text-slate-500 font-medium mt-0.5',
+      formButtonPrimary:
+        'bg-[#0C0E14] hover:bg-[#1A1E2A] text-white text-xs font-bold uppercase tracking-widest py-3 transition-all cursor-pointer w-full rounded-xl shadow-md active:translate-y-[1px]',
+      socialButtonsBlockButton:
+        'border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-semibold py-2.5 rounded-xl transition-all cursor-pointer bg-white w-full',
+      socialButtonsBlockButtonText: 'text-gray-700 font-semibold text-sm',
+      formFieldInput:
+        'bg-[#F8FAFC] border border-gray-200 text-[#1E293B] focus:border-[#0C0E14] focus:ring-2 focus:ring-[#0C0E14]/8 text-sm rounded-xl py-3 px-4 transition-all outline-none w-full',
+      formFieldLabel: 'text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5',
+      footerActionLink: 'text-[#0C0E14] hover:text-[#F5A623] font-bold transition-colors',
+      footerActionText: 'text-xs text-gray-500',
       identityPreviewText: 'text-xs font-bold text-gray-700',
-      identityPreviewEditButton: 'text-[#D4AF37] hover:text-[#A88725] font-bold',
-      formFieldInputShowPasswordButton: 'text-[#0A2540] hover:text-[#071A2E] font-bold',
+      identityPreviewEditButton: 'text-[#0C0E14] hover:text-[#F5A623] font-bold',
+      formFieldInputShowPasswordButton: 'text-gray-400 hover:text-[#0C0E14]',
+      dividerText: 'text-gray-400 text-xs',
+      dividerLine: 'bg-gray-200',
+      otpCodeFieldInput: 'border border-gray-200 bg-[#F8FAFC] text-[#1E293B] rounded-xl',
+      formResendCodeLink: 'text-[#0C0E14] hover:text-[#F5A623] font-bold',
+      alertText: 'text-xs',
+      formFieldErrorText: 'text-xs text-red-600',
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row font-sans bg-[#F8FAFC]">
-      
-      {/* Left Column: Official Branding Banner & Info */}
-      <div className="relative md:w-1/2 bg-gradient-to-br from-[#0A2540] via-[#0F1E36] to-[#051321] text-white p-8 md:p-12 flex flex-col justify-between overflow-hidden">
-        
-        {/* Background Ambient Glows & Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0F2E50_1px,transparent_1px),linear-gradient(to_bottom,#0F2E50_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-35" />
-        
-        {/* Top Header branding */}
-        <div className="relative z-10 flex items-center space-x-3">
-          <img 
-            src="/rajasthan_logo.png" 
-            alt={t('common.govEmblemAlt')} 
-            className="w-11 h-11 object-contain bg-white rounded-full p-0.5 border border-[#D4AF37]" 
-          />
+    <div className="min-h-screen flex flex-col md:flex-row font-sans bg-[#0C0E14]">
+
+      {/* ─── Left: Branding panel ───────────────────────────────── */}
+      <div className="relative md:w-[52%] bg-[#13161E] text-white p-8 md:p-14 flex flex-col justify-between overflow-hidden min-h-[300px] border-r border-[#22283A]">
+
+        {/* Grid pattern */}
+        <div className="absolute inset-0"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(245,166,35,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(245,166,35,0.03) 1px, transparent 1px)',
+            backgroundSize: '40px 40px'
+          }}
+        />
+        {/* Amber glow */}
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#F5A623]/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/4 left-0 w-48 h-48 bg-[#60A5FA]/3 rounded-full blur-3xl pointer-events-none" />
+
+        {/* Top branding */}
+        <div className="relative z-10 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-[#F5A623]/10 border border-[#F5A623]/20 flex items-center justify-center flex-shrink-0">
+            <Shield className="w-5 h-5 text-[#F5A623]" />
+          </div>
           <div>
-            <span className="text-[9px] font-bold text-[#D4AF37] uppercase tracking-widest block">{t('common.govOfRaj')}</span>
-            <span className="font-serif font-bold text-xs tracking-wider uppercase text-neutral-100">
+            <div className="text-[9px] font-mono font-medium text-[#F5A623] uppercase tracking-[0.2em]">{t('common.govOfRaj')}</div>
+            <div className="font-bold text-sm text-white uppercase tracking-wide" style={{fontFamily:'Fraunces,Georgia,serif'}}>
               {t('certificates.printSub')}
-            </span>
+            </div>
           </div>
         </div>
 
-        {/* Center Info bullets */}
-        <div className="relative z-10 my-12 md:my-0 space-y-6 max-w-lg">
-          <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-[#D4AF37] bg-white/5 px-2.5 py-1 rounded-sm w-fit border border-[#D4AF37]/25 backdrop-blur-md">
-            <Shield className="w-3.5 h-3.5 text-[#D4AF37]" /> {t('auth.stateDefenseRegistry')}
+        {/* Center content */}
+        <div className="relative z-10 my-10 space-y-6">
+
+          {/* Gov badge */}
+          <div className="gov-badge w-fit">
+            <Lock className="w-2.5 h-2.5" /> {t('auth.stateDefenseRegistry')}
           </div>
-          
-          <h1 className="text-2xl md:text-3xl font-serif font-bold text-white tracking-tight leading-tight">
+
+          <h1 className="text-3xl md:text-5xl font-bold leading-tight tracking-tight text-white"
+            style={{fontFamily:'Fraunces,Georgia,serif'}}
+          >
             {t('auth.cyberSecurityHub')}
           </h1>
-          <p className="text-xs md:text-sm text-neutral-300 font-medium leading-relaxed">
-            {t('auth.authSubtitle')}
-          </p>
 
-          <div className="space-y-4 pt-4 border-t border-white/10">
-            {/* Feature 1 */}
-            <div className="flex gap-3 items-start">
-              <div className="p-1.5 bg-white/5 border border-white/10 rounded text-[#D4AF37] mt-0.5">
-                <Award className="w-4 h-4" />
+          <p className="text-sm text-[#C2CCDF] leading-relaxed max-w-sm">{t('auth.authSubtitle')}</p>
+
+          {/* Feature list */}
+          <div className="space-y-3.5 pt-2">
+            {[
+              { icon: Award,       key: 'auth.certTitle'     },
+              { icon: BookOpen,    key: 'auth.syllabusTitle' },
+              { icon: ShieldAlert, key: 'auth.threatTitle'   },
+            ].map(({ icon: Icon, key }) => (
+              <div key={key} className="flex items-center gap-3 text-sm text-[#C2CCDF]">
+                <div className="w-7 h-7 rounded-lg bg-[#F5A623]/10 border border-[#F5A623]/20 flex items-center justify-center flex-shrink-0">
+                  <Icon className="w-3.5 h-3.5 text-[#F5A623]" />
+                </div>
+                {t(key)}
               </div>
-              <div>
-                <h4 className="text-xs font-bold text-white">{t('auth.certTitle')}</h4>
-                <p className="text-[11px] text-neutral-400 mt-0.5">{t('auth.certDesc')}</p>
-              </div>
+            ))}
+          </div>
+
+          {/* Terminal widget */}
+          <div className="mt-4 bg-[#0C0E14] border border-[#22283A] rounded-xl p-4 max-w-xs">
+            <div className="flex items-center gap-1.5 mb-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#EF4444]" />
+              <div className="w-1.5 h-1.5 rounded-full bg-[#F5A623]" />
+              <div className="w-1.5 h-1.5 rounded-full bg-[#22C55E]" />
+              <span className="text-[9px] font-mono text-[#8B9ABF] ml-1">AUTH TERMINAL</span>
             </div>
-            {/* Feature 2 */}
-            <div className="flex gap-3 items-start">
-              <div className="p-1.5 bg-white/5 border border-white/10 rounded text-[#D4AF37] mt-0.5">
-                <BookOpen className="w-4 h-4" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-white">{t('auth.syllabusTitle')}</h4>
-                <p className="text-[11px] text-neutral-400 mt-0.5">{t('auth.syllabusDesc')}</p>
-              </div>
-            </div>
-            {/* Feature 3 */}
-            <div className="flex gap-3 items-start">
-              <div className="p-1.5 bg-white/5 border border-white/10 rounded text-[#D4AF37] mt-0.5">
-                <ShieldAlert className="w-4 h-4" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-white">{t('auth.threatTitle')}</h4>
-                <p className="text-[11px] text-neutral-400 mt-0.5">{t('auth.threatDesc')}</p>
-              </div>
+            <div className="font-mono text-[11px] space-y-1">
+              <p className="text-[#22C55E]">$ status: <span className="text-[#F5A623]">SECURE</span></p>
+              <p className="text-[#C2CCDF]">$ encryption: TLS 1.3</p>
+              <p className="text-[#C2CCDF]">$ provider: Clerk Auth</p>
+              <p className="text-[#8B9ABF] animate-pulse">▋</p>
             </div>
           </div>
         </div>
 
-        {/* Bottom copyright & disclaimer */}
-        <div className="relative z-10 text-[10px] text-neutral-400 leading-normal pt-6 border-t border-white/5 flex flex-col sm:flex-row justify-between gap-2">
-          <span>{t('auth.copyright')}</span>
-          <span>{t('auth.officialConsole')}</span>
+        {/* Copyright */}
+        <div className="relative z-10 text-[9px] font-mono text-[#8B9ABF] uppercase tracking-widest">
+          {t('auth.copyright')}
         </div>
       </div>
 
-      {/* Right Column: Authentication Card Wrapper */}
-      <div className="md:w-1/2 flex flex-col justify-between p-6 md:p-12">
-        {/* Back Link to Landing */}
-        <div className="flex justify-between items-center text-xs">
+      {/* ─── Right: Auth card ───────────────────────────────────── */}
+      <div className="md:w-[48%] flex flex-col items-center justify-center p-6 md:p-10 bg-[#0C0E14]">
+        <div className="w-full max-w-[420px]">
+
+          {/* Back link */}
           <Link
             to="/"
-            className="inline-flex items-center gap-1 font-bold text-[#0A2540] hover:text-[#0b48a0] transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#8B9ABF] hover:text-[#F5A623] transition-colors mb-8 group"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
             {t('auth.returnHome')}
           </Link>
-          <span className="text-[10px] font-mono text-gray-500 font-bold bg-gray-150 px-2 py-0.5 rounded-sm select-none uppercase tracking-wide">
-            {t('auth.secureEntry')}
-          </span>
-        </div>
 
-        {/* Clerk Widget */}
-        <div className="my-auto py-8 flex justify-center">
-          <div className="w-full max-w-[420px] p-6 sm:p-8 bg-white border border-gray-200 rounded-md shadow-lg hover-glow transition-all duration-300">
-            {/* Government Logo inside card */}
-            <div className="flex flex-col items-center text-center mb-6">
-              <div className="w-10 h-10 rounded-full bg-[#F8FAFC] border border-gray-200 flex items-center justify-center mb-2 shadow-inner">
-                <Shield className="w-5 h-5 text-[#0A2540]" />
+          {/* Card header */}
+          <div className="mb-6">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{background:'linear-gradient(135deg, #0C0E14, #1A1E2A)'}}>
+                <Shield className="w-5 h-5 text-[#F5A623]" />
               </div>
-              <h2 className="text-sm font-serif font-bold text-[#0A2540] uppercase tracking-wider">
-                {t('auth.lmsCredential')}
-              </h2>
-              <div className="h-[2px] w-12 bg-[#D4AF37] mt-1.5 rounded" />
+              <div>
+                <h2 className="text-sm font-bold text-white uppercase tracking-widest leading-tight" style={{fontFamily:'Fraunces,Georgia,serif'}}>
+                  {t('auth.lmsCredential')}
+                </h2>
+                <div className="flex items-center gap-1 mt-1">
+                  <div className="h-[2px] w-8 bg-[#F5A623] rounded-full" />
+                  <div className="h-[2px] w-3 bg-[#F5A623]/30 rounded-full" />
+                </div>
+              </div>
             </div>
+          </div>
 
+          {/* Clerk widget — isolated white card */}
+          <div
+            className="clerk-card-host"
+            style={{
+              background: '#ffffff',
+              borderRadius: '20px',
+              border: '1px solid #E2E8F0',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.08), 0 16px 48px rgba(0,0,0,0.16)',
+              padding: '32px 28px',
+            }}
+          >
             {isRegisterInitial ? (
-              <SignUp 
-                routing="path" 
-                path="/register" 
-                signInUrl="/login" 
-                forceRedirectUrl="/dashboard"
-                appearance={clerkAppearance}
-              />
+              <SignUp routing="path" path="/register" signInUrl="/login" forceRedirectUrl="/dashboard" appearance={clerkAppearance} />
             ) : (
-              <SignIn 
-                routing="path" 
-                path="/login" 
-                signUpUrl="/register" 
-                forceRedirectUrl="/dashboard"
-                appearance={clerkAppearance}
-              />
+              <SignIn routing="path" path="/login" signUpUrl="/register" forceRedirectUrl="/dashboard" appearance={clerkAppearance} />
             )}
           </div>
-        </div>
 
-        {/* Footer info links */}
-        <div className="text-[10px] text-gray-450 text-center flex justify-center space-x-4">
-          <a href="#" className="hover:text-gray-600 transition-colors">{t('auth.privacyCharter')}</a>
-          <span>•</span>
-          <a href="#" className="hover:text-gray-650 transition-colors">{t('auth.systemDisclaimers')}</a>
-          <span>•</span>
-          <a href="#" className="hover:text-gray-650 transition-colors">{t('auth.supportRegistry')}</a>
+          {/* Trust indicators */}
+          <div className="flex items-center justify-center gap-5 mt-5">
+            {[
+              { color: '#22C55E', label: '256-bit SSL' },
+              { color: '#60A5FA', label: t('auth.secureEntry') },
+              { color: '#F5A623', label: 'ISO 27001' },
+            ].map(({ color, label }) => (
+              <div key={label} className="flex items-center gap-1.5 text-[10px] font-mono text-[#8B9ABF]">
+                <div className="w-1.5 h-1.5 rounded-full" style={{background: color}} />
+                {label}
+              </div>
+            ))}
+          </div>
+
+          {/* Footer links */}
+          <div className="text-[10px] font-mono text-[#8B9ABF] text-center flex justify-center gap-4 mt-4">
+            <a href="#" className="hover:text-[#F5A623] transition-colors">{t('auth.privacyCharter')}</a>
+            <span className="text-[#22283A]">·</span>
+            <a href="#" className="hover:text-[#F5A623] transition-colors">{t('auth.systemDisclaimers')}</a>
+            <span className="text-[#22283A]">·</span>
+            <a href="#" className="hover:text-[#F5A623] transition-colors">{t('auth.supportRegistry')}</a>
+          </div>
         </div>
       </div>
-      
     </div>
   );
 }

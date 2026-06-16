@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Play, BookOpen, Clock, ChevronRight, Sparkles, Award } from 'lucide-react';
+import { Play, BookOpen, Clock, ChevronRight, Sparkles, Award, TrendingUp, Zap } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { api, useStore } from '../store/useStore';
 import { useTranslation } from '../utils/translations';
+
+const fadeUp = {
+  hidden:  { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.25, 0.8, 0.25, 1] } }
+};
+const stagger = {
+  hidden:  {},
+  visible: { transition: { staggerChildren: 0.1 } }
+};
 
 export default function UserDashboard() {
   const navigate = useNavigate();
   const { user, addToast } = useStore();
   const { t } = useTranslation();
-  
   const [loading, setLoading] = useState(true);
   const [continueWatching, setContinueWatching] = useState([]);
   const [recommended, setRecommended] = useState([]);
@@ -20,198 +29,204 @@ export default function UserDashboard() {
         setLoading(true);
         const res = await api.get('/videos');
         const allVideos = res.data;
-
-        // Filter In-Progress courses
-        const inProgress = allVideos.filter(
-          v => v.progress && !v.progress.completed && v.progress.completionPercentage > 0
-        );
-
-        // Filter Recommended courses (not started or completed)
-        const notStarted = allVideos.filter(
-          v => !v.progress || (!v.progress.completed && v.progress.completionPercentage === 0)
-        );
-
-        // Newest additions
+        const inProgress = allVideos.filter(v => v.progress && !v.progress.completed && v.progress.completionPercentage > 0);
+        const notStarted = allVideos.filter(v => !v.progress || (!v.progress.completed && v.progress.completionPercentage === 0));
         const sortedNewest = [...allVideos].sort((a, b) => b.id - a.id);
-
         setContinueWatching(inProgress);
         setRecommended(notStarted.slice(0, 3));
         setRecentAdded(sortedNewest.slice(0, 4));
       } catch (err) {
-        console.error(err);
         addToast('Failed to load learning dashboard', 'danger');
       } finally {
         setLoading(false);
       }
     };
-
     fetchHomeData();
   }, []);
 
   if (loading) {
     return (
-      <div className="space-y-8 animate-pulse font-sans">
-        <div className="h-32 bg-neutral-300 rounded-sm border border-[#cbd5e0]" />
-        <div className="space-y-4">
-          <div className="h-6 bg-neutral-300 rounded w-1/4" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="h-40 bg-neutral-300 rounded border border-[#cbd5e0]" />
-            <div className="h-40 bg-neutral-300 rounded border border-[#cbd5e0]" />
-          </div>
+      <div className="space-y-6 animate-pulse">
+        <div className="h-36 bg-[#13161E] rounded-2xl border border-[#22283A]" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="h-40 bg-[#13161E] rounded-2xl border border-[#22283A]" />
+          <div className="h-40 bg-[#13161E] rounded-2xl border border-[#22283A]" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 pb-16 font-sans text-[#2d3748]">
-      
-      {/* Welcome & Branding Banner */}
-      <div className="relative overflow-hidden rounded-sm bg-gradient-to-r from-[#0A2540] to-[#123E66] text-white p-6 md:p-8 shadow-md border-b-4 border-[#D4AF37]">
-        <div className="relative z-10 space-y-2 max-w-xl">
-          <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-[#D4AF37] bg-white/10 px-2 py-0.5 rounded-sm w-fit border border-[#D4AF37]/30">
-            <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" /> {t('dashboard.console')}
-          </div>
-          <h1 className="text-xl md:text-2xl font-serif font-bold tracking-tight">
-            {t('dashboard.welcome')}, {user?.name || t('profile.student')}!
-          </h1>
-          <p className="text-neutral-200 text-xs md:text-sm font-medium leading-relaxed">
-            {t('dashboard.subtitle')}
-          </p>
-        </div>
-        {/* Background Emblem Accent */}
-        <div className="absolute right-6 bottom-0 translate-y-6 opacity-25 dark:opacity-40 select-none pointer-events-none hidden md:block">
-          <img src="/rajasthan_logo.png" alt="Emblem" className="w-48 h-48 object-contain" />
-        </div>
-      </div>
+    <div className="space-y-8 pb-16">
 
-      {/* Continue Learning Section */}
+      {/* ── Welcome Banner ─────────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.25, 0.8, 0.25, 1] }}
+        className="relative overflow-hidden rounded-2xl border border-[#22283A] bg-[#13161E]"
+        style={{ background: 'linear-gradient(135deg, #13161E 0%, #1A1E2A 50%, #0C0E14 100%)' }}
+      >
+        {/* Grid pattern */}
+        <div className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(245,166,35,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(245,166,35,0.05) 1px, transparent 1px)',
+            backgroundSize: '40px 40px'
+          }}
+        />
+        {/* Amber glow */}
+        <div className="absolute right-0 top-0 w-64 h-64 bg-[#F5A623]/5 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 p-6 md:p-8 flex items-start justify-between gap-6">
+          <div className="space-y-3">
+            <div className="gov-badge">
+              <Zap className="w-2.5 h-2.5" /> {t('dashboard.console')}
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold text-white" style={{fontFamily:'Fraunces,Georgia,serif'}}>
+              {t('dashboard.welcome')}, {user?.name?.split(' ')[0] || t('profile.student')} 👋
+            </h1>
+            <p className="text-[#C2CCDF] text-sm leading-relaxed max-w-lg">{t('dashboard.subtitle')}</p>
+          </div>
+          <img src="/rajasthan_logo.png" alt="Emblem" className="w-16 h-16 object-contain opacity-15 flex-shrink-0 hidden sm:block" />
+        </div>
+
+        {/* Stats strip */}
+        <div className="relative z-10 border-t border-[#22283A] grid grid-cols-3 divide-x divide-[#22283A]">
+          {[
+            { label: t('dashboard.inProgress'), value: continueWatching.length },
+            { label: t('dashboard.recommended'), value: recommended.length },
+            { label: 'New This Week', value: recentAdded.length },
+          ].map(({ label, value }) => (
+            <div key={label} className="px-5 py-3 text-center">
+              <p className="text-xl font-bold text-[#F5A623]" style={{fontFamily:'Fraunces,Georgia,serif'}}>{value}</p>
+              <p className="text-[10px] font-mono text-[#8B9ABF] uppercase tracking-wider mt-0.5">{label}</p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* ── Continue Learning ──────────────────────────── */}
       <div className="space-y-4">
-        <div className="border-b border-[#cbd5e0] pb-2 flex justify-between items-center">
-          <h2 className="text-base font-serif font-bold text-[#0A2540] tracking-tight">{t('dashboard.continueLearning')}</h2>
-          <span className="text-[10px] font-mono text-neutral-550 font-bold bg-[#edf2f7] px-2 py-0.5 rounded-sm">
-            {continueWatching.length} {t('dashboard.inProgress')}
-          </span>
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="section-label mb-1">{t('dashboard.continueLearning')}</p>
+            <h2 className="text-lg font-bold text-white" style={{fontFamily:'Fraunces,Georgia,serif'}}>{t('dashboard.continueLearning')}</h2>
+          </div>
+          <span className="badge badge-accent">{continueWatching.length} {t('dashboard.inProgress')}</span>
         </div>
 
         {continueWatching.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <motion.div
+            initial="hidden" animate="visible" variants={stagger}
+            className="grid grid-cols-1 md:grid-cols-2 gap-5"
+          >
             {continueWatching.map((v) => (
-              <div key={v.id} className="rounded-sm border border-[#cbd5e0] overflow-hidden bg-white shadow-sm hover:shadow-md hover:border-[#b1b7c1] transition-all flex flex-col justify-between">
-                <div className="p-5 space-y-4">
+              <motion.div key={v.id} variants={fadeUp} className="lms-card overflow-hidden flex flex-col group">
+                <div className="p-5 space-y-4 flex-1">
                   <div className="flex justify-between items-start gap-4">
-                    <div>
-                      <span className="text-[9px] font-bold uppercase bg-[#f0f4f8] text-[#0A2540] px-2 py-0.5 rounded-sm border border-[#cbd5e0] inline-block mb-2">
-                        {v.category}
-                      </span>
-                      <h3 className="font-serif font-bold text-sm text-[#0A2540] line-clamp-1">{v.title}</h3>
+                    <div className="space-y-1">
+                      <span className="badge badge-blue">{v.category}</span>
+                      <h3 className="font-bold text-sm text-white line-clamp-1 mt-1" style={{fontFamily:'Fraunces,Georgia,serif'}}>{v.title}</h3>
                     </div>
-                    <img 
-                      src={v.thumbnailUrl} 
-                      alt={v.title} 
-                      className="w-16 h-10 object-cover rounded-sm border border-[#cbd5e0] flex-shrink-0" 
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop';
-                      }}
+                    <img
+                      src={v.thumbnailUrl}
+                      alt={v.title}
+                      className="w-20 h-12 object-cover rounded-lg border border-[#22283A] flex-shrink-0"
+                      onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=200'; }}
                     />
                   </div>
-                  
-                  {/* Progress bar */}
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-[10px] font-mono text-neutral-550 font-semibold">
+
+                  {/* Progress */}
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between items-center text-[10px] font-mono text-[#8B9ABF]">
                       <span>{t('dashboard.courseProgress')}</span>
-                      <span>{Math.round(v.progress.completionPercentage)}%</span>
+                      <span className="text-[#F5A623] font-medium">{Math.round(v.progress.completionPercentage)}%</span>
                     </div>
-                    <div className="w-full bg-[#e2e8f0] h-2 rounded-sm overflow-hidden border border-[#cbd5e0]">
-                      <div className="bg-[#0A2540] h-full transition-all" style={{ width: `${v.progress.completionPercentage}%` }} />
+                    <div className="progress-bar">
+                      <div className="progress-fill" style={{ width: `${v.progress.completionPercentage}%` }} />
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-[#f8fafc] border-t border-[#cbd5e0] px-5 py-3 flex items-center justify-between">
-                  <span className="text-[10px] text-neutral-500 font-semibold flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5" /> {t('dashboard.estimated')}: {v.estimatedTime || '10 mins'}
+                <div className="bg-[#0C0E14] border-t border-[#22283A] px-5 py-3 flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-[#8B9ABF] flex items-center gap-1">
+                    <Clock className="w-3 h-3" /> {v.estimatedTime || '10 mins'}
                   </span>
-                  <Link to={`/video/${v.id}`} className="btn-primary py-1 px-3 text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider">
-                    <Play className="w-3 h-3 fill-current" /> {t('dashboard.continue')}
+                  <Link to={`/video/${v.id}`} className="btn-accent py-1.5 px-3 text-[10px] flex items-center gap-1">
+                    <Play className="w-2.5 h-2.5 fill-current" /> {t('dashboard.continue')}
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         ) : (
-          <div className="p-10 rounded-sm border border-[#cbd5e0] bg-white text-center text-neutral-550 text-xs shadow-sm space-y-2">
-            <BookOpen className="w-6 h-6 text-neutral-400 mx-auto" />
-            <p className="font-medium">{t('dashboard.noActiveCourses')}</p>
-            <p className="text-[10px]">{t('dashboard.catalogPrompt')}</p>
+          <div className="lms-card-flat p-10 text-center space-y-3">
+            <BookOpen className="w-8 h-8 text-[#22283A] mx-auto" />
+            <p className="text-[#C2CCDF] text-sm font-medium">{t('dashboard.noActiveCourses')}</p>
+            <p className="text-[#8B9ABF] text-xs">{t('dashboard.catalogPrompt')}</p>
+            <Link to="/library" className="btn-ghost inline-flex text-xs py-2 px-5 mt-2">{t('nav.courses')}</Link>
           </div>
         )}
       </div>
 
-      {/* Grid: Recommended & New Arrivals */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* Left: Recommended Courses */}
+      {/* ── Recommended + New Additions ───────────────── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        {/* Recommended */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="border-b border-[#cbd5e0] pb-2">
-            <h2 className="text-base font-serif font-bold text-[#0A2540] tracking-tight">{t('dashboard.recommended')}</h2>
+          <div>
+            <p className="section-label mb-1">{t('dashboard.recommended')}</p>
+            <h2 className="text-base font-bold text-white" style={{fontFamily:'Fraunces,Georgia,serif'}}>{t('dashboard.recommended')}</h2>
           </div>
-          
           <div className="space-y-3">
-            {recommended.length > 0 ? (
-              recommended.map((v) => (
-                <div key={v.id} className="p-4 rounded-sm border border-[#cbd5e0] bg-white hover:shadow-sm hover:border-[#b1b7c1] transition-all flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-4 min-w-0">
-                    <img 
-                      src={v.thumbnailUrl} 
-                      alt={v.title} 
-                      className="w-20 h-12 object-cover rounded-sm border border-[#cbd5e0] flex-shrink-0" 
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop';
-                      }}
-                    />
-                    <div className="min-w-0 space-y-1">
-                      <span className="text-[8px] font-bold uppercase bg-[#edf2f7] text-[#0A2540] px-1.5 py-0.5 rounded-sm border border-[#cbd5e0]">
-                        {v.category}
-                      </span>
-                      <h4 className="text-xs font-serif font-bold text-[#0A2540] truncate mt-1">{v.title}</h4>
-                      <p className="text-[10px] text-neutral-550 line-clamp-1">{v.description}</p>
-                    </div>
+            {recommended.length > 0 ? recommended.map((v) => (
+              <div key={v.id} className="lms-card p-4 flex items-center justify-between gap-4 group">
+                <div className="flex items-center gap-4 min-w-0">
+                  <img
+                    src={v.thumbnailUrl}
+                    alt={v.title}
+                    className="w-16 h-10 object-cover rounded-lg border border-[#22283A] flex-shrink-0"
+                    onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=200'; }}
+                  />
+                  <div className="min-w-0">
+                    <span className="badge badge-blue mb-1">{v.category}</span>
+                    <h4 className="text-xs font-bold text-white truncate mt-1" style={{fontFamily:'Fraunces,Georgia,serif'}}>{v.title}</h4>
+                    <p className="text-[10px] text-[#8B9ABF] line-clamp-1 mt-0.5">{v.description}</p>
                   </div>
-                  <Link to={`/video/${v.id}`} className="p-2 border border-[#cbd5e0] rounded-sm hover:bg-[#f0f4f8] text-[#0A2540] transition-colors flex-shrink-0">
-                    <ChevronRight className="w-4 h-4" />
-                  </Link>
                 </div>
-              ))
-            ) : (
-              <div className="p-6 text-center text-xs text-neutral-550 border border-dashed border-[#cbd5e0] rounded-sm">
+                <Link to={`/video/${v.id}`} className="p-2 border border-[#22283A] rounded-lg hover:border-[#F5A623]/40 hover:bg-[#F5A623]/5 text-[#8B9ABF] hover:text-[#F5A623] transition-all flex-shrink-0">
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+            )) : (
+              <div className="lms-card-flat p-6 text-center text-xs text-[#8B9ABF] border-dashed">
                 {t('dashboard.allEnrolled')}
               </div>
             )}
           </div>
         </div>
 
-        {/* Right: New Additions Log */}
+        {/* New Additions */}
         <div className="space-y-4">
-          <div className="border-b border-[#cbd5e0] pb-2">
-            <h2 className="text-base font-serif font-bold text-[#0A2540] tracking-tight">{t('dashboard.newAdditions')}</h2>
+          <div>
+            <p className="section-label mb-1">Latest</p>
+            <h2 className="text-base font-bold text-white" style={{fontFamily:'Fraunces,Georgia,serif'}}>{t('dashboard.newAdditions')}</h2>
           </div>
-          
-          <div className="p-5 rounded-sm border border-[#cbd5e0] bg-white shadow-sm space-y-4">
-            {recentAdded.map((v) => (
-              <Link 
-                key={v.id} 
-                to={`/video/${v.id}`} 
-                className="flex items-start gap-3 text-xs border-b border-[#f0f4f8] pb-3 last:border-0 last:pb-0 group"
+          <div className="lms-card p-5 space-y-4">
+            {recentAdded.map((v, i) => (
+              <Link
+                key={v.id}
+                to={`/video/${v.id}`}
+                className="flex items-start gap-3 text-xs border-b border-[#22283A] pb-3.5 last:border-0 last:pb-0 group"
               >
-                <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] mt-1.5 flex-shrink-0 group-hover:scale-125 transition-transform" />
+                <span className="text-[#F5A623] font-mono font-medium text-[10px] mt-0.5 w-4 flex-shrink-0">
+                  {String(i+1).padStart(2,'0')}
+                </span>
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-serif font-bold text-[#0A2540] group-hover:underline truncate">{v.title}</h4>
-                  <div className="flex items-center gap-1.5 text-[9px] text-neutral-550 mt-0.5 font-mono uppercase font-semibold">
+                  <h4 className="font-bold text-white group-hover:text-[#F5A623] transition-colors truncate text-xs" style={{fontFamily:'Fraunces,Georgia,serif'}}>{v.title}</h4>
+                  <div className="flex items-center gap-1.5 text-[9px] font-mono text-[#8B9ABF] mt-0.5 uppercase">
                     <span>{v.category}</span>
-                    <span>•</span>
+                    <span>·</span>
                     <span>{v.difficulty}</span>
                   </div>
                 </div>

@@ -178,7 +178,7 @@ function RouteWrapper() {
 export default function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-[#F8FAFC] transition-colors duration-300">
+      <div className="min-h-screen bg-[#0C0E14]">
         <ClerkSyncManager>
           <RouteWrapper />
         </ClerkSyncManager>

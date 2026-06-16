@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Clock, User, Calendar, Share2, Shield, Sparkles, BookOpen } from 'lucide-react';
+import { ArrowLeft, Clock, User, Calendar, Share2, Shield, BookOpen } from 'lucide-react';
 import { api, useStore } from '../store/useStore';
 import { useTranslation } from '../utils/translations';
 
@@ -11,7 +11,6 @@ export default function ArticleReader() {
   const { t, language } = useTranslation();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [sharing, setSharing] = useState(false);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -19,43 +18,31 @@ export default function ArticleReader() {
         setLoading(true);
         const res = await api.get(`/articles/${id}`);
         setArticle(res.data);
-      } catch (err) {
-        console.error('Error fetching article:', err);
+      } catch {
         addToast('Article not found or access restricted', 'danger');
         navigate('/blogs');
       } finally {
         setLoading(false);
       }
     };
-
     fetchArticle();
   }, [id, navigate, addToast]);
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString(language === 'hi' ? 'hi-IN' : 'en-IN', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
+  const formatDate = (d) => new Date(d).toLocaleDateString(language === 'hi' ? 'hi-IN' : 'en-IN', {
+    day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+  });
 
-  const getCategoryColor = (cat) => {
+  const getCategoryBadge = (cat) => {
     switch (cat?.toLowerCase()) {
-      case 'ai':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800/45';
-      case 'cybersecurity':
-        return 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200 dark:border-purple-800/45';
-      default:
-        return 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800/45';
+      case 'ai': return 'badge badge-blue';
+      case 'cybersecurity': return 'badge badge-purple';
+      default: return 'badge badge-accent';
     }
   };
 
   const estimateReadTime = (content) => {
     const words = content?.split(/\s+/).length || 0;
-    const minutes = Math.max(1, Math.ceil(words / 200));
-    return `${minutes} ${t('blogs.minRead')}`;
+    return `${Math.max(1, Math.ceil(words / 200))} ${t('blogs.minRead')}`;
   };
 
   const handleShare = () => {
@@ -65,15 +52,13 @@ export default function ArticleReader() {
 
   if (loading) {
     return (
-      <div className="max-w-3xl mx-auto space-y-6 py-8 animate-pulse font-sans">
-        <div className="h-6 bg-neutral-300 rounded w-1/4" />
-        <div className="h-10 bg-neutral-300 rounded w-3/4" />
-        <div className="h-4 bg-neutral-300 rounded w-1/2" />
-        <div className="h-64 bg-neutral-300 rounded-md border border-[#cbd5e0]" />
-        <div className="space-y-4">
-          <div className="h-4 bg-neutral-300 rounded" />
-          <div className="h-4 bg-neutral-300 rounded" />
-          <div className="h-4 bg-neutral-300 rounded w-5/6" />
+      <div className="max-w-3xl mx-auto space-y-6 py-8 animate-pulse">
+        <div className="h-5 bg-[#13161E] rounded w-1/4" />
+        <div className="h-10 bg-[#13161E] rounded w-3/4" />
+        <div className="h-4 bg-[#13161E] rounded w-1/2" />
+        <div className="h-64 bg-[#13161E] rounded-2xl border border-[#22283A]" />
+        <div className="space-y-3">
+          {[1,2,3,4].map(i => <div key={i} className="h-4 bg-[#13161E] rounded" />)}
         </div>
       </div>
     );
@@ -82,110 +67,90 @@ export default function ArticleReader() {
   if (!article) return null;
 
   return (
-    <div className="max-w-3xl mx-auto py-4 pb-20 font-sans text-[#2d3748]">
-      
-      {/* Back Button & Share */}
-      <div className="flex justify-between items-center mb-6">
-        <Link
-          to="/blogs"
-          className="inline-flex items-center gap-1 text-xs font-bold text-[#0A2540] hover:text-[#0b48a0] transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
+    <div className="max-w-3xl mx-auto py-4 pb-20">
+
+      {/* ── Top bar ─────────────────────────────────────── */}
+      <div className="flex justify-between items-center mb-8">
+        <Link to="/blogs" className="flex items-center gap-1.5 text-xs font-bold text-[#C2CCDF] hover:text-[#F5A623] transition-colors group">
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
           {t('blogs.backToPublications')}
         </Link>
-        
         <button
           onClick={handleShare}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-bold text-xs rounded-md shadow-sm transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#13161E] border border-[#22283A] hover:border-[#F5A623]/30 text-[#C2CCDF] hover:text-[#F5A623] font-medium text-xs rounded-xl shadow-sm transition-all cursor-pointer"
         >
           <Share2 className="w-3.5 h-3.5" />
           {t('blogs.shareArticle')}
         </button>
       </div>
 
-      {/* Main Reader Layout */}
-      <article className="bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden">
-        
-        {/* Banner Image */}
-        <div className="h-56 sm:h-80 relative overflow-hidden bg-slate-900 border-b border-gray-200">
+      {/* ── Main article ─────────────────────────────────── */}
+      <article className="lms-card-flat overflow-hidden">
+
+        {/* Hero image */}
+        <div className="h-56 sm:h-80 relative bg-[#0C0E14] overflow-hidden border-b border-[#22283A]">
           <img
-            src={article.imageUrl || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop'}
+            src={article.imageUrl || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800'}
             alt={article.title}
-            className="w-full h-full object-cover opacity-85"
+            className="w-full h-full object-cover opacity-60"
           />
-          {/* Government Emblem Overlay */}
-          <div className="absolute right-4 bottom-4 w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center p-1.5 select-none pointer-events-none opacity-40">
-            <img src="/rajasthan_logo.png" alt="Emblem" className="w-full h-full object-contain" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#13161E] via-transparent to-transparent" />
+          {/* Gov emblem */}
+          <div className="absolute right-4 bottom-4 w-10 h-10 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-center opacity-30 pointer-events-none">
+            <img src="/rajasthan_logo.png" alt="Emblem" className="w-full h-full object-contain p-1" />
           </div>
         </div>
 
-        {/* Article Header Details */}
-        <div className="p-6 md:p-8 space-y-4 border-b border-gray-100">
-          
-          {/* Badges & Date */}
-          <div className="flex flex-wrap items-center gap-3">
-            <span className={`px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-sm border ${getCategoryColor(article.category)}`}>
-              {article.category}
-            </span>
+        {/* Article header */}
+        <div className="p-6 md:p-8 space-y-5 border-b border-[#22283A]">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className={getCategoryBadge(article.category)}>{article.category}</span>
             {!article.published && (
-              <span className="px-2 py-0.5 bg-red-100 text-red-800 border border-red-200 rounded-sm text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
-                <Shield className="w-3 h-3" /> {t('blogs.draftStatus')}
-              </span>
+              <span className="badge badge-red"><Shield className="w-2.5 h-2.5" /> {t('blogs.draftStatus')}</span>
             )}
-            <span className="text-[10px] text-gray-505 font-semibold flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-gray-400" />
-              {formatDate(article.createdAt)}
+            <span className="text-[10px] font-mono text-[#8B9ABF] flex items-center gap-1">
+              <Calendar className="w-3 h-3" /> {formatDate(article.createdAt)}
             </span>
           </div>
 
-          {/* Heading */}
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-[#0A2540] leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight" style={{fontFamily:'Fraunces,Georgia,serif'}}>
             {article.title}
           </h1>
 
-          {/* Author info & Read time */}
-          <div className="flex flex-wrap justify-between items-center gap-4 pt-2 border-t border-gray-100 text-xs text-gray-550 font-semibold">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-[#0A2540] text-[#D4AF37] flex items-center justify-center font-bold text-xs uppercase border border-[#d4af37]">
+          <div className="flex flex-wrap justify-between items-center gap-4 pt-3 border-t border-[#22283A]">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-[#F5A623]/10 border border-[#F5A623]/20 text-[#F5A623] flex items-center justify-center font-bold text-sm uppercase">
                 {article.author?.name ? article.author.name.charAt(0) : 'A'}
               </div>
               <div>
-                <p className="font-bold text-gray-700 leading-tight">
-                  {article.author?.name || t('blogs.officialRep')}
-                </p>
-                <p className="text-[10px] text-gray-400 font-mono">
-                  {article.author?.email || 'doitc.circular@rajasthan.gov.in'}
-                </p>
+                <p className="font-bold text-white text-sm leading-tight">{article.author?.name || t('blogs.officialRep')}</p>
+                <p className="text-[10px] font-mono text-[#8B9ABF]">{article.author?.email || 'doitc.circular@rajasthan.gov.in'}</p>
               </div>
             </div>
-            
-            <span className="flex items-center gap-1 text-[10px]">
-              <Clock className="w-3.5 h-3.5 text-gray-400" />
-              {estimateReadTime(article.content)}
+            <span className="flex items-center gap-1 text-[10px] font-mono text-[#8B9ABF]">
+              <Clock className="w-3 h-3" /> {estimateReadTime(article.content)}
             </span>
           </div>
         </div>
 
-        {/* Article Summary Quote Box */}
-        <div className="px-6 md:px-8 pt-6">
-          <div className="p-4 bg-[#f8fafc] border-l-4 border-[#0A2540] rounded-r-md text-xs sm:text-sm italic text-gray-600 font-medium leading-relaxed">
+        {/* Summary blockquote */}
+        <div className="px-6 md:px-8 pt-7">
+          <blockquote className="border-l-2 border-[#F5A623] pl-5 py-1 text-sm sm:text-base italic text-[#C2CCDF] leading-relaxed font-medium">
             {article.summary}
-          </div>
+          </blockquote>
         </div>
 
-        {/* Article Content Body */}
-        <div className="px-6 md:px-8 py-8 prose prose-slate max-w-none">
-          <div className="text-xs sm:text-sm leading-relaxed text-gray-700 whitespace-pre-wrap font-sans space-y-4">
+        {/* Body content */}
+        <div className="px-6 md:px-8 py-8">
+          <div className="text-sm leading-[1.85] text-[#C2CCDF] whitespace-pre-wrap space-y-4 font-normal">
             {article.content}
           </div>
         </div>
 
-        {/* Footer Disclaimer */}
-        <div className="px-6 md:px-8 py-4 bg-gray-50 border-t border-gray-150 text-[10px] text-gray-400 font-sans flex items-center gap-2 select-none">
-          <Shield className="w-4 h-4 text-gray-400 flex-shrink-0" />
-          <span>
-            {t('blogs.docDisclaimer')}
-          </span>
+        {/* Footer disclaimer */}
+        <div className="px-6 md:px-8 py-4 bg-[#0C0E14] border-t border-[#22283A] flex items-center gap-2 select-none">
+          <Shield className="w-3.5 h-3.5 text-[#8B9ABF] flex-shrink-0" />
+          <span className="text-[10px] font-mono text-[#8B9ABF]">{t('blogs.docDisclaimer')}</span>
         </div>
       </article>
     </div>
