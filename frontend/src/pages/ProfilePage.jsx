@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Award, Shield, User, LogOut, Key } from 'lucide-react';
+import { Award, Shield, User, LogOut, Key, TrendingUp, BookOpen, CheckCircle } from 'lucide-react';
 import { useClerk } from '@clerk/clerk-react';
+import { motion } from 'framer-motion';
 import { api, useStore } from '../store/useStore';
 import { useTranslation } from '../utils/translations';
+
+const fadeUp = {
+  hidden:  { opacity: 0, y: 16 },
+  visible: (i) => ({ opacity: 1, y: 0, transition: { duration: 0.4, delay: i * 0.08 } })
+};
 
 export default function ProfilePage() {
   const { user, logout } = useStore();
@@ -17,109 +23,149 @@ export default function ProfilePage() {
         setLoading(true);
         const res = await api.get('/analytics/stats');
         setProfileData(res.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+      } catch { /* silent */ } finally { setLoading(false); }
     };
     fetchProfile();
   }, []);
 
   const handleLogout = async () => {
-    try {
-      await signOut();
-    } catch (err) {
-      console.error('Clerk sign out error:', err);
-    }
+    try { await signOut(); } catch { /* silent */ }
     logout();
     window.location.href = '/login';
   };
 
   if (loading) {
     return (
-      <div className="space-y-6 animate-pulse font-sans">
-        <div className="h-6 bg-neutral-300 rounded w-1/4" />
-        <div className="h-48 bg-neutral-300 rounded-sm border border-[#cbd5e0]" />
+      <div className="space-y-6 animate-pulse">
+        <div className="h-6 bg-[#13161E] rounded w-1/4" />
+        <div className="h-48 bg-[#13161E] rounded-2xl border border-[#22283A]" />
       </div>
     );
   }
 
   const { stats } = profileData || {};
 
+  const statCards = [
+    { icon: BookOpen,    label: t('profile.completedCurriculum'),  value: `${stats?.videosCompleted || 0}`,   sub: t('profile.modulesCompleted') },
+    { icon: TrendingUp,  label: 'Completion Rate',                  value: `${stats?.completionRate || 0}%`,   sub: 'of enrolled courses' },
+    { icon: Award,       label: 'Certificates Earned',              value: `${stats?.certificatesEarned || 0}`, sub: 'official certifications' },
+  ];
+
   return (
-    <div className="space-y-6 pb-16 font-sans text-[#2d3748]">
-      
-      {/* Title */}
-      <div className="border-b-2 border-[#d2d6dc] pb-4">
-        <h1 className="text-xl font-serif font-bold text-[#0A2540] tracking-tight">{t('profile.title')}</h1>
-        <p className="text-neutral-500 text-xs mt-1">
-          {t('profile.subtitle')}
-        </p>
+    <div className="space-y-8 pb-16">
+
+      {/* ── Page title ──────────────────────────────────── */}
+      <div className="space-y-1">
+        <p className="section-label">{t('profile.title')}</p>
+        <h1 className="text-2xl font-bold text-white" style={{fontFamily:'Fraunces,Georgia,serif'}}>{t('profile.title')}</h1>
+        <p className="text-[#C2CCDF] text-sm">{t('profile.subtitle')}</p>
       </div>
 
-      {/* Profile Card & Details */}
+      {/* ── Stats strip ─────────────────────────────────── */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {statCards.map(({ icon: Icon, label, value, sub }, i) => (
+          <motion.div key={label} custom={i} initial="hidden" animate="visible" variants={fadeUp}
+            className="lms-card p-5 flex items-center gap-4"
+          >
+            <div className="w-10 h-10 rounded-xl bg-[#F5A623]/10 border border-[#F5A623]/20 flex items-center justify-center text-[#F5A623] flex-shrink-0">
+              <Icon className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-white" style={{fontFamily:'Fraunces,Georgia,serif'}}>{value}</p>
+              <p className="text-[10px] font-mono text-[#8B9ABF] uppercase tracking-wider">{sub}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* ── Main panel ──────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* Left: General Profile Info */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="p-6 bg-white border border-[#cbd5e0] rounded-sm shadow-sm space-y-5">
-            <h3 className="font-serif font-bold text-xs text-[#0A2540] uppercase tracking-wider pb-2 border-b border-[#cbd5e0] flex items-center gap-1.5">
-              <User className="w-4 h-4 text-[#0A2540]" /> {t('profile.generalDossier')}
-            </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs leading-normal">
-              <div className="space-y-1">
-                <span className="text-[10px] font-bold text-neutral-555 uppercase tracking-wider block">{t('profile.fullName')}</span>
-                <p className="font-bold text-[#0A2540] text-sm">{user?.name}</p>
+        {/* Left: Profile info */}
+        <div className="lg:col-span-2 space-y-5">
+
+          {/* User card */}
+          <div className="lms-card p-6 space-y-5">
+            <div className="flex items-center gap-3 pb-4 border-b border-[#22283A]">
+              <User className="w-4 h-4 text-[#F5A623]" />
+              <h3 className="text-xs font-bold text-[#C2CCDF] uppercase tracking-widest">{t('profile.generalDossier')}</h3>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 rounded-2xl bg-[#F5A623] text-[#0C0E14] flex items-center justify-center font-bold text-2xl uppercase select-none shadow-lg shadow-[#F5A623]/20 flex-shrink-0"
+                style={{fontFamily:'Fraunces,Georgia,serif'}}
+              >
+                {user?.name?.charAt(0)}
               </div>
-
-              <div className="space-y-1">
-                <span className="text-[10px] font-bold text-neutral-555 uppercase tracking-wider block">{t('profile.emailAddress')}</span>
-                <p className="font-bold text-[#0A2540] text-sm">{user?.email}</p>
-              </div>
-
-              <div className="space-y-1">
-                <span className="text-[10px] font-bold text-neutral-555 uppercase tracking-wider block">{t('profile.deptRole')}</span>
-                <span className="inline-block mt-1 text-[9px] font-mono uppercase bg-[#f0f4f8] text-[#0A2540] px-2 py-0.5 rounded-sm border border-[#cbd5e0]">
+              <div>
+                <h2 className="font-bold text-xl text-white" style={{fontFamily:'Fraunces,Georgia,serif'}}>{user?.name}</h2>
+                <p className="text-[#C2CCDF] text-sm mt-0.5">{user?.email}</p>
+                <span className="badge badge-accent mt-1.5">
                   {user?.role === 'admin' ? t('profile.instructor') : t('profile.student')}
                 </span>
               </div>
+            </div>
 
-              <div className="space-y-1">
-                <span className="text-[10px] font-bold text-neutral-555 uppercase tracking-wider block">{t('profile.completedCurriculum')}</span>
-                <p className="font-bold text-[#0A2540] text-sm">{stats?.videosCompleted || 0} {t('profile.modulesCompleted')}</p>
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              {[
+                { label: t('profile.fullName'),            value: user?.name },
+                { label: t('profile.emailAddress'),        value: user?.email },
+                { label: t('profile.deptRole'),            value: user?.role === 'admin' ? t('profile.instructor') : t('profile.student') },
+                { label: t('profile.completedCurriculum'), value: `${stats?.videosCompleted || 0} ${t('profile.modulesCompleted')}` },
+              ].map(({ label, value }) => (
+                <div key={label} className="space-y-1">
+                  <span className="text-[9px] font-mono font-medium text-[#8B9ABF] uppercase tracking-widest block">{label}</span>
+                  <p className="font-bold text-white text-sm">{value}</p>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Clerk Info Callout */}
-          <div className="p-5 bg-[#fcf8e3] border border-[#faebcc] rounded-sm text-xs text-[#8a6d3b] flex items-start gap-3 leading-relaxed">
-            <Key className="w-5 h-5 text-[#8a6d3b] flex-shrink-0 mt-0.5" />
-            <div>
-              <strong>{t('profile.securityNotice')}</strong> {t('profile.clerkNotice')}
+          {/* Security notice */}
+          <div className="flex items-start gap-3 p-5 bg-[#F5A623]/5 border border-[#F5A623]/15 rounded-2xl">
+            <Key className="w-5 h-5 text-[#F5A623] flex-shrink-0 mt-0.5" />
+            <div className="text-xs text-[#C2CCDF] leading-relaxed">
+              <strong className="text-[#F5A623]">{t('profile.securityNotice')}</strong>{' '}
+              {t('profile.clerkNotice')}
             </div>
           </div>
         </div>
 
-        {/* Right: Sign Out Panel */}
-        <div className="p-5 bg-white border border-[#cbd5e0] rounded-sm shadow-sm h-fit space-y-4 text-center">
-          <h3 className="font-serif font-bold text-xs text-[#0A2540] uppercase tracking-wider pb-2 border-b border-[#cbd5e0]">{t('profile.sessionDossier')}</h3>
-          
-          <div className="py-4">
-            <div className="w-16 h-16 rounded-full bg-[#D4AF37] border-2 border-[#d4af37] text-[#0A2540] flex items-center justify-center font-bold text-2xl uppercase mx-auto shadow-sm select-none">
-              {user?.name.charAt(0)}
+        {/* Right: Session panel */}
+        <div className="space-y-4">
+          <div className="lms-card p-6 space-y-5">
+            <div className="flex items-center gap-2 pb-4 border-b border-[#22283A]">
+              <Shield className="w-4 h-4 text-[#F5A623]" />
+              <h3 className="text-xs font-bold text-[#C2CCDF] uppercase tracking-widest">{t('profile.sessionDossier')}</h3>
             </div>
-            <h4 className="font-bold text-[#0A2540] text-sm mt-3">{user?.name}</h4>
-            <p className="text-neutral-500 text-[10px] mt-0.5">{user?.email}</p>
-          </div>
 
-          <button
-            onClick={handleLogout}
-            className="w-full text-center flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-750 text-white rounded-sm text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
-          >
-            <LogOut className="w-4 h-4" /> {t('nav.signOut')}
-          </button>
+            {/* Avatar */}
+            <div className="flex flex-col items-center text-center gap-3 py-2">
+              <div className="w-20 h-20 rounded-2xl bg-[#F5A623] text-[#0C0E14] flex items-center justify-center font-bold text-3xl uppercase shadow-lg shadow-[#F5A623]/20 select-none"
+                style={{fontFamily:'Fraunces,Georgia,serif'}}
+              >
+                {user?.name?.charAt(0)}
+              </div>
+              <div>
+                <h4 className="font-bold text-white text-sm" style={{fontFamily:'Fraunces,Georgia,serif'}}>{user?.name}</h4>
+                <p className="text-[#8B9ABF] text-[11px] mt-0.5 font-mono">{user?.email}</p>
+              </div>
+            </div>
+
+            {/* Status */}
+            <div className="flex items-center gap-2 p-3 bg-[#22C55E]/5 border border-[#22C55E]/15 rounded-xl">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#22C55E] animate-pulse flex-shrink-0" />
+              <span className="text-xs font-mono text-[#22C55E]">Session Active</span>
+            </div>
+
+            {/* Logout */}
+            <button
+              onClick={handleLogout}
+              className="w-full btn-danger flex items-center justify-center gap-2"
+            >
+              <LogOut className="w-4 h-4" /> {t('nav.signOut')}
+            </button>
+          </div>
         </div>
       </div>
     </div>
