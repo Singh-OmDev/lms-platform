@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Play, BookOpen, Clock, ChevronRight, Sparkles, Award, TrendingUp, Zap } from 'lucide-react';
+import { Play, BookOpen, Clock, ChevronRight, Award, TrendingUp, BarChart2, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { api, useStore } from '../store/useStore';
 import { useTranslation } from '../utils/translations';
 
 const fadeUp = {
   hidden:  { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.25, 0.8, 0.25, 1] } }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } }
 };
 const stagger = {
   hidden:  {},
-  visible: { transition: { staggerChildren: 0.1 } }
+  visible: { transition: { staggerChildren: 0.08 } }
 };
 
 export default function UserDashboard() {
@@ -47,10 +47,10 @@ export default function UserDashboard() {
   if (loading) {
     return (
       <div className="space-y-6 animate-pulse">
-        <div className="h-36 bg-[#13161E] rounded-2xl border border-[#22283A]" />
+        <div className="h-40 bg-white rounded-xl border border-[#dde3f0]" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="h-40 bg-[#13161E] rounded-2xl border border-[#22283A]" />
-          <div className="h-40 bg-[#13161E] rounded-2xl border border-[#22283A]" />
+          <div className="h-40 bg-white rounded-xl border border-[#dde3f0]" />
+          <div className="h-40 bg-white rounded-xl border border-[#dde3f0]" />
         </div>
       </div>
     );
@@ -59,47 +59,45 @@ export default function UserDashboard() {
   return (
     <div className="space-y-8 pb-16">
 
-      {/* ── Welcome Banner ─────────────────────────────── */}
+      {/* ── Welcome Banner ────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.25, 0.8, 0.25, 1] }}
-        className="relative overflow-hidden rounded-2xl border border-[#22283A] bg-[#13161E]"
-        style={{ background: 'linear-gradient(135deg, #13161E 0%, #1A1E2A 50%, #0C0E14 100%)' }}
+        transition={{ duration: 0.5 }}
+        className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#0d244f] to-[#1a3c8f] text-white"
       >
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(245,166,35,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(245,166,35,0.05) 1px, transparent 1px)',
-            backgroundSize: '40px 40px'
-          }}
-        />
-        {/* Amber glow */}
-        <div className="absolute right-0 top-0 w-64 h-64 bg-[#F5A623]/5 rounded-full blur-3xl pointer-events-none" />
+        {/* Decorative circles */}
+        <div className="absolute -right-10 -top-10 w-56 h-56 bg-white/5 rounded-full" />
+        <div className="absolute -right-4 -bottom-16 w-80 h-80 bg-[#f4821e]/10 rounded-full" />
 
         <div className="relative z-10 p-6 md:p-8 flex items-start justify-between gap-6">
           <div className="space-y-3">
-            <div className="gov-badge">
-              <Zap className="w-2.5 h-2.5" /> {t('dashboard.console')}
+            <div className="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wide">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#f4821e]" />
+              {t('dashboard.console')}
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white" style={{fontFamily:'Fraunces,Georgia,serif'}}>
-              {t('dashboard.welcome')}, {user?.name?.split(' ')[0] || t('profile.student')} 👋
+            <h1 className="text-2xl md:text-3xl font-bold text-white">
+              {t('dashboard.welcome')}, {user?.name?.split(' ')[0] || 'Learner'} 👋
             </h1>
-            <p className="text-[#C2CCDF] text-sm leading-relaxed max-w-lg">{t('dashboard.subtitle')}</p>
+            <p className="text-white/75 text-sm leading-relaxed max-w-lg">
+              {t('dashboard.subtitle')}
+            </p>
           </div>
-          <img src="/rajasthan_logo.png" alt="Emblem" className="w-16 h-16 object-contain opacity-15 flex-shrink-0 hidden sm:block" />
+          <div className="hidden sm:flex flex-col items-center justify-center w-16 h-16 rounded-xl bg-white/10 border border-white/20 flex-shrink-0">
+            <Award className="w-8 h-8 text-[#f4821e]" />
+          </div>
         </div>
 
         {/* Stats strip */}
-        <div className="relative z-10 border-t border-[#22283A] grid grid-cols-3 divide-x divide-[#22283A]">
+        <div className="relative z-10 border-t border-white/15 grid grid-cols-3 divide-x divide-white/15">
           {[
-            { label: t('dashboard.inProgress'), value: continueWatching.length },
-            { label: t('dashboard.recommended'), value: recommended.length },
-            { label: 'New This Week', value: recentAdded.length },
+            { label: t('dashboard.inProgress'),   value: continueWatching.length },
+            { label: t('dashboard.recommended'),   value: recommended.length },
+            { label: t('dashboard.newAdditions'),  value: recentAdded.length },
           ].map(({ label, value }) => (
             <div key={label} className="px-5 py-3 text-center">
-              <p className="text-xl font-bold text-[#F5A623]" style={{fontFamily:'Fraunces,Georgia,serif'}}>{value}</p>
-              <p className="text-[10px] font-mono text-[#8B9ABF] uppercase tracking-wider mt-0.5">{label}</p>
+              <p className="text-xl font-bold text-[#f4821e]">{value}</p>
+              <p className="text-[10px] font-medium text-white/60 uppercase tracking-wide mt-0.5">{label}</p>
             </div>
           ))}
         </div>
@@ -109,10 +107,12 @@ export default function UserDashboard() {
       <div className="space-y-4">
         <div className="flex justify-between items-center">
           <div>
-            <p className="section-label mb-1">{t('dashboard.continueLearning')}</p>
-            <h2 className="text-lg font-bold text-white" style={{fontFamily:'Fraunces,Georgia,serif'}}>{t('dashboard.continueLearning')}</h2>
+            <p className="text-[12px] font-semibold text-[#f4821e] uppercase tracking-widest mb-1">{t('dashboard.continueLearning')}</p>
+            <h2 className="text-[18px] font-bold text-[#1a1a2e]">{t('dashboard.continueLearning')}</h2>
           </div>
-          <span className="badge badge-accent">{continueWatching.length} {t('dashboard.inProgress')}</span>
+          <span className="badge-saffron text-[12px] px-3 py-1 rounded-full bg-[#fff0e5] text-[#f4821e] font-semibold">
+            {continueWatching.length} {t('dashboard.inProgress')}
+          </span>
         </div>
 
         {continueWatching.length > 0 ? (
@@ -121,39 +121,39 @@ export default function UserDashboard() {
             className="grid grid-cols-1 md:grid-cols-2 gap-5"
           >
             {continueWatching.map((v) => (
-              <motion.div key={v.id} variants={fadeUp} className="lms-card overflow-hidden flex flex-col group">
+              <motion.div key={v.id} variants={fadeUp} className="lms-card overflow-hidden flex flex-col">
                 <div className="p-5 space-y-4 flex-1">
                   <div className="flex justify-between items-start gap-4">
                     <div className="space-y-1">
-                      <span className="badge badge-blue">{v.category}</span>
-                      <h3 className="font-bold text-sm text-white line-clamp-1 mt-1" style={{fontFamily:'Fraunces,Georgia,serif'}}>{v.title}</h3>
+                      <span className="badge text-[11px] bg-[#e8edf9] text-[#1a3c8f] px-2 py-0.5 rounded">{v.category}</span>
+                      <h3 className="font-bold text-[14px] text-[#1a1a2e] line-clamp-1 mt-1">{v.title}</h3>
                     </div>
                     <img
                       src={v.thumbnailUrl}
                       alt={v.title}
-                      className="w-20 h-12 object-cover rounded-lg border border-[#22283A] flex-shrink-0"
+                      className="w-20 h-12 object-cover rounded-lg border border-[#dde3f0] flex-shrink-0"
                       onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=200'; }}
                     />
                   </div>
 
                   {/* Progress */}
                   <div className="space-y-1.5">
-                    <div className="flex justify-between items-center text-[10px] font-mono text-[#8B9ABF]">
+                    <div className="flex justify-between items-center text-[11px] text-[#5a6a8a]">
                       <span>{t('dashboard.courseProgress')}</span>
-                      <span className="text-[#F5A623] font-medium">{Math.round(v.progress.completionPercentage)}%</span>
+                      <span className="text-[#f4821e] font-semibold">{Math.round(v.progress.completionPercentage)}%</span>
                     </div>
-                    <div className="progress-bar">
-                      <div className="progress-fill" style={{ width: `${v.progress.completionPercentage}%` }} />
+                    <div className="w-full h-2 bg-[#f0f2f7] rounded-full overflow-hidden">
+                      <div className="h-full bg-[#1a3c8f] rounded-full transition-all" style={{ width: `${v.progress.completionPercentage}%` }} />
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-[#0C0E14] border-t border-[#22283A] px-5 py-3 flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-[#8B9ABF] flex items-center gap-1">
+                <div className="bg-[#f4f6fb] border-t border-[#dde3f0] px-5 py-3 flex items-center justify-between">
+                  <span className="text-[11px] text-[#5a6a8a] flex items-center gap-1">
                     <Clock className="w-3 h-3" /> {v.estimatedTime || '10 mins'}
                   </span>
-                  <Link to={`/video/${v.id}`} className="btn-accent py-1.5 px-3 text-[10px] flex items-center gap-1">
-                    <Play className="w-2.5 h-2.5 fill-current" /> {t('dashboard.continue')}
+                  <Link to={`/video/${v.id}`} className="btn-primary py-1.5 px-4 text-[12px]">
+                    <Play className="w-3 h-3 fill-current" /> {t('dashboard.continue')}
                   </Link>
                 </div>
               </motion.div>
@@ -161,10 +161,10 @@ export default function UserDashboard() {
           </motion.div>
         ) : (
           <div className="lms-card-flat p-10 text-center space-y-3">
-            <BookOpen className="w-8 h-8 text-[#22283A] mx-auto" />
-            <p className="text-[#C2CCDF] text-sm font-medium">{t('dashboard.noActiveCourses')}</p>
-            <p className="text-[#8B9ABF] text-xs">{t('dashboard.catalogPrompt')}</p>
-            <Link to="/library" className="btn-ghost inline-flex text-xs py-2 px-5 mt-2">{t('nav.courses')}</Link>
+            <BookOpen className="w-10 h-10 text-[#dde3f0] mx-auto" />
+            <p className="text-[#1a1a2e] text-[15px] font-semibold">{t('dashboard.noActiveCourses')}</p>
+            <p className="text-[#5a6a8a] text-[13px]">{t('dashboard.catalogPrompt')}</p>
+            <Link to="/library" className="btn-outline inline-flex text-[13px] py-2 px-6 mt-2">{t('nav.courses')}</Link>
           </div>
         )}
       </div>
@@ -175,31 +175,31 @@ export default function UserDashboard() {
         {/* Recommended */}
         <div className="lg:col-span-2 space-y-4">
           <div>
-            <p className="section-label mb-1">{t('dashboard.recommended')}</p>
-            <h2 className="text-base font-bold text-white" style={{fontFamily:'Fraunces,Georgia,serif'}}>{t('dashboard.recommended')}</h2>
+            <p className="text-[12px] font-semibold text-[#f4821e] uppercase tracking-widest mb-1">For You</p>
+            <h2 className="text-[18px] font-bold text-[#1a1a2e]">{t('dashboard.recommended')}</h2>
           </div>
           <div className="space-y-3">
             {recommended.length > 0 ? recommended.map((v) => (
-              <div key={v.id} className="lms-card p-4 flex items-center justify-between gap-4 group">
+              <div key={v.id} className="lms-card p-4 flex items-center justify-between gap-4">
                 <div className="flex items-center gap-4 min-w-0">
                   <img
                     src={v.thumbnailUrl}
                     alt={v.title}
-                    className="w-16 h-10 object-cover rounded-lg border border-[#22283A] flex-shrink-0"
+                    className="w-16 h-10 object-cover rounded-lg border border-[#dde3f0] flex-shrink-0"
                     onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=200'; }}
                   />
                   <div className="min-w-0">
-                    <span className="badge badge-blue mb-1">{v.category}</span>
-                    <h4 className="text-xs font-bold text-white truncate mt-1" style={{fontFamily:'Fraunces,Georgia,serif'}}>{v.title}</h4>
-                    <p className="text-[10px] text-[#8B9ABF] line-clamp-1 mt-0.5">{v.description}</p>
+                    <span className="badge text-[10px] bg-[#e8edf9] text-[#1a3c8f] px-2 py-0.5 rounded mb-1 inline-block">{v.category}</span>
+                    <h4 className="text-[13px] font-bold text-[#1a1a2e] truncate">{v.title}</h4>
+                    <p className="text-[11px] text-[#5a6a8a] line-clamp-1 mt-0.5">{v.description}</p>
                   </div>
                 </div>
-                <Link to={`/video/${v.id}`} className="p-2 border border-[#22283A] rounded-lg hover:border-[#F5A623]/40 hover:bg-[#F5A623]/5 text-[#8B9ABF] hover:text-[#F5A623] transition-all flex-shrink-0">
+                <Link to={`/video/${v.id}`} className="p-2 border border-[#dde3f0] rounded-lg hover:border-[#1a3c8f] hover:bg-[#f0f4ff] text-[#5a6a8a] hover:text-[#1a3c8f] transition-all flex-shrink-0">
                   <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
             )) : (
-              <div className="lms-card-flat p-6 text-center text-xs text-[#8B9ABF] border-dashed">
+              <div className="lms-card-flat p-6 text-center text-[13px] text-[#5a6a8a]">
                 {t('dashboard.allEnrolled')}
               </div>
             )}
@@ -209,22 +209,22 @@ export default function UserDashboard() {
         {/* New Additions */}
         <div className="space-y-4">
           <div>
-            <p className="section-label mb-1">Latest</p>
-            <h2 className="text-base font-bold text-white" style={{fontFamily:'Fraunces,Georgia,serif'}}>{t('dashboard.newAdditions')}</h2>
+            <p className="text-[12px] font-semibold text-[#f4821e] uppercase tracking-widest mb-1">Latest</p>
+            <h2 className="text-[18px] font-bold text-[#1a1a2e]">{t('dashboard.newAdditions')}</h2>
           </div>
           <div className="lms-card p-5 space-y-4">
             {recentAdded.map((v, i) => (
               <Link
                 key={v.id}
                 to={`/video/${v.id}`}
-                className="flex items-start gap-3 text-xs border-b border-[#22283A] pb-3.5 last:border-0 last:pb-0 group"
+                className="flex items-start gap-3 text-[13px] border-b border-[#dde3f0] pb-3.5 last:border-0 last:pb-0 group"
               >
-                <span className="text-[#F5A623] font-mono font-medium text-[10px] mt-0.5 w-4 flex-shrink-0">
-                  {String(i+1).padStart(2,'0')}
+                <span className="text-[#f4821e] font-bold text-[11px] mt-0.5 w-5 flex-shrink-0">
+                  {String(i + 1).padStart(2, '0')}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-bold text-white group-hover:text-[#F5A623] transition-colors truncate text-xs" style={{fontFamily:'Fraunces,Georgia,serif'}}>{v.title}</h4>
-                  <div className="flex items-center gap-1.5 text-[9px] font-mono text-[#8B9ABF] mt-0.5 uppercase">
+                  <h4 className="font-semibold text-[#1a1a2e] group-hover:text-[#1a3c8f] transition-colors truncate text-[13px]">{v.title}</h4>
+                  <div className="flex items-center gap-1.5 text-[10px] text-[#5a6a8a] mt-0.5 uppercase">
                     <span>{v.category}</span>
                     <span>·</span>
                     <span>{v.difficulty}</span>

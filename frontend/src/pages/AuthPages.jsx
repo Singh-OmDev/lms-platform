@@ -1,212 +1,154 @@
 import React from 'react';
 import { SignIn, SignUp } from '@clerk/clerk-react';
-import { Shield, Award, BookOpen, ShieldAlert, ArrowLeft, Lock, Terminal } from 'lucide-react';
+import { Shield, Award, BookOpen, Globe, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useStore } from '../store/useStore';
 import { useTranslation } from '../utils/translations';
 
 export default function AuthPages({ isRegisterInitial = false }) {
-  const { theme } = useStore();
-  const { t } = useTranslation();
+  const { t, language, setLanguage } = useTranslation();
 
-  // Clerk appearance — always light inside the card (isolated from dark global CSS)
   const clerkAppearance = {
     variables: {
-      colorPrimary: '#0C0E14',
-      colorText: '#1E293B',
-      colorTextSecondary: '#64748B',
-      colorBackground: '#FFFFFF',
-      colorInputBackground: '#F8FAFC',
-      colorInputText: '#1E293B',
-      colorNeutral: '#64748B',
-      fontFamily: "'Outfit', system-ui, sans-serif",
-      borderRadius: '10px',
+      colorPrimary: '#1a3c8f',
+      colorText: '#1a1a2e',
+      colorTextSecondary: '#5a6a8a',
+      colorBackground: '#ffffff',
+      colorInputBackground: '#f4f6fb',
+      colorInputText: '#1a1a2e',
+      colorNeutral: '#5a6a8a',
+      fontFamily: "'Noto Sans', system-ui, sans-serif",
+      borderRadius: '8px',
       fontSize: '14px',
     },
     elements: {
       rootBox: 'w-full',
       card: 'shadow-none border-0 bg-transparent p-0 m-0 w-full',
-      headerTitle: 'font-bold text-[#0C0E14] text-[15px] tracking-tight',
-      headerSubtitle: 'text-xs text-slate-500 font-medium mt-0.5',
+      headerTitle: 'font-bold text-[#1a1a2e] text-[16px]',
+      headerSubtitle: 'text-xs text-[#5a6a8a] font-medium mt-0.5',
       formButtonPrimary:
-        'bg-[#0C0E14] hover:bg-[#1A1E2A] text-white text-xs font-bold uppercase tracking-widest py-3 transition-all cursor-pointer w-full rounded-xl shadow-md active:translate-y-[1px]',
+        'bg-[#f4821e] hover:bg-[#d96a0a] text-white text-sm font-bold py-3 transition-all cursor-pointer w-full rounded-lg',
       socialButtonsBlockButton:
-        'border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-semibold py-2.5 rounded-xl transition-all cursor-pointer bg-white w-full',
-      socialButtonsBlockButtonText: 'text-gray-700 font-semibold text-sm',
+        'border border-[#dde3f0] hover:border-[#1a3c8f] hover:bg-[#f0f4ff] text-[#1a1a2e] text-sm font-semibold py-2.5 rounded-lg transition-all cursor-pointer bg-white w-full',
+      socialButtonsBlockButtonText: 'text-[#1a1a2e] font-semibold text-sm',
       formFieldInput:
-        'bg-[#F8FAFC] border border-gray-200 text-[#1E293B] focus:border-[#0C0E14] focus:ring-2 focus:ring-[#0C0E14]/8 text-sm rounded-xl py-3 px-4 transition-all outline-none w-full',
-      formFieldLabel: 'text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5',
-      footerActionLink: 'text-[#0C0E14] hover:text-[#F5A623] font-bold transition-colors',
-      footerActionText: 'text-xs text-gray-500',
-      identityPreviewText: 'text-xs font-bold text-gray-700',
-      identityPreviewEditButton: 'text-[#0C0E14] hover:text-[#F5A623] font-bold',
-      formFieldInputShowPasswordButton: 'text-gray-400 hover:text-[#0C0E14]',
-      dividerText: 'text-gray-400 text-xs',
-      dividerLine: 'bg-gray-200',
-      otpCodeFieldInput: 'border border-gray-200 bg-[#F8FAFC] text-[#1E293B] rounded-xl',
-      formResendCodeLink: 'text-[#0C0E14] hover:text-[#F5A623] font-bold',
+        'bg-[#f4f6fb] border border-[#dde3f0] text-[#1a1a2e] focus:border-[#1a3c8f] focus:ring-2 focus:ring-[#1a3c8f]/10 text-sm rounded-lg py-3 px-4 transition-all outline-none w-full',
+      formFieldLabel: 'text-[11px] font-bold uppercase tracking-wider text-[#5a6a8a] mb-1.5',
+      footerActionLink: 'text-[#1a3c8f] hover:text-[#f4821e] font-bold transition-colors',
+      footerActionText: 'text-xs text-[#5a6a8a]',
+      identityPreviewText: 'text-xs font-bold text-[#1a1a2e]',
+      identityPreviewEditButton: 'text-[#1a3c8f] hover:text-[#f4821e] font-bold',
+      formFieldInputShowPasswordButton: 'text-[#5a6a8a] hover:text-[#1a3c8f]',
+      dividerText: 'text-[#5a6a8a] text-xs',
+      dividerLine: 'bg-[#dde3f0]',
+      otpCodeFieldInput: 'border border-[#dde3f0] bg-[#f4f6fb] text-[#1a1a2e] rounded-lg',
+      formResendCodeLink: 'text-[#1a3c8f] hover:text-[#f4821e] font-bold',
       alertText: 'text-xs',
       formFieldErrorText: 'text-xs text-red-600',
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row font-sans bg-[#0C0E14]">
+    <div className="min-h-screen flex flex-col md:flex-row font-sans bg-[#f4f6fb]">
 
-      {/* ─── Left: Branding panel ───────────────────────────────── */}
-      <div className="relative md:w-[52%] bg-[#13161E] text-white p-8 md:p-14 flex flex-col justify-between overflow-hidden min-h-[300px] border-r border-[#22283A]">
+      {/* ─── Left: Government Branding Panel ──────────────────────── */}
+      <div className="relative md:w-[52%] bg-gradient-to-br from-[#0d244f] to-[#1a3c8f] text-white p-8 md:p-14 flex flex-col justify-between overflow-hidden min-h-[300px]">
 
-        {/* Grid pattern */}
-        <div className="absolute inset-0"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(245,166,35,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(245,166,35,0.03) 1px, transparent 1px)',
-            backgroundSize: '40px 40px'
-          }}
-        />
-        {/* Amber glow */}
-        <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#F5A623]/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-1/4 left-0 w-48 h-48 bg-[#60A5FA]/3 rounded-full blur-3xl pointer-events-none" />
+        {/* Decorative circles */}
+        <div className="absolute -right-12 -top-12 w-64 h-64 bg-white/5 rounded-full" />
+        <div className="absolute -left-8 -bottom-20 w-72 h-72 bg-[#f4821e]/10 rounded-full" />
 
         {/* Top branding */}
-        <div className="relative z-10 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#F5A623]/10 border border-[#F5A623]/20 flex items-center justify-center flex-shrink-0">
-            <Shield className="w-5 h-5 text-[#F5A623]" />
-          </div>
-          <div>
-            <div className="text-[9px] font-mono font-medium text-[#F5A623] uppercase tracking-[0.2em]">{t('common.govOfRaj')}</div>
-            <div className="font-bold text-sm text-white uppercase tracking-wide" style={{fontFamily:'Fraunces,Georgia,serif'}}>
-              {t('certificates.printSub')}
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-12 h-12 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center flex-shrink-0">
+              <span className="text-white font-bold text-xl">सु</span>
+            </div>
+            <div>
+              <div className="text-[10px] font-semibold text-white/60 uppercase tracking-widest">{t('common.govOfRaj')}</div>
+              <div className="font-bold text-[15px] text-white">Suraksha.AI Platform</div>
             </div>
           </div>
-        </div>
 
-        {/* Center content */}
-        <div className="relative z-10 my-10 space-y-6">
-
-          {/* Gov badge */}
-          <div className="gov-badge w-fit">
-            <Lock className="w-2.5 h-2.5" /> {t('auth.stateDefenseRegistry')}
-          </div>
-
-          <h1 className="text-3xl md:text-5xl font-bold leading-tight tracking-tight text-white"
-            style={{fontFamily:'Fraunces,Georgia,serif'}}
+          {/* Language toggle */}
+          <button
+            onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
+            className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-[12px] font-semibold text-white/80 hover:bg-white/20 transition-all mb-8"
           >
+            <Globe className="w-3.5 h-3.5" />
+            {language === 'en' ? 'हिन्दी में देखें' : 'View in English'}
+          </button>
+
+          <h1 className="text-[28px] md:text-[36px] font-bold leading-[1.2] mb-4">
             {t('auth.cyberSecurityHub')}
           </h1>
-
-          <p className="text-sm text-[#C2CCDF] leading-relaxed max-w-sm">{t('auth.authSubtitle')}</p>
-
-          {/* Feature list */}
-          <div className="space-y-3.5 pt-2">
-            {[
-              { icon: Award,       key: 'auth.certTitle'     },
-              { icon: BookOpen,    key: 'auth.syllabusTitle' },
-              { icon: ShieldAlert, key: 'auth.threatTitle'   },
-            ].map(({ icon: Icon, key }) => (
-              <div key={key} className="flex items-center gap-3 text-sm text-[#C2CCDF]">
-                <div className="w-7 h-7 rounded-lg bg-[#F5A623]/10 border border-[#F5A623]/20 flex items-center justify-center flex-shrink-0">
-                  <Icon className="w-3.5 h-3.5 text-[#F5A623]" />
-                </div>
-                {t(key)}
-              </div>
-            ))}
-          </div>
-
-          {/* Terminal widget */}
-          <div className="mt-4 bg-[#0C0E14] border border-[#22283A] rounded-xl p-4 max-w-xs">
-            <div className="flex items-center gap-1.5 mb-3">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#EF4444]" />
-              <div className="w-1.5 h-1.5 rounded-full bg-[#F5A623]" />
-              <div className="w-1.5 h-1.5 rounded-full bg-[#22C55E]" />
-              <span className="text-[9px] font-mono text-[#8B9ABF] ml-1">AUTH TERMINAL</span>
-            </div>
-            <div className="font-mono text-[11px] space-y-1">
-              <p className="text-[#22C55E]">$ status: <span className="text-[#F5A623]">SECURE</span></p>
-              <p className="text-[#C2CCDF]">$ encryption: TLS 1.3</p>
-              <p className="text-[#C2CCDF]">$ provider: Clerk Auth</p>
-              <p className="text-[#8B9ABF] animate-pulse">▋</p>
-            </div>
-          </div>
+          <p className="text-[14px] text-white/70 leading-relaxed max-w-sm">
+            {t('auth.authSubtitle')}
+          </p>
         </div>
 
-        {/* Copyright */}
-        <div className="relative z-10 text-[9px] font-mono text-[#8B9ABF] uppercase tracking-widest">
-          {t('auth.copyright')}
+        {/* Feature bullets */}
+        <div className="relative z-10 space-y-4 mt-8">
+          {[
+            { icon: Award,    title: t('auth.certTitle'),    desc: t('auth.certDesc') },
+            { icon: BookOpen, title: t('auth.syllabusTitle'), desc: t('auth.syllabusDesc') },
+            { icon: Shield,   title: t('auth.threatTitle'),  desc: t('auth.threatDesc') },
+          ].map(({ icon: Icon, title, desc }) => (
+            <div key={title} className="flex gap-3 items-start">
+              <div className="w-8 h-8 rounded-lg bg-[#f4821e]/20 border border-[#f4821e]/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <Icon className="w-4 h-4 text-[#f4821e]" />
+              </div>
+              <div>
+                <p className="text-[13px] font-bold text-white">{title}</p>
+                <p className="text-[12px] text-white/60 leading-relaxed">{desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Indian flag accent */}
+        <div className="relative z-10 mt-8 pt-6 border-t border-white/10 flex items-center justify-between">
+          <div className="flex items-center gap-2 text-[11px] text-white/50">
+            <div className="w-5 h-3 flex flex-col justify-between">
+              <div className="h-0.5 bg-[#f4821e]" />
+              <div className="h-0.5 bg-white" />
+              <div className="h-0.5 bg-[#138808]" />
+            </div>
+            {t('auth.copyright')} {t('auth.officialConsole')}
+          </div>
+          <Link to="/" className="text-[11px] text-white/50 hover:text-white flex items-center gap-1 transition-colors">
+            <ArrowLeft className="w-3 h-3" /> {t('auth.returnHome')}
+          </Link>
         </div>
       </div>
 
-      {/* ─── Right: Auth card ───────────────────────────────────── */}
-      <div className="md:w-[48%] flex flex-col items-center justify-center p-6 md:p-10 bg-[#0C0E14]">
-        <div className="w-full max-w-[420px]">
+      {/* ─── Right: Clerk form panel ──────────────────────────────── */}
+      <div className="flex-1 flex flex-col items-center justify-center p-8 md:p-14 bg-white min-h-screen">
 
-          {/* Back link */}
-          <Link
-            to="/"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#8B9ABF] hover:text-[#F5A623] transition-colors mb-8 group"
-          >
-            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-            {t('auth.returnHome')}
-          </Link>
-
-          {/* Card header */}
-          <div className="mb-6">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{background:'linear-gradient(135deg, #0C0E14, #1A1E2A)'}}>
-                <Shield className="w-5 h-5 text-[#F5A623]" />
-              </div>
-              <div>
-                <h2 className="text-sm font-bold text-white uppercase tracking-widest leading-tight" style={{fontFamily:'Fraunces,Georgia,serif'}}>
-                  {t('auth.lmsCredential')}
-                </h2>
-                <div className="flex items-center gap-1 mt-1">
-                  <div className="h-[2px] w-8 bg-[#F5A623] rounded-full" />
-                  <div className="h-[2px] w-3 bg-[#F5A623]/30 rounded-full" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Clerk widget — isolated white card */}
-          <div
-            className="clerk-card-host"
-            style={{
-              background: '#ffffff',
-              borderRadius: '20px',
-              border: '1px solid #E2E8F0',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.08), 0 16px 48px rgba(0,0,0,0.16)',
-              padding: '32px 28px',
-            }}
-          >
-            {isRegisterInitial ? (
-              <SignUp routing="path" path="/register" signInUrl="/login" forceRedirectUrl="/dashboard" appearance={clerkAppearance} />
-            ) : (
-              <SignIn routing="path" path="/login" signUpUrl="/register" forceRedirectUrl="/dashboard" appearance={clerkAppearance} />
-            )}
-          </div>
-
-          {/* Trust indicators */}
-          <div className="flex items-center justify-center gap-5 mt-5">
-            {[
-              { color: '#22C55E', label: '256-bit SSL' },
-              { color: '#60A5FA', label: t('auth.secureEntry') },
-              { color: '#F5A623', label: 'ISO 27001' },
-            ].map(({ color, label }) => (
-              <div key={label} className="flex items-center gap-1.5 text-[10px] font-mono text-[#8B9ABF]">
-                <div className="w-1.5 h-1.5 rounded-full" style={{background: color}} />
-                {label}
-              </div>
-            ))}
-          </div>
-
-          {/* Footer links */}
-          <div className="text-[10px] font-mono text-[#8B9ABF] text-center flex justify-center gap-4 mt-4">
-            <a href="#" className="hover:text-[#F5A623] transition-colors">{t('auth.privacyCharter')}</a>
-            <span className="text-[#22283A]">·</span>
-            <a href="#" className="hover:text-[#F5A623] transition-colors">{t('auth.systemDisclaimers')}</a>
-            <span className="text-[#22283A]">·</span>
-            <a href="#" className="hover:text-[#F5A623] transition-colors">{t('auth.supportRegistry')}</a>
+        {/* Accessibility bar */}
+        <div className="w-full max-w-sm mb-6">
+          <div className="flex items-center justify-between text-[11px] text-[#5a6a8a] pb-4 border-b border-[#dde3f0]">
+            <span className="font-semibold text-[#1a3c8f]">DoIT&C Secure Login</span>
+            <button
+              onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
+              className="flex items-center gap-1 hover:text-[#1a3c8f] transition-colors"
+            >
+              <Globe className="w-3 h-3" />
+              {language === 'en' ? 'हिन्दी' : 'English'}
+            </button>
           </div>
         </div>
+
+        <div className="w-full max-w-sm">
+          {isRegisterInitial
+            ? <SignUp appearance={clerkAppearance} />
+            : <SignIn appearance={clerkAppearance} />
+          }
+        </div>
+
+        {/* Footer */}
+        <p className="mt-8 text-[11px] text-[#9aaed0] text-center max-w-xs">
+          {t('auth.copyright')} {t('common.privacyPolicy')} · {t('common.termsOfUse')}
+        </p>
       </div>
     </div>
   );

@@ -271,7 +271,7 @@ export default function BlogManagement() {
           <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-[#D4AF37] bg-white/10 px-2 py-0.5 rounded-sm w-fit border border-[#D4AF37]/30">
             <Shield className="w-3 h-3 text-[#D4AF37]" /> Admin Dossier
           </div>
-          <h1 className="text-lg md:text-xl font-serif font-bold tracking-tight">
+          <h1 className="text-lg md:text-xl font-bold tracking-tight text-white">
             Compliance & Blog Manager
           </h1>
           <p className="text-gray-200 text-xs font-medium leading-relaxed">

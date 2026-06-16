@@ -1,445 +1,249 @@
 /* ================================================================
-   OBSIDIAN COMMAND — Design System
-   DoIT&C LMS Platform · Rajasthan Government
+   DoIT&C LMS Platform — Government Portal Design System
+   Inspired by: Skill India Digital + Skill India Mission + iLearn.gov.in
    ================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,300;9..144,0,400;9..144,0,600;9..144,0,700;9..144,0,800;9..144,1,400;9..144,1,700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@300;400;500;600;700;800&display=swap');
 
 @import "tailwindcss";
 
-/* ── Design Tokens ─────────────────────────────────────────────── */
+/* ── Design Tokens ──────────────────────────────────────────── */
 @theme {
-  /* Backgrounds — layered dark */
-  --color-base:     #0C0E14;
-  --color-surface:  #13161E;
-  --color-elevated: #1A1E2A;
-  --color-overlay:  #202535;
+  /* Government Portal Palette */
+  --color-gov-navy:       #1a3c8f;
+  --color-gov-navy-dark:  #122c6e;
+  --color-gov-navy-light: #2a52b5;
+  --color-gov-saffron:    #f4821e;
+  --color-gov-saffron-dark: #d96a0a;
+  --color-gov-green:      #138808;
+  --color-gov-white:      #ffffff;
+  --color-gov-bg:         #f4f6fb;
+  --color-gov-card:       #ffffff;
+  --color-gov-border:     #dde3f0;
+  --color-gov-text:       #1a1a2e;
+  --color-gov-text-muted: #5a6a8a;
+  --color-gov-footer:     #0d244f;
 
-  /* Borders */
-  --color-border:    #22283A;
-  --color-border-hi: #2E3650;
-
-  /* Text — kept bright enough for comfortable dark-mode reading */
-  --color-text-primary:   #EEF2FF;   /* near-white, crisp */
-  --color-text-secondary: #C2CCDF;   /* was #C2CCDF — now clearly visible */
-  --color-text-tertiary:  #8B9ABF;   /* was #8B9ABF — readable subtext */
-  --color-text-muted:     #4A5578;   /* lightest, for timestamps/labels */
-
-  /* Accent — amber/saffron (India flag inspired) */
-  --color-accent:       #F5A623;
-  --color-accent-dark:  #C47D0E;
-  --color-accent-dim:   rgba(245, 166, 35, 0.12);
-  --color-accent-glow:  rgba(245, 166, 35, 0.20);
-
-  /* Status */
-  --color-success: #22C55E;
-  --color-danger:  #EF4444;
-  --color-warning: #F59E0B;
-  --color-info:    #60A5FA;
-
-  /* Typography — Outfit body (premium, geometric, very readable) + Fraunces display */
-  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --font-sans:    'Outfit', system-ui, -apple-system, sans-serif;
-  --font-mono:    'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  /* Fonts */
+  --font-sans: 'Inter', 'Noto Sans Devanagari', system-ui, sans-serif;
 }
 
-/* ── Base Layer ────────────────────────────────────────────────── */
+/* ── Base ───────────────────────────────────────────────────── */
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
 
   html {
-    font-family: 'Outfit', system-ui, sans-serif;
-    font-size: 15px;          /* bump base slightly for readability */
-    background-color: #0C0E14;
-    color: #EEF2FF;
+    background-color: #f4f6fb;
+    color: #1a1a2e;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
-    letter-spacing: 0.01em;   /* Outfit needs a tiny bit of tracking */
   }
 
   body {
-    font-family: 'Outfit', system-ui, sans-serif;
-    background-color: #0C0E14;
-    color: #EEF2FF;
+    font-family: 'Inter', 'Noto Sans Devanagari', system-ui, sans-serif;
+    background-color: #f4f6fb;
+    color: #1a1a2e;
     min-height: 100vh;
-    line-height: 1.65;
+    line-height: 1.6;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: 'Inter', 'Noto Sans Devanagari', system-ui, sans-serif;
     font-weight: 700;
-    line-height: 1.2;
-    color: white;
+    color: #1a1a2e;
+    line-height: 1.25;
   }
 
-  ::selection {
-    background: rgba(245, 166, 35, 0.25);
-    color: #F0F4FF;
-  }
+  a { text-decoration: none; color: inherit; }
 
-  a { text-decoration: none; }
+  ::selection { background: #c8d7ff; color: #1a3c8f; }
 }
 
-/* ── Scrollbar ─────────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: #0C0E14; }
-::-webkit-scrollbar-thumb { background: #22283A; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #F5A623; }
+/* ── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f4f6fb; }
+::-webkit-scrollbar-thumb { background: #9aaed0; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #1a3c8f; }
 
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* ── Card Components ───────────────────────────────────────────── */
-.lms-card {
-  background: #13161E;
-  border: 1px solid #22283A;
-  border-radius: 12px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-}
-.lms-card:hover {
-  border-color: rgba(245, 166, 35, 0.3);
-  box-shadow: 0 0 0 1px rgba(245, 166, 35, 0.06), 0 12px 40px rgba(0, 0, 0, 0.5);
-  transform: translateY(-2px);
-}
-
-.lms-card-flat {
-  background: #13161E;
-  border: 1px solid #22283A;
-  border-radius: 12px;
-}
-
-/* ── Buttons ───────────────────────────────────────────────────── */
-.btn-accent {
+/* ── Buttons ────────────────────────────────────────────────── */
+.btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.5rem;
-  background: #F5A623;
-  color: #0C0E14;
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border-radius: 8px;
+  gap: 8px;
+  padding: 11px 28px;
+  background: #f4821e;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
-  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
   white-space: nowrap;
 }
-.btn-accent:hover {
-  background: #FFBA45;
-  box-shadow: 0 4px 20px rgba(245, 166, 35, 0.4);
+.btn-primary:hover {
+  background: #d96a0a;
+  box-shadow: 0 4px 16px rgba(244, 130, 30, 0.35);
+  transform: translateY(-1px);
 }
-.btn-accent:active { transform: translateY(1px); }
-.btn-accent:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary:active { transform: translateY(0); }
 
-.btn-ghost {
+.btn-outline, .btn-ghost, .btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.5rem;
+  gap: 8px;
+  padding: 11px 28px;
   background: transparent;
-  color: #F0F4FF;
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border-radius: 8px;
-  border: 1px solid #22283A;
+  color: #1a3c8f;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 2px solid #1a3c8f;
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
   white-space: nowrap;
 }
-.btn-ghost:hover { background: #1A1E2A; border-color: #2E3650; }
-.btn-ghost:active { transform: translateY(1px); }
+.btn-outline:hover, .btn-ghost:hover, .btn-secondary:hover {
+  background: #1a3c8f;
+  color: #ffffff;
+}
+
+.btn-gold, .btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 28px;
+  background: #1a3c8f;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+.btn-gold:hover, .btn-accent:hover { background: #122c6e; }
 
 .btn-danger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.5rem;
-  background: rgba(239, 68, 68, 0.1);
-  color: #EF4444;
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border-radius: 8px;
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  cursor: pointer;
-  transition: background 0.15s ease, transform 0.1s ease;
-  white-space: nowrap;
-}
-.btn-danger:hover { background: rgba(239, 68, 68, 0.2); }
-.btn-danger:active { transform: translateY(1px); }
-
-/* Legacy aliases for compatibility with unrewritten pages */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.5rem;
-  background: #F5A623;
-  color: #0C0E14;
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
-  white-space: nowrap;
-  text-decoration: none;
-}
-.btn-primary:hover {
-  background: #FFBA45;
-  box-shadow: 0 4px 20px rgba(245, 166, 35, 0.4);
-}
-.btn-primary:active { transform: translateY(1px); }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.5rem;
+  gap: 8px;
+  padding: 11px 28px;
   background: transparent;
-  color: #F0F4FF;
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border-radius: 8px;
-  border: 1px solid #22283A;
+  color: #c0392b;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 2px solid #c0392b;
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
-  white-space: nowrap;
-  text-decoration: none;
+  transition: background 0.2s ease;
 }
-.btn-secondary:hover { background: #1A1E2A; border-color: #2E3650; }
-.btn-secondary:active { transform: translateY(1px); }
+.btn-danger:hover { background: #c0392b; color: #fff; }
 
-.btn-gold {
-  display: inline-flex;
+/* ── Cards ──────────────────────────────────────────────────── */
+.lms-card, .premium-card {
+  background: #ffffff;
+  border: 1px solid #dde3f0;
+  border-radius: 12px;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+}
+.lms-card:hover, .premium-card:hover {
+  box-shadow: 0 8px 28px rgba(26, 60, 143, 0.12);
+  transform: translateY(-3px);
+  border-color: #1a3c8f;
+}
+
+.lms-card-flat {
+  background: #ffffff;
+  border: 1px solid #dde3f0;
+  border-radius: 12px;
+}
+
+/* ── Sector tiles ───────────────────────────────────────────── */
+.sector-tile {
+  background: #ffffff;
+  border: 1px solid #dde3f0;
+  border-radius: 12px;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.5rem;
-  background: #F5A623;
-  color: #0C0E14;
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border-radius: 8px;
-  border: none;
+  gap: 10px;
   cursor: pointer;
-  transition: background 0.15s ease, transform 0.1s ease;
-  white-space: nowrap;
-  text-decoration: none;
+  transition: all 0.2s ease;
 }
-.btn-gold:hover { background: #FFBA45; }
-.btn-gold:active { transform: translateY(1px); }
-
-
-/* ── Form Inputs ───────────────────────────────────────────────── */
-.lms-input {
-  width: 100%;
-  padding: 0.65rem 1rem;
-  background: #0C0E14;
-  border: 1px solid #22283A;
-  border-radius: 8px;
-  color: #F0F4FF;
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-size: 0.875rem;
-  outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+.sector-tile:hover {
+  background: #1a3c8f;
+  border-color: #1a3c8f;
+  box-shadow: 0 6px 20px rgba(26, 60, 143, 0.25);
+  transform: translateY(-2px);
 }
-.lms-input::placeholder { color: #8B9ABF; }
-.lms-input:focus {
-  border-color: #F5A623;
-  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.12);
-}
+.sector-tile:hover .sector-icon { color: #f4821e; }
+.sector-tile:hover .sector-label { color: #ffffff; }
 
-/* .form-input — legacy alias for .lms-input (no @apply allowed in Tailwind v4 for custom classes) */
+/* ── Form inputs ────────────────────────────────────────────── */
 .form-input {
   width: 100%;
-  padding: 0.65rem 1rem;
-  background: #0C0E14;
-  border: 1px solid #22283A;
-  border-radius: 8px;
-  color: #F0F4FF;
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-size: 0.875rem;
+  background: #ffffff;
+  border: 1.5px solid #dde3f0;
+  border-radius: 6px;
+  padding: 11px 16px;
+  color: #1a1a2e;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.form-input::placeholder { color: #8B9ABF; }
 .form-input:focus {
-  border-color: #F5A623;
-  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.12);
+  border-color: #1a3c8f;
+  box-shadow: 0 0 0 3px rgba(26, 60, 143, 0.12);
 }
+.form-input::placeholder { color: #9aaed0; }
 
-/* ── Badges ────────────────────────────────────────────────────── */
-.badge {
+/* ── Badges ─────────────────────────────────────────────────── */
+.badge, .badge-accent {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.2rem 0.6rem;
+  gap: 5px;
+  padding: 3px 10px;
+  background: #e8edf9;
+  color: #1a3c8f;
   border-radius: 4px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  line-height: 1;
-}
-.badge-accent  { background: rgba(245,166,35,0.12); color: #F5A623; border: 1px solid rgba(245,166,35,0.2); }
-.badge-blue    { background: rgba(96,165,250,0.12); color: #60A5FA; border: 1px solid rgba(96,165,250,0.2); }
-.badge-purple  { background: rgba(167,139,250,0.12); color: #A78BFA; border: 1px solid rgba(167,139,250,0.2); }
-.badge-green   { background: rgba(34,197,94,0.12); color: #22C55E; border: 1px solid rgba(34,197,94,0.2); }
-.badge-red     { background: rgba(239,68,68,0.12); color: #EF4444; border: 1px solid rgba(239,68,68,0.2); }
-
-/* ── Typography Utilities ──────────────────────────────────────── */
-.section-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: #F5A623;
-}
-
-.display-heading {
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 700;
-  line-height: 1.1;
-  color: #F0F4FF;
-}
-
-/* ── Decorative Elements ───────────────────────────────────────── */
-.accent-rule {
-  height: 2px;
-  width: 2.5rem;
-  background: linear-gradient(90deg, #F5A623 0%, rgba(245,166,35,0.3) 100%);
-  border-radius: 1px;
-}
-
-.accent-rule-full {
-  height: 1px;
-  background: linear-gradient(90deg, #F5A623 0%, transparent 100%);
-}
-
-/* ── Grid Pattern Background ───────────────────────────────────── */
-.grid-pattern {
-  background-image:
-    linear-gradient(rgba(245, 166, 35, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(245, 166, 35, 0.03) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
-.grid-pattern-subtle {
-  background-image:
-    linear-gradient(rgba(46, 54, 80, 0.5) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(46, 54, 80, 0.5) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-/* ── Progress Bar ──────────────────────────────────────────────── */
-.progress-bar {
-  width: 100%;
-  height: 4px;
-  background: #22283A;
-  border-radius: 2px;
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #F5A623 0%, #FFD166 100%);
-  border-radius: 2px;
-  transition: width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-/* ── Navigation Active Underline ───────────────────────────────── */
-.nav-link-underline { position: relative; }
-.nav-link-underline::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 1px;
-  bottom: -2px;
-  left: 0;
-  background-color: #F5A623;
-  transform-origin: right;
-  transition: transform 0.2s ease;
-}
-.nav-link-underline:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-/* ── Hover glow (legacy compat) ────────────────────────────────── */
-.hover-glow { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-.hover-glow:hover {
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(245, 166, 35, 0.15);
-}
-
-/* ── Subnav Pills ──────────────────────────────────────────────── */
-.subnav-pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.375rem 0.875rem;
-  font-size: 0.75rem;
+  font-size: 12px;
   font-weight: 600;
-  border-radius: 9999px;
-  white-space: nowrap;
-  transition: all 0.15s ease;
-  color: #C2CCDF;
-  cursor: pointer;
-  text-decoration: none;
+  letter-spacing: 0.02em;
 }
-.subnav-pill:hover {
-  background: #1A1E2A;
-  color: #F0F4FF;
-}
-.subnav-pill.active {
-  background: #F5A623;
-  color: #0C0E14;
-  font-weight: 700;
-}
+.badge-green { background: #e6f4ea; color: #138808; }
+.badge-saffron { background: #fff0e5; color: #f4821e; }
+.badge-red { background: #fdecea; color: #c0392b; }
+.badge-blue { background: #e8edf9; color: #1a3c8f; }
+.badge-gray { background: #f0f2f7; color: #5a6a8a; }
+.badge-purple { background: #f0ebff; color: #7c3aed; }
 
-/* ── Amber glassmorphic badge ──────────────────────────────────── */
-.gov-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.25rem 0.875rem 0.25rem 0.625rem;
-  background: rgba(245, 166, 35, 0.1);
-  border: 1px solid rgba(245, 166, 35, 0.2);
-  border-radius: 9999px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: #F5A623;
-}
+/* ── Hover glow ─────────────────────────────────────────────── */
+.hover-glow { transition: all 0.25s ease; }
+.hover-glow:hover { box-shadow: 0 8px 28px rgba(26, 60, 143, 0.14); }
 
-/* ── Certificate print styles ──────────────────────────────────── */
+/* ── Player ─────────────────────────────────────────────────── */
+.react-player-wrapper {
+  position: relative;
+  padding-top: 56.25%;
+}
+.react-player { position: absolute; top: 0; left: 0; }
+
+/* ── Print ──────────────────────────────────────────────────── */
 @media print {
   body { background: white !important; color: black !important; }
   body * { visibility: hidden; }
@@ -448,7 +252,7 @@
   .certificate-print-container {
     position: absolute; left: 0; top: 0;
     width: 100vw; height: 100vh;
-    border: 8px double #0A2540 !important;
+    border: 6px double #1a3c8f !important;
     background: white !important;
     padding: 3rem !important;
     box-sizing: border-box;
@@ -462,35 +266,14 @@
   @page { size: landscape; margin: 0; }
 }
 
-/* ── Clerk Widget Light Isolation ──────────────────────────────── */
-/* Force Clerk card to remain light-themed regardless of dark mode */
-.clerk-card-host {
-  isolation: isolate;
+/* ── Animations ─────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.clerk-card-host .cl-formButtonPrimary {
-  background-color: #0C0E14 !important;
-  color: #ffffff !important;
-}
-.clerk-card-host .cl-formFieldInput {
-  background-color: #F8FAFC !important;
-  border-color: #E2E8F0 !important;
-  color: #1E293B !important;
-}
-.clerk-card-host .cl-headerTitle { color: #0C0E14 !important; }
-.clerk-card-host .cl-headerSubtitle,
-.clerk-card-host .cl-footerActionText { color: #64748B !important; }
-.clerk-card-host .cl-footerActionLink { color: #0C0E14 !important; }
-.clerk-card-host .cl-socialButtonsBlockButton {
-  background-color: #ffffff !important;
-  border-color: #E2E8F0 !important;
-  color: #374151 !important;
-}
-.clerk-card-host .cl-socialButtonsBlockButtonText { color: #374151 !important; }
-.clerk-card-host .cl-dividerText { color: #9CA3AF !important; }
-.clerk-card-host .cl-formFieldLabel { color: #6B7280 !important; }
-.clerk-card-host .cl-identityPreviewText { color: #374151 !important; }
-.clerk-card-host .cl-formFieldInputShowPasswordButton { color: #9CA3AF !important; }
+.animate-fade-up { animation: fadeUp 0.5s ease forwards; }
 
-/* ── Dark mode preference (system) ────────────────────────────── */
-/* App is dark-first — no light mode overrides needed.
-   The dark class is on <html> for Clerk widget compat only. */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
