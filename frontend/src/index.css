@@ -878,4 +878,58 @@
   .form-input:focus {
     border-color: #D4AF37 !important;
   }
+
+  /* Form elements focus and hover overrides in dark mode */
+  input:focus, textarea:focus, select:focus {
+    background-color: #0C1E32 !important;
+    color: #F1F5F9 !important;
+  }
+  input:hover, textarea:hover, select:hover {
+    background-color: #0C1E32 !important;
+  }
+  
+  /* Global table row hover and list item hover overrides in dark mode */
+  tbody tr:hover {
+    background-color: #12253a !important;
+  }
+  
+  .hover\:bg-\[\#f8fafc\]:hover {
+    background-color: #12253a !important;
+  }
+  
+  .hover\:bg-neutral-50:hover {
+    background-color: #12253a !important;
+  }
+  
+  .hover\:bg-gray-50:hover {
+    background-color: #12253a !important;
+  }
+  
+  .hover\:bg-slate-50:hover {
+    background-color: #12253a !important;
+  }
+  
+  .hover\:bg-gray-100:hover {
+    background-color: #12253a !important;
+  }
+  
+  .hover\:bg-neutral-100:hover {
+    background-color: #12253a !important;
+  }
+  
+  .hover\:bg-\[\#f0f4f8\]:hover {
+    background-color: #12253a !important;
+  }
+  
+  /* Tailwind Utility Overrides in dark mode */
+  .focus\:bg-white:focus {
+    background-color: #0C1E32 !important;
+    color: #F1F5F9 !important;
+  }
+  .hover\:bg-gray-100\/50:hover {
+    background-color: #12253a !important;
+  }
+  .hover\:bg-gray-100\/70:hover {
+    background-color: #12253a !important;
+  }
 }
