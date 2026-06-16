@@ -507,18 +507,69 @@
   background: #D4AF37;
 }
 
-/* Clerk Widget Dark Theme Overrides */
-.dark .cl-socialButtonsBlockButtonText {
-  color: #F1F5F9 !important;
+/* ── Clerk Sign-In Card: force light mode always ─────────────────
+   The card wrapper uses inline style (background: #ffffff) but the
+   global .dark .bg-white rule sets bg to #0E2035 on ALL .bg-white
+   elements — including Clerk's internals. We isolate Clerk here.
+   ──────────────────────────────────────────────────────────────── */
+.clerk-card-host,
+.clerk-card-host * {
+  /* Reset any global dark overrides inside the card */
+  background-color: revert;
+  color: revert;
+  border-color: revert;
 }
-.dark .cl-socialButtonsBlockButton {
-  color: #F1F5F9 !important;
+
+/* Keep Clerk card white in both dark class and prefers-color-scheme dark */
+.dark .clerk-card-host .cl-card {
+  background: #ffffff !important;
 }
-.dark .cl-dividerText {
-  color: #94A3B8 !important;
+@media (prefers-color-scheme: dark) {
+  .clerk-card-host .cl-card {
+    background: #ffffff !important;
+  }
 }
-.dark .cl-footerActionText {
-  color: #94A3B8 !important;
+
+
+/* Clerk Widget: targeted light-theme overrides for dark environments */
+.clerk-card-host .cl-formButtonPrimary {
+  background-color: #0A2540 !important;
+  color: #ffffff !important;
+}
+.clerk-card-host .cl-formFieldInput {
+  background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+  color: #1E293B !important;
+}
+.clerk-card-host .cl-headerTitle {
+  color: #0A2540 !important;
+}
+.clerk-card-host .cl-headerSubtitle,
+.clerk-card-host .cl-footerActionText {
+  color: #64748B !important;
+}
+.clerk-card-host .cl-footerActionLink {
+  color: #0A2540 !important;
+}
+.clerk-card-host .cl-socialButtonsBlockButton {
+  background-color: #ffffff !important;
+  border-color: #E2E8F0 !important;
+  color: #374151 !important;
+}
+.clerk-card-host .cl-socialButtonsBlockButtonText {
+  color: #374151 !important;
+}
+.clerk-card-host .cl-dividerText {
+  color: #9CA3AF !important;
+}
+.clerk-card-host .cl-formFieldLabel {
+  color: #6B7280 !important;
+}
+.clerk-card-host .cl-identityPreviewText {
+  color: #374151 !important;
+}
+.clerk-card-host .cl-formFieldInputShowPasswordButton {
+  color: #9CA3AF !important;
 }
 
 /* ========================================================
