@@ -104,10 +104,10 @@ export default function CertificatesPage() {
       case 'no_test':
         return (
           <button 
-            onClick={() => setViewCertificate(category === 'Artificial Intelligence' ? 'ai' : 'cyber')}
-            className="btn-primary py-1.5 px-3 text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider cursor-pointer"
+            disabled
+            className="py-1.5 px-3 text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider bg-slate-100 text-slate-400 border border-slate-200 rounded-md select-none"
           >
-            <Eye className="w-3.5 h-3.5" /> {t('certificates.downloadPdf')}
+            <HelpCircle className="w-3.5 h-3.5" /> Assessment Pending
           </button>
         );
       case 'not_taken':
@@ -166,8 +166,8 @@ export default function CertificatesPage() {
   const aiStats = stats?.categoryStats?.['Artificial Intelligence'] || { total: 0, completed: 0, testStatus: 'no_test' };
   const cyberStats = stats?.categoryStats?.['Cybersecurity'] || { total: 0, completed: 0, testStatus: 'no_test' };
 
-  const hasAI = aiStats.total > 0 && aiStats.completed === aiStats.total && (aiStats.testStatus === 'passed' || aiStats.testStatus === 'no_test');
-  const hasCyber = cyberStats.total > 0 && cyberStats.completed === cyberStats.total && (cyberStats.testStatus === 'passed' || cyberStats.testStatus === 'no_test');
+  const hasAI = aiStats.total > 0 && aiStats.completed === aiStats.total && aiStats.testStatus === 'passed';
+  const hasCyber = cyberStats.total > 0 && cyberStats.completed === cyberStats.total && cyberStats.testStatus === 'passed';
 
   return (
     <div className="space-y-6 pb-16 font-sans text-[#2d3748]">

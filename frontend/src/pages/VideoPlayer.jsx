@@ -119,8 +119,7 @@ export default function VideoPlayer() {
   };
 
   const handleCompleted = (completionData) => {
-    addToast('Video lesson completed successfully!', 'success');
-    setShowCertificateModal(true);
+    addToast('Video lesson completed successfully! Head to the Certificates Center to take the assessment.', 'success');
     
     api.get(`/videos/${id}`).then(res => {
       setVideoData(prev => ({
@@ -196,12 +195,12 @@ export default function VideoPlayer() {
             </div>
             
             {video.progress?.completed && (
-              <button
-                onClick={() => setShowCertificateModal(true)}
-                className="btn-gold py-1.5 px-3 text-[10px] flex items-center gap-1.5 font-bold uppercase tracking-wider text-[#0A2540] transition-all hover:scale-102 cursor-pointer"
+              <Link
+                to="/certificates"
+                className="btn-gold py-1.5 px-3 text-[10px] flex items-center gap-1.5 font-bold uppercase tracking-wider text-[#0A2540] transition-all hover:scale-102"
               >
-                <Award className="w-3.5 h-3.5 text-[#0A2540]" /> {t('video.claimCert')}
-              </button>
+                <Award className="w-3.5 h-3.5 text-[#0A2540]" /> Go to Certificates Center
+              </Link>
             )}
           </div>
 
@@ -402,74 +401,6 @@ export default function VideoPlayer() {
           </div>
         </div>
       </div>
-
-      {/* Rajasthan Gov certificate print view modal */}
-      {showCertificateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <div className="relative w-full max-w-xl bg-white border border-[#cbd5e0] p-8 rounded-sm shadow-2xl space-y-6">
-            {/* Close */}
-            <button 
-              onClick={() => setShowCertificateModal(false)}
-              className="absolute top-4 right-4 text-neutral-500 hover:text-black transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            {/* Certificate content - formal navy gold print document */}
-            <div className="certificate-print-container border-4 border-[#0A2540] bg-white p-8 space-y-6 text-center rounded-sm relative">
-              {/* Decorative Gold corners */}
-              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#D4AF37]"></div>
-              <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#D4AF37]"></div>
-              <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#D4AF37]"></div>
-              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#D4AF37]"></div>
-
-              <div className="flex justify-center mb-2">
-                <img src="/rajasthan_logo.png" alt="Government of Rajasthan Logo" className="w-16 h-16 object-contain" />
-              </div>
-
-              <h2 className="text-lg font-serif font-bold tracking-widest text-[#0A2540] uppercase">{t('certificates.printTitle')}</h2>
-              <p className="text-[9px] font-sans text-neutral-500 uppercase tracking-widest font-bold">{t('certificates.printSub')}</p>
-              
-              <div className="h-0.5 bg-[#D4AF37] w-20 mx-auto my-2" />
-              
-              <p className="text-[10px] font-sans text-[#718096] uppercase tracking-wider">{t('certificates.printOfficial')}</p>
-              
-              <h1 className="text-2xl font-serif font-bold text-[#0A2540] underline underline-offset-4 decoration-[#D4AF37] decoration-2">{user?.name}</h1>
-              
-              <p className="text-xs text-[#4a5568] max-w-sm mx-auto leading-relaxed">
-                {t('certificates.printDesc')}
-              </p>
-              
-              <div className="p-2.5 rounded-sm bg-[#f0f4f8] border border-[#cbd5e0] inline-block">
-                <span className="text-xs font-serif font-bold text-[#0A2540] uppercase">
-                  {video.category === 'Artificial Intelligence' 
-                    ? (t('certificates.title') === 'Compliance Credentials Center' ? 'Artificial Intelligence Core & Neural Systems' : 'आर्टिफिशियल इंटेलिजेंस कोर और न्यूरल सिस्टम')
-                    : (t('certificates.title') === 'Compliance Credentials Center' ? 'Cybersecurity Defense Penetration Frameworks' : 'साइबर सुरक्षा रक्षा प्रवेश ढांचा')
-                  }
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 pt-6 max-w-sm mx-auto text-[9px] font-mono text-neutral-500 font-bold uppercase tracking-wider">
-                <div className="border-t border-[#cbd5e0] pt-2">
-                  {t('certificates.director')}
-                </div>
-                <div className="border-t border-[#cbd5e0] pt-2">
-                  {t('certificates.coordinator')}
-                </div>
-              </div>
-            </div>
-
-            {/* Print button */}
-            <button 
-              onClick={() => window.print()}
-              className="btn-gold w-full py-2.5 flex items-center justify-center gap-1.5 uppercase tracking-wider text-xs font-bold text-[#0A2540] cursor-pointer"
-            >
-              <Printer className="w-4 h-4 text-[#0A2540]" /> {t('certificates.printCredential')}
-            </button>
-          </div>
-        </div>
-      )}
-      
     </div>
   );
 }

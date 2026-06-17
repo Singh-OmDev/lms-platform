@@ -83,7 +83,7 @@ export const submitTest = async (req, res) => {
       // Auto grade MCQ only tests
       const percentage = mcqCount > 0 ? (mcqCorrect / mcqCount) * 100 : 100;
       score = Math.round(percentage);
-      passed = score >= 70; // 70% passing threshold
+      passed = score === 100; // 100% correct required for certificate
       status = 'graded';
     }
 

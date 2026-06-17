@@ -199,9 +199,10 @@ Review the *Neural Networks from Scratch* video to get an intuition of backpropa
             correctOption: '2'
           },
           {
-            type: 'SHORT',
-            questionText: 'Explain the difference between feed-forward propagation and backpropagation in a neural network.',
-            correctOption: 'Feed-forward computes the output and loss from inputs, while backpropagation calculates the gradients of the loss function with respect to weights using the chain rule to update them.'
+            type: 'MCQ',
+            questionText: 'Which process calculates the gradients of the loss function with respect to weights using the chain rule to update them?',
+            options: 'Feed-forward propagation|Backpropagation|Weight initialization|Batch normalization',
+            correctOption: '1'
           }
         ]
       }
@@ -226,9 +227,10 @@ Review the *Neural Networks from Scratch* video to get an intuition of backpropa
             correctOption: '2'
           },
           {
-            type: 'SHORT',
-            questionText: 'Explain SPF, DKIM, and DMARC and how they defend state email infrastructures against spear-phishing.',
-            correctOption: 'SPF lists authorized sending IPs. DKIM adds cryptographic signatures to verify sender identity. DMARC uses SPF/DKIM checks to define receiver policies (e.g. block or quarantine) for failing mails.'
+            type: 'MCQ',
+            questionText: 'Which protocol uses cryptographic signatures to verify the email sender\'s identity and prevent spoofing?',
+            options: 'SPF|DKIM|DMARC|SMTP',
+            correctOption: '1'
           }
         ]
       }

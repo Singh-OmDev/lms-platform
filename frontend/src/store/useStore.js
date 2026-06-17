@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-let rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+let rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5003/api';
 if (rawApiUrl && !rawApiUrl.endsWith('/api') && !rawApiUrl.endsWith('/api/')) {
   rawApiUrl = rawApiUrl.endsWith('/') ? `${rawApiUrl}api` : `${rawApiUrl}/api`;
 }
