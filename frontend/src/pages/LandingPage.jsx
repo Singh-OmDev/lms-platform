@@ -133,7 +133,7 @@ function CourseCard({ course, to }) {
 }
 
 export default function LandingPage() {
-  const { isAuthenticated } = useStore();
+  const { isAuthenticated, user } = useStore();
   const [courses, setCourses] = useState([]);
   const [articles, setArticles] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -211,7 +211,7 @@ export default function LandingPage() {
               { label: 'Courses', to: '/dashboard' },
               { label: 'Blogs', to: '/blogs' },
               { label: 'Certifications', to: '/certificates' },
-              ...(isAuthenticated ? [{ label: 'Admin', to: '/admin' }] : []),
+              ...(isAuthenticated && user?.role === 'admin' ? [{ label: 'Admin', to: '/admin/dashboard' }] : []),
             ].map(link => (
               <Link
                 key={link.to}
@@ -661,7 +661,7 @@ export default function LandingPage() {
                   { label: 'My Dashboard', to: '/dashboard' },
                   { label: 'Read Blogs', to: '/blogs' },
                   { label: 'My Certificates', to: '/certificates' },
-                  { label: 'Admin Panel', to: '/admin' },
+                  ...(isAuthenticated && user?.role === 'admin' ? [{ label: 'Admin Panel', to: '/admin/dashboard' }] : []),
                 ].map(l => (
                   <li key={l.to}>
                     <Link to={l.to} className="text-[14px] text-white/60 hover:text-white transition-colors flex items-center gap-1.5">
