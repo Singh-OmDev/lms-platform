@@ -178,14 +178,29 @@ export default function LandingPage() {
       ══════════════════════════════════════════════════════ */}
       <div className="bg-[#0d244f] text-white text-[12px] py-1.5 px-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="opacity-70">{t('landing.screenReaderAccess', 'Screen Reader Access')}</span>
-          <span className="opacity-30">|</span>
-          <a href="#main" className="opacity-70 hover:opacity-100 transition-opacity">{t('landing.skipToMain', 'Skip to Main Content')}</a>
         </div>
         <div className="flex items-center gap-3">
-          <span className="opacity-70">A-</span>
-          <span className="opacity-70 cursor-default">A</span>
-          <span className="opacity-70">A+</span>
+          <button
+            onClick={() => { document.documentElement.style.fontSize = '14px'; }}
+            className="opacity-70 hover:opacity-100 transition-opacity cursor-pointer font-bold"
+            title="Decrease Text Size"
+          >
+            A-
+          </button>
+          <button
+            onClick={() => { document.documentElement.style.fontSize = '16px'; }}
+            className="opacity-70 hover:opacity-100 transition-opacity cursor-pointer font-bold"
+            title="Reset Text Size"
+          >
+            A
+          </button>
+          <button
+            onClick={() => { document.documentElement.style.fontSize = '18px'; }}
+            className="opacity-70 hover:opacity-100 transition-opacity cursor-pointer font-bold"
+            title="Increase Text Size"
+          >
+            A+
+          </button>
           <span className="opacity-30">|</span>
           <button
             onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}

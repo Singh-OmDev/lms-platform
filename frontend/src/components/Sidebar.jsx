@@ -74,14 +74,29 @@ export default function Sidebar({ children }) {
       {/* ── Accessibility Top Bar ───────────────────────── */}
       <div className="bg-[#0d244f] text-white text-[11px] py-1.5 px-4 flex items-center justify-between">
         <div className="flex items-center gap-3 text-white/60">
-          <span>Screen Reader Access</span>
-          <span className="opacity-30">|</span>
-          <a href="#main-content" className="hover:text-white transition-colors">Skip to Content</a>
         </div>
         <div className="flex items-center gap-3 text-white/60">
-          <span>A-</span>
-          <span>A</span>
-          <span>A+</span>
+          <button
+            onClick={() => { document.documentElement.style.fontSize = '14px'; }}
+            className="hover:text-white transition-colors cursor-pointer font-bold"
+            title="Decrease Text Size"
+          >
+            A-
+          </button>
+          <button
+            onClick={() => { document.documentElement.style.fontSize = '16px'; }}
+            className="hover:text-white transition-colors cursor-pointer font-bold"
+            title="Reset Text Size"
+          >
+            A
+          </button>
+          <button
+            onClick={() => { document.documentElement.style.fontSize = '18px'; }}
+            className="hover:text-white transition-colors cursor-pointer font-bold"
+            title="Increase Text Size"
+          >
+            A+
+          </button>
           <span className="opacity-30">|</span>
           {/* ── Language Toggle — visible & functional ── */}
           <button
