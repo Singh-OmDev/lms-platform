@@ -24,11 +24,15 @@ import { api, useStore } from '../store/useStore';
 import { useTranslation } from '../utils/translations';
 
 export default function AdminDashboard() {
-  const { addToast } = useStore();
+  const { addToast, user } = useStore();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [statsData, setStatsData] = useState(null);
-  const [activeTab, setActiveTab] = useState('overview'); // 'overview', 'manage_tests', 'grade_submissions'
+  const [activeTab, setActiveTab] = useState('overview'); // 'overview', 'users', 'manage_tests', 'grade_submissions'
+
+  // Manage Users State
+  const [users, setUsers] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
 
   // Manage Module Tests State
   const [tests, setTests] = useState([]);
@@ -103,12 +107,64 @@ export default function AdminDashboard() {
     }
   };
 
+  // Fetch users list
+  const fetchUsers = async () => {
+    try {
+      setLoadingUsers(true);
+      const res = await api.get('/analytics/admin/users');
+      setUsers(res.data);
+    } catch (err) {
+      console.error(err);
+      addToast('Failed to load registered users', 'danger');
+    } finally {
+      setLoadingUsers(false);
+    }
+  };
+
+  // Toggle user role between user and admin
+  const handleToggleRole = async (userId, currentRole) => {
+    if (userId === user?.id && currentRole === 'admin') {
+      addToast('You cannot remove your own admin privileges.', 'warning');
+      return;
+    }
+    try {
+      const newRole = currentRole === 'admin' ? 'user' : 'admin';
+      await api.put(`/analytics/admin/users/${userId}/role`, { role: newRole });
+      addToast(`User role updated to ${newRole} successfully`, 'success');
+      setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u));
+    } catch (err) {
+      console.error(err);
+      addToast(err.response?.data?.error || 'Failed to update user role', 'danger');
+    }
+  };
+
+  // Delete user account
+  const handleDeleteUser = async (userId) => {
+    if (userId === user?.id) {
+      addToast('You cannot delete your own account from the dashboard.', 'warning');
+      return;
+    }
+    if (!window.confirm('Are you sure you want to delete this user? All their course watch progress, comments, and test submissions will be permanently deleted.')) {
+      return;
+    }
+    try {
+      await api.delete(`/analytics/admin/users/${userId}`);
+      addToast('User deleted successfully', 'success');
+      setUsers(users.filter(u => u.id !== userId));
+    } catch (err) {
+      console.error(err);
+      addToast(err.response?.data?.error || 'Failed to delete user', 'danger');
+    }
+  };
+
   // Fetch data depending on active tab
   useEffect(() => {
     if (activeTab === 'manage_tests') {
       fetchTests();
     } else if (activeTab === 'grade_submissions') {
       fetchSubmissions();
+    } else if (activeTab === 'users') {
+      fetchUsers();
     }
   }, [activeTab]);
 
@@ -379,6 +435,16 @@ export default function AdminDashboard() {
             <Activity className="w-3.5 h-3.5" /> {t('admin.overview', 'Overview')}
           </button>
           <button
+            onClick={() => setActiveTab('users')}
+            className={`pb-2 text-xs font-bold border-b-2 transition-all cursor-pointer flex items-center gap-1.5 ${
+              activeTab === 'users'
+                ? 'border-[#0A2540] text-[#0A2540]'
+                : 'border-transparent text-neutral-500 hover:text-[#0A2540]'
+            }`}
+          >
+            <Users className="w-3.5 h-3.5" /> Users
+          </button>
+          <button
             onClick={() => setActiveTab('manage_tests')}
             className={`pb-2 text-xs font-bold border-b-2 transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'manage_tests'
@@ -539,6 +605,94 @@ export default function AdminDashboard() {
             </div>
           </div>
         </>
+      )}
+
+      {activeTab === 'users' && (
+        <div className="space-y-6">
+          {/* Header Card */}
+          <div className="p-6 bg-white border border-[#cbd5e0] rounded-sm shadow-sm">
+            <h2 className="text-base font-serif font-bold text-[#0A2540]">Registered User Directory</h2>
+            <p className="text-neutral-550 text-xs mt-1">
+              View registered student and administrator profiles. Change roles or delete user accounts as required.
+            </p>
+          </div>
+
+          {loadingUsers ? (
+            <div className="p-12 text-center bg-white border border-[#cbd5e0] rounded-sm shadow-sm">
+              <RefreshCw className="w-8 h-8 animate-spin mx-auto text-[#0A2540] mb-2" />
+              <p className="text-xs text-neutral-500">Loading user registry...</p>
+            </div>
+          ) : (
+            <div className="p-5 bg-white border border-[#cbd5e0] rounded-sm shadow-sm">
+              {users.length === 0 ? (
+                <div className="py-12 text-center text-xs text-neutral-500 font-mono">
+                  No users found in the database directory.
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="border-b border-[#cbd5e0] bg-[#f8fafc] text-neutral-600 font-mono uppercase tracking-wider text-[10px]">
+                        <th className="py-3 px-3">Name</th>
+                        <th className="py-3 px-3">Email Address</th>
+                        <th className="py-3 px-3">Role</th>
+                        <th className="py-3 px-3">Joined Date</th>
+                        <th className="py-3 px-3 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {users.map((u) => {
+                        const isSelf = u.id === user?.id;
+                        return (
+                          <tr key={u.id} className="border-b border-[#cbd5e0] hover:bg-neutral-50 text-[#2d3748] items-center">
+                            <td className="py-3.5 px-3 font-serif font-bold text-[#0A2540]">
+                              {u.name} {isSelf && <span className="text-[9px] font-mono font-bold text-[#cbd5e0] italic">(You)</span>}
+                            </td>
+                            <td className="py-3.5 px-3 font-mono font-semibold text-neutral-500">{u.email}</td>
+                            <td className="py-3.5 px-3">
+                              <span className={`inline-block px-2.5 py-0.5 rounded-sm text-[9px] font-bold uppercase tracking-wider border ${
+                                u.role === 'admin' 
+                                  ? 'bg-[#0A2540] text-white border-[#0A2540]' 
+                                  : 'bg-slate-100 text-slate-700 border-slate-200'
+                              }`}>
+                                {u.role}
+                              </span>
+                            </td>
+                            <td className="py-3.5 px-3 text-neutral-500 font-mono">
+                              {new Date(u.createdAt).toLocaleDateString()}
+                            </td>
+                            <td className="py-3.5 px-3 text-right space-x-2">
+                              {!isSelf && (
+                                <>
+                                  <button
+                                    onClick={() => handleToggleRole(u.id, u.role)}
+                                    className={`py-1 px-2.5 text-[10px] font-bold uppercase tracking-wider rounded-sm transition-colors cursor-pointer border ${
+                                      u.role === 'admin' 
+                                        ? 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-[#cbd5e0]' 
+                                        : 'bg-blue-50 hover:bg-blue-100 text-blue-800 border-blue-200'
+                                    }`}
+                                  >
+                                    {u.role === 'admin' ? 'Demote to User' : 'Make Admin'}
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteUser(u.id)}
+                                    className="py-1 px-2.5 bg-red-50 hover:bg-red-100 text-red-800 text-[10px] font-bold uppercase tracking-wider rounded-sm transition-colors cursor-pointer border border-red-200"
+                                  >
+                                    Delete
+                                  </button>
+                                </>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       )}
 
       {activeTab === 'manage_tests' && (

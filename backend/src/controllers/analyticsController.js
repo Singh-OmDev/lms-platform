@@ -224,3 +224,85 @@ export const getAdminStats = async (req, res) => {
     return res.status(500).json({ error: 'Server error retrieving admin stats' });
   }
 };
+
+export const getAdminUsers = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany({
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true
+      }
+    });
+    return res.status(200).json(users);
+  } catch (error) {
+    console.error('Error fetching admin users:', error);
+    return res.status(500).json({ error: 'Server error retrieving users' });
+  }
+};
+
+export const updateUserRole = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+
+    if (role !== 'admin' && role !== 'user') {
+      return res.status(400).json({ error: 'Invalid role' });
+    }
+
+    const userIdToUpdate = parseInt(id, 10);
+    if (isNaN(userIdToUpdate)) {
+      return res.status(400).json({ error: 'Invalid user ID' });
+    }
+
+    // Prevent self-demotion
+    if (userIdToUpdate === req.user.id && role === 'user') {
+      return res.status(400).json({ error: 'You cannot remove your own admin privileges.' });
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userIdToUpdate },
+      data: { role },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true
+      }
+    });
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error('Error updating user role:', error);
+    return res.status(500).json({ error: 'Server error updating user role' });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userIdToDelete = parseInt(id, 10);
+    if (isNaN(userIdToDelete)) {
+      return res.status(400).json({ error: 'Invalid user ID' });
+    }
+
+    // Prevent self-deletion
+    if (userIdToDelete === req.user.id) {
+      return res.status(400).json({ error: 'You cannot delete your own account from the admin dashboard.' });
+    }
+
+    await prisma.user.delete({
+      where: { id: userIdToDelete }
+    });
+
+    return res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    return res.status(500).json({ error: 'Server error deleting user' });
+  }
+};
+
