@@ -115,6 +115,28 @@
   color: #ffffff;
 }
 
+.btn-outline-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 28px;
+  background: transparent;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+.btn-outline-white:hover {
+  background: #ffffff;
+  color: #1a3c8f;
+}
+
 .btn-gold, .btn-accent {
   display: inline-flex;
   align-items: center;

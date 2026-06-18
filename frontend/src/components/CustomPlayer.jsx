@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, Maximize2, Minimize2, RotateCcw, FastForward, PlayCircle } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Maximize2, Minimize2, Rewind, FastForward, PlayCircle } from 'lucide-react';
 import { useStore, api } from '../store/useStore';
 
 export default function CustomPlayer({ video, onProgressUpdate, onCompleted }) {
@@ -206,8 +206,9 @@ export default function CustomPlayer({ video, onProgressUpdate, onCompleted }) {
   const handleScrubberChange = (e) => {
     const value = parseFloat(e.target.value);
     if (playerRef.current) {
-      playerRef.current.seekTo(value);
+      playerRef.current.currentTime = value;
       setPlayedSeconds(value);
+      currentTimeRef.current = value;
     }
   };
 
@@ -393,8 +394,8 @@ export default function CustomPlayer({ video, onProgressUpdate, onCompleted }) {
                   {playing ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
                 </button>
                 
-                <button onClick={() => seekBackward(10)} className="hover:text-indigo-400 transition-colors">
-                  <RotateCcw className="w-5 h-5" />
+                <button onClick={() => seekBackward(10)} className="hover:text-indigo-400 transition-colors" title="Rewind 10s">
+                  <Rewind className="w-5 h-5" />
                 </button>
                 <button onClick={() => seekForward(10)} className="hover:text-indigo-400 transition-colors">
                   <FastForward className="w-5 h-5" />

@@ -605,7 +605,7 @@ export default function LandingPage() {
               <Link to={isAuthenticated ? '/certificates' : '/register'} className="btn-primary text-[15px]">
                 {t('landing.getCertified', 'Get Certified')} <Award className="w-4 h-4" />
               </Link>
-              <Link to="/dashboard" className="btn-outline border-white text-white hover:bg-white hover:text-[#1a3c8f] text-[15px]">
+              <Link to="/dashboard" className="btn-outline-white text-[15px]">
                 {t('landing.browseCourses', 'Browse Courses')}
               </Link>
             </div>
