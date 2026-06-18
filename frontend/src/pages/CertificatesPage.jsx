@@ -17,6 +17,7 @@ export default function CertificatesPage() {
   const [loadingTest, setLoadingTest] = useState(false);
   const [answers, setAnswers] = useState({});
   const [submittingTest, setSubmittingTest] = useState(false);
+  const [testResult, setTestResult] = useState(null);
 
   const fetchStats = async () => {
     try {
@@ -41,6 +42,7 @@ export default function CertificatesPage() {
       setLoadingTest(true);
       setTestModalOpen(true);
       setAnswers({});
+      setTestResult(null);
       
       const res = await api.get(`/tests/${encodeURIComponent(category)}`);
       if (res.data.test) {
@@ -88,7 +90,7 @@ export default function CertificatesPage() {
           : 'Assessment submitted! Auto-graded successfully.', 
         'success'
       );
-      setTestModalOpen(false);
+      setTestResult(res.data);
       fetchStats(); // Refresh certificate states
     } catch (err) {
       console.error(err);
@@ -344,7 +346,10 @@ export default function CertificatesPage() {
           <div className="relative w-full max-w-2xl bg-white border border-[#cbd5e0] p-8 rounded-sm shadow-2xl space-y-6 my-8 max-h-[90vh] overflow-y-auto">
             {/* Close */}
             <button 
-              onClick={() => setTestModalOpen(false)}
+              onClick={() => {
+                setTestModalOpen(false);
+                setTestResult(null);
+              }}
               className="absolute top-4 right-4 text-neutral-500 hover:text-black transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
@@ -366,6 +371,110 @@ export default function CertificatesPage() {
               <div className="py-8 text-center text-xs text-neutral-500 space-y-2">
                 <AlertCircle className="w-8 h-8 text-amber-500 mx-auto" />
                 <p>No assessment configured yet for this module.</p>
+              </div>
+            ) : testResult ? (
+              <div className="space-y-6 py-4 text-center animate-in fade-in zoom-in duration-200">
+                {testResult.hasShortAnswer ? (
+                  <div className="space-y-4">
+                    <div className="mx-auto w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center border border-blue-200">
+                      <FileText className="w-8 h-8" />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-serif font-bold text-[#0A2540]">Assessment Submitted</h3>
+                      <p className="text-xs text-neutral-550 max-w-md mx-auto leading-relaxed">
+                        Your answers have been submitted. Since this assessment includes short-answer questions, a course administrator will grade it manually. Your dashboard status will update once grading is complete.
+                      </p>
+                    </div>
+                    <div className="pt-4 max-w-sm mx-auto">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setTestModalOpen(false);
+                          setTestResult(null);
+                        }}
+                        className="btn-primary w-full py-2 flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider cursor-pointer"
+                      >
+                        Close Window
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {testResult.submission.passed ? (
+                      <div className="space-y-4">
+                        <div className="mx-auto w-16 h-16 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center border border-emerald-200 animate-bounce">
+                          <CheckCircle className="w-8 h-8" />
+                        </div>
+                        <div className="space-y-2">
+                          <h3 className="text-lg font-serif font-bold text-emerald-600">Assessment Passed!</h3>
+                          <div className="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full font-mono text-sm font-bold">
+                            Score: {testResult.submission.score}%
+                          </div>
+                          <p className="text-xs text-neutral-555 max-w-md mx-auto leading-relaxed">
+                            Excellent work! You answered all questions correctly and have officially earned your certificate of completion for the {activeCategory} track.
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 max-w-md mx-auto">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setTestModalOpen(false);
+                              setViewCertificate(activeCategory === 'Artificial Intelligence' ? 'ai' : 'cyber');
+                              setTestResult(null);
+                            }}
+                            className="btn-gold py-2.5 flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#0A2540] cursor-pointer"
+                          >
+                            <Award className="w-4 h-4 text-[#0A2540]" /> View Certificate
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setTestModalOpen(false);
+                              setTestResult(null);
+                            }}
+                            className="btn-primary py-2.5 flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider cursor-pointer"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        <div className="mx-auto w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center border border-red-200 animate-pulse">
+                          <AlertCircle className="w-8 h-8" />
+                        </div>
+                        <div className="space-y-2">
+                          <h3 className="text-lg font-serif font-bold text-red-600">Assessment Not Passed</h3>
+                          <div className="inline-block px-3 py-1 bg-red-50 text-red-700 border border-red-200/60 rounded-full font-mono text-sm font-bold">
+                            Score: {testResult.submission.score}%
+                          </div>
+                          <p className="text-xs text-neutral-555 max-w-md mx-auto leading-relaxed">
+                            You scored {testResult.submission.score}%. A score of 100% is required to pass the assessment and receive the certificate.
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 max-w-md mx-auto">
+                          <button
+                            type="button"
+                            onClick={() => setTestResult(null)}
+                            className="btn-gold py-2.5 flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#0A2540] cursor-pointer"
+                          >
+                            <RefreshCw className="w-4 h-4 text-[#0A2540]" /> Retake Assessment
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setTestModalOpen(false);
+                              setTestResult(null);
+                            }}
+                            className="btn-primary py-2.5 flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider cursor-pointer"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             ) : (
               <form onSubmit={handleSubmitTest} className="space-y-6">

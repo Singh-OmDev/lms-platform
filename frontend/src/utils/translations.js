@@ -170,7 +170,134 @@ export const translations = {
           title: "Threat Intelligence",
           description: "Stream high-definition lecture assets built to support agency compliance training."
         }
-      ]
+      ],
+      screenReaderAccess: "Screen Reader Access",
+      skipToMain: "Skip to Main Content",
+      officialPortalBanner: "Official E-Learning Portal · DoIT&C Rajasthan",
+      heroTitleMain: "Skill Up. Serve Better.",
+      heroTitleSub: "Lead the Digital India.",
+      heroDesc: "Free professional courses for government officers and citizens. Earn verified credentials from the Department of IT & Communication.",
+      searchPlaceholder: "Search courses, topics, skills...",
+      searchBtn: "Search",
+      tagCyber: "Cybersecurity",
+      tagAI: "AI & ML",
+      tagCloud: "Cloud",
+      tagData: "Data Analytics",
+      tagGov: "E-Governance",
+      statLearners: "Registered Learners",
+      statCourses: "Expert-Led Courses",
+      statCertificates: "Certificates Issued",
+      statSatisfaction: "Learner Satisfaction",
+      browseSector: "Browse by Sector",
+      exploreSectors: "Explore Learning Sectors",
+      sectorsDesc: "Choose from 12 professional learning tracks",
+      viewAll: "View all",
+      sectors: {
+        it: "IT & Software",
+        ai: "Artificial Intelligence",
+        cyber: "Cybersecurity",
+        cloud: "Cloud Computing",
+        data: "Data Science",
+        management: "Management",
+        egov: "E-Governance",
+        digital: "Digital Literacy",
+        finance: "Finance & Accounts",
+        compliance: "Compliance & Law",
+        leadership: "Leadership",
+        languages: "Languages"
+      },
+      featuredCourses: "Featured Courses",
+      startLearningToday: "Start Learning Today",
+      featuredCoursesDesc: "All courses are free and certified by DoIT&C",
+      allCourses: "All courses",
+      free: "Free",
+      weeks: "weeks",
+      coursesData: {
+        aiGov: {
+          title: "Generative AI for Government Officers",
+          instructor: "Dr. Alok Sharma",
+          category: "Artificial Intelligence",
+          duration: "6 weeks"
+        },
+        cyberEssentials: {
+          title: "Cybersecurity Essentials for Civil Servants",
+          instructor: "Priya Verma, CISA",
+          category: "Cybersecurity",
+          duration: "4 weeks"
+        },
+        cloudGov: {
+          title: "Cloud Infrastructure for State Departments",
+          instructor: "Manish Singh",
+          category: "Cloud Computing",
+          duration: "8 weeks"
+        },
+        dataAnalysis: {
+          title: "Data Analysis for Policy Making",
+          instructor: "Dr. Kavita Mehra",
+          category: "Data Science",
+          duration: "5 weeks"
+        }
+      },
+      whyChooseUs: "Why Choose Us",
+      builtForGov: "Built for Government Professionals",
+      featuresList: {
+        certTitle: "Government-Verified Certificates",
+        certDesc: "All certificates are officially issued by DoIT&C, Government of Rajasthan — recognised across all state departments.",
+        videoTitle: "On-Demand Video Learning",
+        videoDesc: "Learn at your own pace with high-quality video lectures recorded by domain experts from leading institutions.",
+        secureTitle: "Secure & Accessible",
+        secureDesc: "Built on government-grade infrastructure. Accessible from any device, with full support for assistive technologies.",
+        bilingualTitle: "Bilingual Content",
+        bilingualDesc: "Courses available in both English and Hindi. Switch languages instantly from the navigation bar.",
+        communityTitle: "Community of Learners",
+        communityDesc: "Join 15,000+ government officers and citizens already upgrading their skills on this platform.",
+        freeTitle: "100% Free Access",
+        freeDesc: "Every course, every certificate — completely free. No subscription, no hidden fees, ever."
+      },
+      knowledgeHub: "Knowledge Hub",
+      latestArticles: "Latest Articles & Blogs",
+      allArticles: "All articles",
+      blogsData: {
+        cyber: {
+          title: "Best Practices for Cybersecurity in Government Systems",
+          category: "Security"
+        },
+        ai: {
+          title: "How AI is Transforming Public Service Delivery in India",
+          category: "AI & Innovation"
+        },
+        cloud: {
+          title: "Introduction to Cloud Computing for State Government Officers",
+          category: "Cloud"
+        }
+      },
+      certifications: "Certifications",
+      earnCertificatesTitle: "Earn Certificates That Matter",
+      earnCertificatesDesc: "Complete any course and earn a government-verified digital certificate. Share it on professional networks or download as PDF. Your achievement, officially recognised.",
+      getCertified: "Get Certified",
+      browseCourses: "Browse Courses",
+      certMockup: {
+        title: "Certificate of Completion",
+        platform: "Suraksha.AI Platform",
+        certifiesThat: "This certifies that",
+        name: "Rajesh Kumar Sharma",
+        completed: "has successfully completed",
+        course: "Cybersecurity Fundamentals",
+        verified: "Verified by Government of Rajasthan"
+      },
+      footer: {
+        desc: "Official e-learning portal of the Department of Information Technology & Communication, Government of Rajasthan.",
+        india: "India",
+        platform: "Platform",
+        account: "Account",
+        contact: "Contact",
+        address: "DoIT&C, Yojana Bhawan, Tilak Marg, Jaipur – 302005",
+        copyright: "© 2026 Department of IT & Communication, Government of Rajasthan. All rights reserved.",
+        terms: "Terms of Use",
+        privacy: "Privacy Policy",
+        accessibility: "Accessibility",
+        sitemap: "Sitemap"
+      }
     },
     dashboard: {
       console: "Student Learning Console",
@@ -397,6 +524,133 @@ export const translations = {
       publicationsFeed: "प्रकाशन फ़ीड",
     },
     landing: {
+      screenReaderAccess: "स्क्रीन रीडर पहुंच",
+      skipToMain: "मुख्य सामग्री पर जाएं",
+      officialPortalBanner: "आधिकारिक ई-लर्निंग पोर्टल · DoIT&C राजस्थान",
+      heroTitleMain: "कौशल बढ़ाएं। बेहतर सेवा करें।",
+      heroTitleSub: "डिजिटल इंडिया का नेतृत्व करें।",
+      heroDesc: "सरकारी अधिकारियों और नागरिकों के लिए मुफ्त व्यावसायिक पाठ्यक्रम। सूचना प्रौद्योगिकी और संचार विभाग से सत्यापित क्रेडेंशियल अर्जित करें।",
+      searchPlaceholder: "पाठ्यक्रम, विषय, कौशल खोजें...",
+      searchBtn: "खोजें",
+      tagCyber: "साइबर सुरक्षा",
+      tagAI: "एआई और एमएल",
+      tagCloud: "क्लाउड",
+      tagData: "डेटा एनालिटिक्स",
+      tagGov: "ई-गवर्नेंस",
+      statLearners: "पंजीकृत शिक्षार्थी",
+      statCourses: "विशेषज्ञ-नेतृत्व वाले पाठ्यक्रम",
+      statCertificates: "जारी किए गए प्रमाण पत्र",
+      statSatisfaction: "शिक्षार्थी संतुष्टि",
+      browseSector: "सेक्टर के अनुसार ब्राउज़ करें",
+      exploreSectors: "लर्निंग सेक्टर्स का अन्वेषण करें",
+      sectorsDesc: "12 व्यावसायिक शिक्षण ट्रैक में से चुनें",
+      viewAll: "सभी देखें",
+      sectors: {
+        it: "आईटी और सॉफ्टवेयर",
+        ai: "आर्टिफिशियल इंटेलिजेंस",
+        cyber: "साइबर सुरक्षा",
+        cloud: "क्लाउड कंप्यूटिंग",
+        data: "डेटा साइंस",
+        management: "प्रबंधन",
+        egov: "ई-गवर्नेंस",
+        digital: "डिजिटल साक्षरता",
+        finance: "वित्त और खाते",
+        compliance: "अनुपालन और कानून",
+        leadership: "नेतृत्व",
+        languages: "भाषाएं"
+      },
+      featuredCourses: "विशेष रुप से प्रदर्शित पाठ्यक्रम",
+      startLearningToday: "आज ही सीखना शुरू करें",
+      featuredCoursesDesc: "सभी पाठ्यक्रम निःशुल्क हैं और DoIT&C द्वारा प्रमाणित हैं",
+      allCourses: "सभी पाठ्यक्रम",
+      free: "निःशुल्क",
+      weeks: "सप्ताह",
+      coursesData: {
+        aiGov: {
+          title: "सरकारी अधिकारियों के लिए जनरेटिव एआई",
+          instructor: "डॉ. आलोक शर्मा",
+          category: "आर्टिफिशियल इंटेलिजेंस",
+          duration: "6 सप्ताह"
+        },
+        cyberEssentials: {
+          title: "सिविल सेवकों के लिए साइबर सुरक्षा आवश्यक तत्व",
+          instructor: "प्रिया वर्मा, सीआईएसए",
+          category: "साइबर सुरक्षा",
+          duration: "4 सप्ताह"
+        },
+        cloudGov: {
+          title: "राज्य विभागों के लिए क्लाउड इंफ्रास्ट्रक्चर",
+          instructor: "मनीष सिंह",
+          category: "क्लाउड कंप्यूटिंग",
+          duration: "8 सप्ताह"
+        },
+        dataAnalysis: {
+          title: "नीति निर्माण के लिए डेटा विश्लेषण",
+          instructor: "डॉ. कविता मेहरा",
+          category: "डेटा साइंस",
+          duration: "5 सप्ताह"
+        }
+      },
+      whyChooseUs: "हमें क्यों चुनें",
+      builtForGov: "सरकारी पेशेवरों के लिए निर्मित",
+      featuresList: {
+        certTitle: "सरकार द्वारा सत्यापित प्रमाण पत्र",
+        certDesc: "सभी प्रमाणपत्र आधिकारिक तौर पर DoIT&C, राजस्थान सरकार द्वारा जारी किए जाते हैं — सभी राज्य विभागों में मान्यता प्राप्त।",
+        videoTitle: "ऑन-डिमांड वीडियो लर्निंग",
+        videoDesc: "प्रमुख संस्थानों के डोमेन विशेषज्ञों द्वारा रिकॉर्ड किए गए उच्च गुणवत्ता वाले वीडियो व्याख्यानों के साथ अपनी गति से सीखें।",
+        secureTitle: "सुरक्षित और सुलभ",
+        secureDesc: "सरकारी स्तर के बुनियादी ढांचे पर निर्मित। सहायक तकनीकों के पूर्ण समर्थन के साथ किसी भी उपकरण से सुलभ।",
+        bilingualTitle: "द्विभाषी सामग्री",
+        bilingualDesc: "अंग्रेजी और हिंदी दोनों में पाठ्यक्रम उपलब्ध हैं। नेविगेशन बार से तुरंत भाषाएं बदलें।",
+        communityTitle: "शिक्षार्थियों का समुदाय",
+        communityDesc: "इस प्लेटफॉर्म पर अपने कौशल को अपग्रेड करने वाले 15,000+ सरकारी अधिकारियों और नागरिकों में शामिल हों।",
+        freeTitle: "100% निःशुल्क पहुंच",
+        freeDesc: "प्रत्येक पाठ्यक्रम, प्रत्येक प्रमाणपत्र — पूरी तरह से निःशुल्क। कोई सदस्यता नहीं, कोई छिपी हुई फीस नहीं, कभी भी।"
+      },
+      knowledgeHub: "ज्ञान केंद्र",
+      latestArticles: "नवीनतम लेख और ब्लॉग",
+      allArticles: "सभी लेख",
+      blogsData: {
+        cyber: {
+          title: "सरकारी प्रणालियों में साइबर सुरक्षा के लिए सर्वोत्तम अभ्यास",
+          category: "सुरक्षा"
+        },
+        ai: {
+          title: "भारत में एआई सार्वजनिक सेवा वितरण को कैसे बदल रहा है",
+          category: "एआई और नवाचार"
+        },
+        cloud: {
+          title: "राज्य सरकार के अधिकारियों के लिए क्लाउड कंप्यूटिंग का परिचय",
+          category: "क्लाउड"
+        }
+      },
+      certifications: "प्रमाणपत्र",
+      earnCertificatesTitle: "ऐसे प्रमाणपत्र अर्जित करें जो मायने रखते हैं",
+      earnCertificatesDesc: "किसी भी पाठ्यक्रम को पूरा करें और सरकार द्वारा सत्यापित डिजिटल प्रमाणपत्र अर्जित करें। इसे पेशेवर नेटवर्क पर साझा करें या पीडीएफ के रूप में डाउनलोड करें। आपकी उपलब्धि, आधिकारिक तौर पर मान्यता प्राप्त।",
+      getCertified: "प्रमाणित हों",
+      browseCourses: "पाठ्यक्रम ब्राउज़ करें",
+      certMockup: {
+        title: "पूर्णता का प्रमाण पत्र",
+        platform: "सुरक्षा.AI प्लेटफॉर्म",
+        certifiesThat: "यह प्रमाणित किया जाता है कि",
+        name: "राजेश कुमार शर्मा",
+        completed: "ने सफलतापूर्वक पूरा कर लिया है",
+        course: "साइबर सुरक्षा के बुनियादी सिद्धांत",
+        verified: "राजस्थान सरकार द्वारा सत्यापित"
+      },
+      footer: {
+        desc: "सूचना प्रौद्योगिकी और संचार विभाग, राजस्थान सरकार का आधिकारिक ई-लर्निंग पोर्टल।",
+        india: "भारत",
+        platform: "प्लेटफ़ॉर्म",
+        account: "खाता",
+        contact: "संपर्क",
+        address: "DoIT&C, योजना भवन, तिलक मार्ग, जयपुर – 302005",
+        copyright: "© 2026 सूचना प्रौद्योगिकी और संचार विभाग, राजस्थान सरकार। सर्वाधिकार सुरक्षित।",
+        terms: "उपयोग की शर्तें",
+        privacy: "गोपनीयता नीति",
+        accessibility: "अभिगम्यता",
+        sitemap: "साइटमैप"
+      },
       officialBanner: "राजस्थान सरकार की आधिकारिक वेबसाइट • सूचना प्रौद्योगिकी और संचार विभाग (DoIT&C)",
       goDashboard: "डैशबोर्ड पर जाएं",
       signIn: "प्रवेश करें",
