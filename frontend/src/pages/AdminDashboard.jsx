@@ -921,7 +921,7 @@ export default function AdminDashboard() {
                                   {isSelected && (
                                     isCorrect 
                                       ? <Check className="w-3.5 h-3.5 text-emerald-600" />
-                                      : <X className="w-3.5 h-3.5 text-red-650" />
+                                      : <X className="w-3.5 h-3.5 text-red-600" />
                                   )}
                                 </div>
                               );
@@ -933,7 +933,7 @@ export default function AdminDashboard() {
                                 <CheckCircle className="w-3.5 h-3.5" /> Autograded Correct (+1)
                               </span>
                             ) : (
-                              <span className="text-red-650 flex items-center gap-1">
+                              <span className="text-red-600 flex items-center gap-1">
                                 <AlertCircle className="w-3.5 h-3.5" /> Autograded Incorrect (+0)
                               </span>
                             )}

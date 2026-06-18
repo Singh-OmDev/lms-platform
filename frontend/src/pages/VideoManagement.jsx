@@ -357,7 +357,7 @@ export default function VideoManagement() {
                         <button onClick={() => handleEditClick(v)} className="p-1.5 border border-[#cbd5e0] hover:border-neutral-500 rounded bg-white text-neutral-500 transition-colors">
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
-                        <button onClick={() => handleDelete(v.id)} className="p-1.5 border border-red-200 hover:bg-red-50 rounded bg-white text-red-650 transition-colors">
+                        <button onClick={() => handleDelete(v.id)} className="p-1.5 border border-red-200 hover:bg-red-50 rounded bg-white text-red-600 transition-colors">
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>

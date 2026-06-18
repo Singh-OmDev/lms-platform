@@ -134,7 +134,7 @@ export default function CertificatesPage() {
         return (
           <button 
             onClick={() => handleOpenTest(category)}
-            className="py-1.5 px-3 text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider bg-red-650 hover:bg-red-750 text-white rounded-md cursor-pointer transition-colors"
+            className="py-1.5 px-3 text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider bg-red-600 hover:bg-red-700 text-white rounded-md cursor-pointer transition-colors"
           >
             <AlertCircle className="w-3.5 h-3.5" /> Retry Assessment
           </button>
@@ -199,7 +199,7 @@ export default function CertificatesPage() {
               
               {aiStats.testStatus === 'failed' && aiStats.submissionFeedback && (
                 <div className="mt-2.5 p-2.5 bg-red-50 text-red-700 text-xs rounded border border-red-200/60 leading-relaxed flex items-start gap-1.5 animate-in fade-in duration-200">
-                  <AlertCircle className="w-4 h-4 text-red-655 flex-shrink-0 mt-0.5" />
+                  <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <strong>Review Feedback:</strong> "{aiStats.submissionFeedback}"
                   </div>
@@ -243,7 +243,7 @@ export default function CertificatesPage() {
 
               {cyberStats.testStatus === 'failed' && cyberStats.submissionFeedback && (
                 <div className="mt-2.5 p-2.5 bg-red-50 text-red-700 text-xs rounded border border-red-200/60 leading-relaxed flex items-start gap-1.5 animate-in fade-in duration-200">
-                  <AlertCircle className="w-4 h-4 text-red-655 flex-shrink-0 mt-0.5" />
+                  <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <strong>Review Feedback:</strong> "{cyberStats.submissionFeedback}"
                   </div>

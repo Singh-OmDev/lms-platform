@@ -281,7 +281,7 @@ export default function VideoPlayer() {
                         </span>
                         <button
                           onClick={() => deleteBookmark(b.id)}
-                          className="text-xs text-red-650 hover:text-red-750 font-bold cursor-pointer"
+                          className="text-xs text-red-600 hover:text-red-800 font-bold cursor-pointer"
                         >
                           {t('video.delete')}
                         </button>

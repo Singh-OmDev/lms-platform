@@ -535,7 +535,7 @@ export default function BlogManagement() {
                         </button>
                         <button
                           onClick={() => setDeleteConfirmId(art.id)}
-                          className="w-9 h-9 border border-red-100 hover:border-red-300 rounded-md bg-white text-red-650 hover:text-red-700 hover:bg-red-50/30 transition-colors flex items-center justify-center cursor-pointer shadow-sm"
+                          className="w-9 h-9 border border-red-100 hover:border-red-300 rounded-md bg-white text-red-600 hover:text-red-700 hover:bg-red-50/30 transition-colors flex items-center justify-center cursor-pointer shadow-sm"
                           title="Delete article"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -631,7 +631,7 @@ export default function BlogManagement() {
             <button
               onClick={() => setDeleteConfirmId('bulk')}
               disabled={submitting}
-              className="px-3 py-1.5 bg-red-600/20 hover:bg-red-650 text-red-450 hover:text-white rounded border border-red-500/30 text-xs font-bold cursor-pointer transition-colors"
+              className="px-3 py-1.5 bg-red-600/20 hover:bg-red-600 text-red-500 hover:text-white rounded border border-red-500/30 text-xs font-bold cursor-pointer transition-colors"
             >
               Delete
             </button>
@@ -683,7 +683,7 @@ export default function BlogManagement() {
                     handleDelete(deleteConfirmId);
                   }
                 }}
-                className="px-4 py-2 bg-red-600 hover:bg-red-750 text-white text-xs font-bold rounded-md shadow-sm transition-colors cursor-pointer"
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-md shadow-sm transition-colors cursor-pointer"
               >
                 Delete Permanently
               </button>
