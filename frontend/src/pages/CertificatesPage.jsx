@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Award, Eye, X, Printer, HelpCircle, FileText, CheckCircle, AlertCircle, RefreshCw } from 'lucide-react';
+import { Award, Eye, X, Printer, HelpCircle, FileText, CheckCircle, AlertCircle, RefreshCw, Download } from 'lucide-react';
 import { api, useStore } from '../store/useStore';
 import { useTranslation } from '../utils/translations';
+import html2pdf from 'html2pdf.js';
 
 export default function CertificatesPage() {
   const { user, addToast } = useStore();
@@ -35,6 +36,21 @@ export default function CertificatesPage() {
   useEffect(() => {
     fetchStats();
   }, []);
+
+  const handleDownloadPdf = () => {
+    const element = document.querySelector('.certificate-print-container');
+    if (!element) return;
+    
+    const opt = {
+      margin:       0.3,
+      filename:     `${user?.name || 'Student'}_${viewCertificate === 'ai' ? 'AI_Specialist' : 'Security_Analyst'}_Certificate.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+    };
+    
+    html2pdf().set(opt).from(element).save();
+  };
 
   const handleOpenTest = async (category) => {
     try {
@@ -329,13 +345,21 @@ export default function CertificatesPage() {
               </div>
             </div>
 
-            {/* Print button */}
-            <button 
-              onClick={() => window.print()}
-              className="btn-gold w-full py-2.5 flex items-center justify-center gap-1.5 uppercase tracking-wider text-xs font-bold text-[#0A2540] cursor-pointer"
-            >
-              <Printer className="w-4 h-4 text-[#0A2540]" /> {t('certificates.printCredential')}
-            </button>
+            {/* Buttons */}
+            <div className="grid grid-cols-2 gap-4">
+              <button 
+                onClick={() => window.print()}
+                className="btn-gold py-2.5 flex items-center justify-center gap-1.5 uppercase tracking-wider text-xs font-bold text-[#0A2540] cursor-pointer"
+              >
+                <Printer className="w-4 h-4 text-[#0A2540]" /> {t('certificates.printCredential')}
+              </button>
+              <button 
+                onClick={handleDownloadPdf}
+                className="btn-primary py-2.5 flex items-center justify-center gap-1.5 uppercase tracking-wider text-xs font-bold cursor-pointer"
+              >
+                <Download className="w-4 h-4 text-white" /> Download PDF
+              </button>
+            </div>
           </div>
         </div>
       )}
