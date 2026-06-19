@@ -206,12 +206,18 @@ export const getAdminStats = async (req, res) => {
       value
     }));
 
+    const adminEmails = process.env.ADMIN_EMAILS
+      ? process.env.ADMIN_EMAILS.split(',').map(e => e.trim().toLowerCase())
+      : ['admin@lms.com'];
+    const isSuperAdmin = adminEmails.includes(req.user.email.toLowerCase());
+
     return res.status(200).json({
       stats: {
         totalUsers,
         totalVideos,
         activeUsers,
-        watchHours: totalWatchHours
+        watchHours: totalWatchHours,
+        isSuperAdmin
       },
       charts: {
         userGrowth,
@@ -249,6 +255,14 @@ export const updateUserRole = async (req, res) => {
     const { id } = req.params;
     const { role } = req.body;
 
+    const adminEmails = process.env.ADMIN_EMAILS
+      ? process.env.ADMIN_EMAILS.split(',').map(e => e.trim().toLowerCase())
+      : ['admin@lms.com'];
+
+    if (!adminEmails.includes(req.user.email.toLowerCase())) {
+      return res.status(403).json({ error: 'Forbidden: Only Super Admins can manage user roles.' });
+    }
+
     if (role !== 'admin' && role !== 'user') {
       return res.status(400).json({ error: 'Invalid role' });
     }
@@ -285,6 +299,15 @@ export const updateUserRole = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
+
+    const adminEmails = process.env.ADMIN_EMAILS
+      ? process.env.ADMIN_EMAILS.split(',').map(e => e.trim().toLowerCase())
+      : ['admin@lms.com'];
+
+    if (!adminEmails.includes(req.user.email.toLowerCase())) {
+      return res.status(403).json({ error: 'Forbidden: Only Super Admins can delete user accounts.' });
+    }
+
     const userIdToDelete = parseInt(id, 10);
     if (isNaN(userIdToDelete)) {
       return res.status(400).json({ error: 'Invalid user ID' });

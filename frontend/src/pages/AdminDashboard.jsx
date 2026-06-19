@@ -406,6 +406,7 @@ export default function AdminDashboard() {
   }
 
   const { stats, charts } = statsData || {};
+  const isSuperAdmin = stats?.isSuperAdmin || false;
   const filteredSubmissions = submissions.filter(sub => {
     if (filterStatus === 'all') return true;
     return sub.status === filterStatus;
@@ -617,6 +618,13 @@ export default function AdminDashboard() {
             </p>
           </div>
 
+          {!isSuperAdmin && (
+            <div className="p-4 bg-amber-50 border border-amber-200 text-amber-800 rounded-sm text-xs flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              <span>You are viewing the User Directory in Read-Only mode. Only Super Admins can promote, demote, or delete accounts.</span>
+            </div>
+          )}
+
           {loadingUsers ? (
             <div className="p-12 text-center bg-white border border-[#cbd5e0] rounded-sm shadow-sm">
               <RefreshCw className="w-8 h-8 animate-spin mx-auto text-[#0A2540] mb-2" />
@@ -662,7 +670,7 @@ export default function AdminDashboard() {
                               {new Date(u.createdAt).toLocaleDateString()}
                             </td>
                             <td className="py-3.5 px-3 text-right space-x-2">
-                              {!isSelf && (
+                              {isSuperAdmin && !isSelf ? (
                                 <>
                                   <button
                                     onClick={() => handleToggleRole(u.id, u.role)}
@@ -681,6 +689,10 @@ export default function AdminDashboard() {
                                     Delete
                                   </button>
                                 </>
+                              ) : isSelf ? (
+                                <span className="text-[11px] text-neutral-400 italic">Current Session</span>
+                              ) : (
+                                <span className="text-[11px] text-neutral-400 italic">Read-Only</span>
                               )}
                             </td>
                           </tr>
