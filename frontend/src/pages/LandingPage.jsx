@@ -656,8 +656,13 @@ export default function LandingPage() {
       {/* ══════════════════════════════════════════════════════
           FOOTER  (iLearn gov style)
       ══════════════════════════════════════════════════════ */}
-      <footer className="bg-[#0d244f] text-white">
-        <div className="max-w-[1280px] mx-auto px-6 py-14">
+      <footer className="relative bg-[#0d244f] text-white overflow-hidden">
+        {/* Background image overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-[0.08] pointer-events-none mix-blend-overlay"
+          style={{ backgroundImage: "url('/students_studying.png')" }}
+        />
+        <div className="relative z-10 max-w-[1280px] mx-auto px-6 py-14">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
             {/* Brand col */}
             <div>

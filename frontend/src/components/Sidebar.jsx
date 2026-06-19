@@ -231,8 +231,13 @@ export default function Sidebar({ children }) {
       </main>
 
       {/* ── Footer ──────────────────────────────────────── */}
-      <footer className="bg-[#0d244f] text-white mt-auto">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-10">
+      <footer className="relative bg-[#0d244f] text-white mt-auto overflow-hidden">
+        {/* Background image overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-[0.08] pointer-events-none mix-blend-overlay"
+          style={{ backgroundImage: "url('/students_studying.png')" }}
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-white/10">
 
             {/* Brand */}
