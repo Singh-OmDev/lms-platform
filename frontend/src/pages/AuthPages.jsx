@@ -108,11 +108,17 @@ export default function AuthPages({ isRegisterInitial = false }) {
         {/* Indian flag accent */}
         <div className="relative z-10 mt-8 pt-6 border-t border-white/10 flex items-center justify-between">
           <div className="flex items-center gap-2 text-[11px] text-white/50">
-            <div className="w-5 h-3 flex flex-col justify-between">
-              <div className="h-0.5 bg-[#f4821e]" />
-              <div className="h-0.5 bg-white" />
-              <div className="h-0.5 bg-[#138808]" />
-            </div>
+            <svg className="w-5 h-3 flex-shrink-0 rounded-sm" viewBox="0 0 30 20">
+              <rect width="30" height="20" fill="#138808"/>
+              <rect width="30" height="13.333" fill="#ffffff"/>
+              <rect width="30" height="6.667" fill="#FF9933"/>
+              <circle cx="15" cy="10" r="2" fill="none" stroke="#000080" strokeWidth="0.3"/>
+              <circle cx="15" cy="10" r="0.4" fill="#000080"/>
+              <line x1="15" y1="8" x2="15" y2="12" stroke="#000080" strokeWidth="0.15"/>
+              <line x1="13" y1="10" x2="17" y2="10" stroke="#000080" strokeWidth="0.15"/>
+              <line x1="13.6" y1="8.6" x2="16.4" y2="11.4" stroke="#000080" strokeWidth="0.15"/>
+              <line x1="13.6" y1="11.4" x2="16.4" y2="8.6" stroke="#000080" strokeWidth="0.15"/>
+            </svg>
             {t('auth.copyright')} {t('auth.officialConsole')}
           </div>
           <Link to="/" className="text-[11px] text-white/50 hover:text-white flex items-center gap-1 transition-colors">
