@@ -97,47 +97,68 @@ function CourseCard({ course, to }) {
   const category = course.translationKey ? t(`landing.coursesData.${course.translationKey}.category`, course.category) : (course.category || 'Technology');
   const duration = course.translationKey ? t(`landing.coursesData.${course.translationKey}.duration`, course.duration) : (course.duration || '4 weeks');
 
-  return (
-    <Link to={to}>
-      <div className="lms-card flex flex-col h-full overflow-hidden">
-        {/* Thumbnail */}
-        <div className="relative aspect-[16/9] overflow-hidden rounded-t-[12px]">
-          <img
-            src={course.thumbnail || course.thumbnailUrl || course.thumbnail_url}
-            alt={title}
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-          />
-          <div className="absolute top-3 left-3">
-            <span className="badge-blue text-[11px] px-2 py-1 rounded-[4px] font-semibold bg-[#1a3c8f] text-white">
-              {category}
-            </span>
-          </div>
-        </div>
+  const isComingSoon = course.comingSoon;
 
-        {/* Content */}
-        <div className="p-5 flex flex-col flex-1">
-          <h3 className="text-[15px] font-semibold text-[#1a1a2e] leading-snug mb-2 line-clamp-2 flex-1">
-            {title}
-          </h3>
-          <p className="text-[13px] text-[#5a6a8a] mb-3">
-            {instructor}
-          </p>
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-[13px] font-bold text-[#f4821e]">{course.rating || '4.7'}</span>
-            <Stars rating={course.rating || 4.7} />
-            <span className="text-[12px] text-[#9aaed0]">
-              ({(course.students || 0).toLocaleString?.() || course.students || '1,200'})
+  const cardContent = (
+    <div className="lms-card flex flex-col h-full overflow-hidden">
+      {/* Thumbnail */}
+      <div className="relative aspect-[16/9] overflow-hidden rounded-t-[12px]">
+        <img
+          src={course.thumbnail || course.thumbnailUrl || course.thumbnail_url}
+          alt={title}
+          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+        />
+        <div className="absolute top-3 left-3 flex gap-2">
+          <span className="badge-blue text-[11px] px-2 py-1 rounded-[4px] font-semibold bg-[#1a3c8f] text-white">
+            {category}
+          </span>
+          {isComingSoon && (
+            <span className="text-[11px] px-2 py-1 rounded-[4px] font-bold bg-[#f4821e] text-white">
+              Coming Soon
             </span>
-          </div>
-          <div className="flex items-center justify-between pt-3 border-t border-[#dde3f0]">
-            <span className="text-[12px] text-[#5a6a8a] flex items-center gap-1">
-              <PlayCircle className="w-3.5 h-3.5" />
-              {duration}
-            </span>
-            <span className="text-[13px] font-bold text-[#138808]">{t('landing.free', 'Free')}</span>
-          </div>
+          )}
         </div>
       </div>
+
+      {/* Content */}
+      <div className="p-5 flex flex-col flex-1">
+        <h3 className="text-[15px] font-semibold text-[#1a1a2e] leading-snug mb-2 line-clamp-2 flex-1">
+          {title}
+        </h3>
+        <p className="text-[13px] text-[#5a6a8a] mb-3">
+          {instructor}
+        </p>
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-[13px] font-bold text-[#f4821e]">{course.rating || '4.7'}</span>
+          <Stars rating={course.rating || 4.7} />
+          <span className="text-[12px] text-[#9aaed0]">
+            ({(course.students || 0).toLocaleString?.() || course.students || '1,200'})
+          </span>
+        </div>
+        <div className="flex items-center justify-between pt-3 border-t border-[#dde3f0]">
+          <span className="text-[12px] text-[#5a6a8a] flex items-center gap-1">
+            <PlayCircle className="w-3.5 h-3.5" />
+            {duration}
+          </span>
+          <span className={`text-[13px] font-bold ${isComingSoon ? 'text-amber-600' : 'text-[#138808]'}`}>
+            {isComingSoon ? 'Coming Soon' : t('landing.free', 'Free')}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (isComingSoon) {
+    return (
+      <div className="cursor-not-allowed opacity-90 h-full">
+        {cardContent}
+      </div>
+    );
+  }
+
+  return (
+    <Link to={to}>
+      {cardContent}
     </Link>
   );
 }
@@ -168,7 +189,15 @@ export default function LandingPage() {
     fetchData();
   }, [isAuthenticated]);
 
-  const displayedCourses = courses.length > 0 ? courses : STATIC_COURSES;
+  const displayedCourses = (courses.length > 0 ? courses : STATIC_COURSES).map(c => {
+    const isAiOrCyber = 
+      c.category?.toLowerCase().includes('artificial intelligence') || 
+      c.category?.toLowerCase().includes('cybersecurity');
+    return {
+      ...c,
+      comingSoon: !isAiOrCyber
+    };
+  });
 
   return (
     <div className="bg-[#f4f6fb] text-[#1a1a2e] min-h-screen font-sans">
@@ -659,7 +688,7 @@ export default function LandingPage() {
       <footer className="relative bg-[#0d244f] text-white overflow-hidden">
         {/* Background image overlay */}
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-[0.08] pointer-events-none mix-blend-overlay"
+          className="absolute inset-0 bg-cover bg-center opacity-[0.22] pointer-events-none mix-blend-overlay"
           style={{ backgroundImage: "url('/students_studying.png')" }}
         />
         <div className="relative z-10 max-w-[1280px] mx-auto px-6 py-14">

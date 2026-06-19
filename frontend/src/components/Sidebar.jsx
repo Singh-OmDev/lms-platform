@@ -234,7 +234,7 @@ export default function Sidebar({ children }) {
       <footer className="relative bg-[#0d244f] text-white mt-auto overflow-hidden">
         {/* Background image overlay */}
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-[0.08] pointer-events-none mix-blend-overlay"
+          className="absolute inset-0 bg-cover bg-center opacity-[0.22] pointer-events-none mix-blend-overlay"
           style={{ backgroundImage: "url('/students_studying.png')" }}
         />
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-10">
